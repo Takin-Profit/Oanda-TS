@@ -1,0 +1,45 @@
+{
+  "name": "oanda-ts",
+  "version": "1.0.0",
+  "description": "Type-safe OANDA REST API client for TypeScript and Node.js",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "require": {
+      "types": "./dist/index.d.cts",
+      "default": "./dist/index.cjs"
+    },
+    "import": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    }
+  },
+  "scripts": {
+    "build": "npm-run-all generate build:pkg",
+    "build:pkg": "pkgroll",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "generate": "node convert.js && npx typed-openapi oandav3.yml -o ./src/index.ts && node fixTypes.js && pnpm biome lint --write ./src/index.ts && pnpm biome format --write ./src/index.ts"
+  },
+  "keywords": [
+    "oanda",
+    "trading",
+    "api",
+    "typescript",
+    "forex"
+  ],
+  "author": "Takin Profit LLC <takinprofit@gmail.com>",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "swagger2openapi": "^7.0.8",
+    "typed-openapi": "^0.10.1",
+    "yaml": "^2.6.1",
+    "@biomejs/biome": "1.9.4",
+    "npm-run-all": "^4.1.5",
+    "pkgroll": "^2.5.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  }
+}
