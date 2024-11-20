@@ -1,5 +1,5 @@
 {
-  "name": "oanda-ts",
+  "name": "@takinprofit/oanda-ts",
   "version": "1.0.0",
   "description": "Type-safe OANDA REST API client for TypeScript and Node.js",
   "type": "module",
