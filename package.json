@@ -1,6 +1,6 @@
 {
   "name": "@takinprofit/oanda-ts",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Type-safe OANDA REST API client for TypeScript and Node.js",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -36,6 +36,10 @@
     "api",
     "typescript",
     "forex"
+  ],
+  "files": [
+    "dist/",
+    "README.md"
   ],
   "author": "Takin Profit LLC <takinprofit@gmail.com>",
   "license": "MIT",
