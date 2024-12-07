@@ -2,10 +2,13 @@
     "cSpell.words": [
         "aiofiles",
         "elts",
+        "idrange",
         "Oanda",
         "oandav",
         "openapi",
         "pydantic",
-        "templating"
+        "sinceid",
+        "templating",
+        "themself"
     ]
 }

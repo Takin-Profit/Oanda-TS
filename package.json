@@ -1,6 +1,6 @@
 {
   "name": "@takinprofit/oanda-ts",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "description": "Type-safe OANDA REST API client for TypeScript and Node.js",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -28,7 +28,7 @@
     "build": "npm-run-all generate build:pkg",
     "build:pkg": "pkgroll",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "generate": "node convert.js && npx typed-openapi oandav3.yml -o ./src/index.ts && node fixTypes.js && pnpm biome lint --write ./src/index.ts && pnpm biome format --write ./src/index.ts"
+    "generate": "node convert.js && npx openapi-typescript oandav3.yml -o ./src/index.ts && node fixTypes.js && pnpm biome lint --write ./src/index.ts && pnpm biome format --write ./src/index.ts"
   },
   "keywords": [
     "oanda",
@@ -43,15 +43,15 @@
   ],
   "author": "Takin Profit LLC <takinprofit@gmail.com>",
   "license": "MIT",
-  "dependencies": {},
   "devDependencies": {
-    "swagger2openapi": "^7.0.8",
-    "typed-openapi": "^0.10.1",
-    "yaml": "^2.6.1",
     "@biomejs/biome": "1.9.4",
     "npm-run-all": "^4.1.5",
+    "openapi-typescript": "^7.4.4",
     "pkgroll": "^2.5.1",
+    "swagger2openapi": "^7.0.8",
+    "ts-morph": "^24.0.0",
     "tsx": "^4.19.2",
-    "typescript": "^5.6.3"
+    "typescript": "^5.6.3",
+    "yaml": "^2.6.1"
   }
 }

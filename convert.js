@@ -122,10 +122,7 @@ const options = {
 		processedSwagger = fixOrderRequest(processedSwagger)
 		fixSchemaTypes(processedSwagger, "root")
 		deepStringReplace(processedSwagger)
-		fs.writeFileSync(
-			"processed-swagger.json",
-			JSON.stringify(processedSwagger, null, 2)
-		)
+		fs.writeFileSync("oandav3.yml", JSON.stringify(processedSwagger, null, 2))
 		return processedSwagger
 	},
 }

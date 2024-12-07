@@ -1,494 +1,2026 @@
-export namespace Schemas {
-	// <Schemas>
-	export type CandlestickGranularity =
-		| "S5"
-		| "S10"
-		| "S15"
-		| "S30"
-		| "M1"
-		| "M2"
-		| "M4"
-		| "M5"
-		| "M10"
-		| "M15"
-		| "M30"
-		| "H1"
-		| "H2"
-		| "H3"
-		| "H4"
-		| "H6"
-		| "H8"
-		| "H12"
-		| "D"
-		| "W"
-		| "M"
-	export type WeeklyAlignment =
-		| "Monday"
-		| "Tuesday"
-		| "Wednesday"
-		| "Thursday"
-		| "Friday"
-		| "Saturday"
-		| "Sunday"
-	export type CandlestickData = Partial<{
-		o: string
-		h: string
-		l: string
-		c: string
-	}>
-	export type Candlestick = Partial<{
-		time: string
-		bid: CandlestickData
-		ask: CandlestickData
-		mid: CandlestickData
-		volume: number
-		complete: boolean
-	}>
-	export type OrderBookBucket = Partial<{
-		price: string
-		longCountPercent: string
-		shortCountPercent: string
-	}>
-	export type OrderBook = Partial<{
-		instrument: string
-		time: string
-		price: string
-		bucketWidth: string
-		buckets: Array<OrderBookBucket>
-	}>
-	export type PositionBookBucket = Partial<{
-		price: string
-		longCountPercent: string
-		shortCountPercent: string
-	}>
-	export type PositionBook = Partial<{
-		instrument: string
-		time: string
-		price: string
-		bucketWidth: string
-		buckets: Array<PositionBookBucket>
-	}>
-	export type PositionSide = Partial<{
-		units: string
-		averagePrice: string
-		tradeIDs: Array<string>
-		pl: string
-		unrealizedPL: string
-		resettablePL: string
-		financing: string
-		guaranteedExecutionFees: string
-	}>
-	export type Position = Partial<{
-		instrument: string
-		pl: string
-		unrealizedPL: string
-		marginUsed: string
-		resettablePL: string
-		financing: string
-		commission: string
-		guaranteedExecutionFees: string
-		long: PositionSide
-		short: PositionSide
-	}>
-	export type CalculatedPositionState = Partial<{
-		instrument: string
-		netUnrealizedPL: string
-		longUnrealizedPL: string
-		shortUnrealizedPL: string
-		marginUsed: string
-	}>
-	export type TradeID = string
-	export type TradeState = "OPEN" | "CLOSED" | "CLOSE_WHEN_TRADEABLE"
-	export type TradeStateFilter =
-		| "OPEN"
-		| "CLOSED"
-		| "CLOSE_WHEN_TRADEABLE"
-		| "ALL"
-	export type TradeSpecifier = string
-	export type ClientExtensions = Partial<{
-		id: string
-		tag: string
-		comment: string
-	}>
-	export type TakeProfitOrder = Partial<{
-		id: string
-		createTime: string
-		state: "PENDING" | "FILLED" | "TRIGGERED" | "CANCELLED"
-		clientExtensions: ClientExtensions
-		type:
-			| "MARKET"
-			| "LIMIT"
-			| "STOP"
-			| "MARKET_IF_TOUCHED"
-			| "TAKE_PROFIT"
-			| "STOP_LOSS"
-			| "TRAILING_STOP_LOSS"
-			| "FIXED_PRICE"
-		tradeID: string
-		clientTradeID: string
-		price: string
-		timeInForce: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
-		gtdTime: string
-		triggerCondition: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
-		fillingTransactionID: string
-		filledTime: string
-		tradeOpenedID: string
-		tradeReducedID: string
-		tradeClosedIDs: Array<string>
-		cancellingTransactionID: string
-		cancelledTime: string
-		replacesOrderID: string
-		replacedByOrderID: string
-	}>
-	export type StopLossOrder = Partial<{
-		id: string
-		createTime: string
-		state: "PENDING" | "FILLED" | "TRIGGERED" | "CANCELLED"
-		clientExtensions: ClientExtensions
-		type:
-			| "MARKET"
-			| "LIMIT"
-			| "STOP"
-			| "MARKET_IF_TOUCHED"
-			| "TAKE_PROFIT"
-			| "STOP_LOSS"
-			| "TRAILING_STOP_LOSS"
-			| "FIXED_PRICE"
-		guaranteedExecutionPremium: string
-		tradeID: string
-		clientTradeID: string
-		price: string
-		distance: string
-		timeInForce: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
-		gtdTime: string
-		triggerCondition: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
-		guaranteed: boolean
-		fillingTransactionID: string
-		filledTime: string
-		tradeOpenedID: string
-		tradeReducedID: string
-		tradeClosedIDs: Array<string>
-		cancellingTransactionID: string
-		cancelledTime: string
-		replacesOrderID: string
-		replacedByOrderID: string
-	}>
-	export type TrailingStopLossOrder = Partial<{
-		id: string
-		createTime: string
-		state: "PENDING" | "FILLED" | "TRIGGERED" | "CANCELLED"
-		clientExtensions: ClientExtensions
-		type:
-			| "MARKET"
-			| "LIMIT"
-			| "STOP"
-			| "MARKET_IF_TOUCHED"
-			| "TAKE_PROFIT"
-			| "STOP_LOSS"
-			| "TRAILING_STOP_LOSS"
-			| "FIXED_PRICE"
-		tradeID: string
-		clientTradeID: string
-		distance: string
-		timeInForce: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
-		gtdTime: string
-		triggerCondition: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
-		trailingStopValue: string
-		fillingTransactionID: string
-		filledTime: string
-		tradeOpenedID: string
-		tradeReducedID: string
-		tradeClosedIDs: Array<string>
-		cancellingTransactionID: string
-		cancelledTime: string
-		replacesOrderID: string
-		replacedByOrderID: string
-	}>
-	export type Trade = Partial<{
-		id: string
-		instrument: string
-		price: string
-		openTime: string
-		state: "OPEN" | "CLOSED" | "CLOSE_WHEN_TRADEABLE"
-		initialUnits: string
-		initialMarginRequired: string
-		currentUnits: string
-		realizedPL: string
-		unrealizedPL: string
-		marginUsed: string
-		averageClosePrice: string
-		closingTransactionIDs: Array<string>
-		financing: string
-		closeTime: string
-		clientExtensions: ClientExtensions
-		takeProfitOrder: TakeProfitOrder
-		stopLossOrder: StopLossOrder
-		trailingStopLossOrder: TrailingStopLossOrder
-	}>
-	export type TradeSummary = Partial<{
-		id: string
-		instrument: string
-		price: string
-		openTime: string
-		state: "OPEN" | "CLOSED" | "CLOSE_WHEN_TRADEABLE"
-		initialUnits: string
-		initialMarginRequired: string
-		currentUnits: string
-		realizedPL: string
-		unrealizedPL: string
-		marginUsed: string
-		averageClosePrice: string
-		closingTransactionIDs: Array<string>
-		financing: string
-		closeTime: string
-		clientExtensions: ClientExtensions
-		takeProfitOrderID: string
-		stopLossOrderID: string
-		trailingStopLossOrderID: string
-	}>
-	export type CalculatedTradeState = Partial<{
-		id: string
-		unrealizedPL: string
-		marginUsed: string
-	}>
-	export type TradePL = "POSITIVE" | "NEGATIVE" | "ZERO"
-	export type StatementYear = number
-	export type MT4TransactionHeartbeat = Partial<{ type: string; time: string }>
-	export type DecimalNumber = string
-	export type AccountUnits = string
-	export type Currency = string
-	export type InstrumentName = string
-	export type InstrumentType = "CURRENCY" | "CFD" | "METAL"
-	export type InstrumentCommission = Partial<{
-		commission: string
-		unitsTraded: string
-		minimumCommission: string
-	}>
-	export type Instrument = Partial<{
-		name: string
-		type: "CURRENCY" | "CFD" | "METAL"
-		displayName: string
-		pipLocation: number
-		displayPrecision: number
-		tradeUnitsPrecision: number
-		minimumTradeSize: string
-		maximumTrailingStopDistance: string
-		minimumTrailingStopDistance: string
-		maximumPositionSize: string
-		maximumOrderUnits: string
-		marginRate: string
-		commission: InstrumentCommission
-	}>
-	export type DateTime = string
-	export type AcceptDatetimeFormat = "UNIX" | "RFC3339"
-	export type GuaranteedStopLossOrderLevelRestriction = Partial<{
-		volume: string
-		priceRange: string
-	}>
-	export type Direction = "LONG" | "SHORT"
-	export type AccountID = string
-	export type Order = Partial<{
-		id: string
-		createTime: string
-		state: "PENDING" | "FILLED" | "TRIGGERED" | "CANCELLED"
-		clientExtensions: ClientExtensions
-	}>
-	export type Account = Partial<{
-		id: string
-		alias: string
-		currency: string
-		balance: string
-		createdByUserID: number
-		createdTime: string
-		guaranteedStopLossOrderMode: "DISABLED" | "ALLOWED" | "REQUIRED"
-		pl: string
-		resettablePL: string
-		resettablePLTime: string
-		financing: string
-		commission: string
-		guaranteedExecutionFees: string
-		marginRate: string
-		marginCallEnterTime: string
-		marginCallExtensionCount: number
-		lastMarginCallExtensionTime: string
-		openTradeCount: number
-		openPositionCount: number
-		pendingOrderCount: number
-		hedgingEnabled: boolean
-		lastOrderFillTimestamp: string
-		unrealizedPL: string
-		NAV: string
-		marginUsed: string
-		marginAvailable: string
-		positionValue: string
-		marginCloseoutUnrealizedPL: string
-		marginCloseoutNAV: string
-		marginCloseoutMarginUsed: string
-		marginCloseoutPercent: string
-		marginCloseoutPositionValue: string
-		withdrawalLimit: string
-		marginCallMarginUsed: string
-		marginCallPercent: string
-		lastTransactionID: string
-		trades: Array<TradeSummary>
-		positions: Array<Position>
-		orders: Array<Order>
-	}>
-	export type DynamicOrderState = Partial<{
-		id: string
-		trailingStopValue: string
-		triggerDistance: string
-		isTriggerDistanceExact: boolean
-	}>
-	export type AccountChangesState = Partial<{
-		unrealizedPL: string
-		NAV: string
-		marginUsed: string
-		marginAvailable: string
-		positionValue: string
-		marginCloseoutUnrealizedPL: string
-		marginCloseoutNAV: string
-		marginCloseoutMarginUsed: string
-		marginCloseoutPercent: string
-		marginCloseoutPositionValue: string
-		withdrawalLimit: string
-		marginCallMarginUsed: string
-		marginCallPercent: string
-		orders: Array<DynamicOrderState>
-		trades: Array<CalculatedTradeState>
-		positions: Array<CalculatedPositionState>
-	}>
-	export type AccountProperties = Partial<{
-		id: string
-		mt4AccountID: number
-		tags: Array<string>
-	}>
-	export type GuaranteedStopLossOrderMode = "DISABLED" | "ALLOWED" | "REQUIRED"
-	export type AccountSummary = Partial<{
-		id: string
-		alias: string
-		currency: string
-		balance: string
-		createdByUserID: number
-		createdTime: string
-		guaranteedStopLossOrderMode: "DISABLED" | "ALLOWED" | "REQUIRED"
-		pl: string
-		resettablePL: string
-		resettablePLTime: string
-		financing: string
-		commission: string
-		guaranteedExecutionFees: string
-		marginRate: string
-		marginCallEnterTime: string
-		marginCallExtensionCount: number
-		lastMarginCallExtensionTime: string
-		openTradeCount: number
-		openPositionCount: number
-		pendingOrderCount: number
-		hedgingEnabled: boolean
-		lastOrderFillTimestamp: string
-		unrealizedPL: string
-		NAV: string
-		marginUsed: string
-		marginAvailable: string
-		positionValue: string
-		marginCloseoutUnrealizedPL: string
-		marginCloseoutNAV: string
-		marginCloseoutMarginUsed: string
-		marginCloseoutPercent: string
-		marginCloseoutPositionValue: string
-		withdrawalLimit: string
-		marginCallMarginUsed: string
-		marginCallPercent: string
-		lastTransactionID: string
-	}>
-	export type CalculatedAccountState = Partial<{
-		unrealizedPL: string
-		NAV: string
-		marginUsed: string
-		marginAvailable: string
-		positionValue: string
-		marginCloseoutUnrealizedPL: string
-		marginCloseoutNAV: string
-		marginCloseoutMarginUsed: string
-		marginCloseoutPercent: string
-		marginCloseoutPositionValue: string
-		withdrawalLimit: string
-		marginCallMarginUsed: string
-		marginCallPercent: string
-	}>
-	export type Transaction = Partial<{
-		id: string
-		time: string
-		userID: number
-		accountID: string
-		batchID: string
-		requestID: string
-	}>
-	export type AccountChanges = Partial<{
-		ordersCreated: Array<Order>
-		ordersCancelled: Array<Order>
-		ordersFilled: Array<Order>
-		ordersTriggered: Array<Order>
-		tradesOpened: Array<TradeSummary>
-		tradesReduced: Array<TradeSummary>
-		tradesClosed: Array<TradeSummary>
-		positions: Array<Position>
-		transactions: Array<Transaction>
-	}>
-	export type AccountFinancingMode =
-		| "NO_FINANCING"
-		| "SECOND_BY_SECOND"
-		| "DAILY"
-	export type PositionAggregationMode =
-		| "ABSOLUTE_SUM"
-		| "MAXIMAL_SIDE"
-		| "NET_SUM"
-	export type TransactionID = string
-	export type TransactionType =
-		| "CREATE"
-		| "CLOSE"
-		| "REOPEN"
-		| "CLIENT_CONFIGURE"
-		| "CLIENT_CONFIGURE_REJECT"
-		| "TRANSFER_FUNDS"
-		| "TRANSFER_FUNDS_REJECT"
-		| "MARKET_ORDER"
-		| "MARKET_ORDER_REJECT"
-		| "FIXED_PRICE_ORDER"
-		| "LIMIT_ORDER"
-		| "LIMIT_ORDER_REJECT"
-		| "STOP_ORDER"
-		| "STOP_ORDER_REJECT"
-		| "MARKET_IF_TOUCHED_ORDER"
-		| "MARKET_IF_TOUCHED_ORDER_REJECT"
-		| "TAKE_PROFIT_ORDER"
-		| "TAKE_PROFIT_ORDER_REJECT"
-		| "STOP_LOSS_ORDER"
-		| "STOP_LOSS_ORDER_REJECT"
-		| "TRAILING_STOP_LOSS_ORDER"
-		| "TRAILING_STOP_LOSS_ORDER_REJECT"
-		| "ORDER_FILL"
-		| "ORDER_CANCEL"
-		| "ORDER_CANCEL_REJECT"
-		| "ORDER_CLIENT_EXTENSIONS_MODIFY"
-		| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
-		| "TRADE_CLIENT_EXTENSIONS_MODIFY"
-		| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
-		| "MARGIN_CALL_ENTER"
-		| "MARGIN_CALL_EXTEND"
-		| "MARGIN_CALL_EXIT"
-		| "DELAYED_TRADE_CLOSURE"
-		| "DAILY_FINANCING"
-		| "RESET_RESETTABLE_PL"
-	export type CreateTransaction = Partial<{
-		id: string
-		time: string
-		userID: number
-		accountID: string
-		batchID: string
-		requestID: string
-		type:
+/**
+ * This file was auto-generated by openapi-typescript.
+ * Do not make direct changes to the file.
+ */
+
+export interface paths {
+	"/instruments/{instrument}/candles": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		/**
+		 * Get Candlesticks
+		 * @description Fetch candlestick data for an instrument.
+		 */
+		get: operations["getInstrumentCandles"]
+		put?: never
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/instruments/{instrument}/price": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		/**
+		 * Price
+		 * @description Fetch a price for an instrument. Accounts are not associated in any way with this endpoint.
+		 */
+		get: operations["getInstrumentPrice"]
+		put?: never
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/instruments/{instrument}/price/range": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		/**
+		 * Get Prices
+		 * @description Fetch a range of prices for an instrument. Accounts are not associated in any way with this endpoint.
+		 */
+		get: operations["getInstrumentPriceRange"]
+		put?: never
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/instruments/{instrument}/orderBook": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		/**
+		 * Get Order Book
+		 * @description Fetch an order book for an instrument.
+		 */
+		get: {
+			parameters: {
+				query?: {
+					/** @description The time of the snapshot to fetch. If not specified, then the most recent snapshot is fetched. */
+					time?: string
+				}
+				header: {
+					/** @description The authorization bearer token previously obtained by the client */
+					Authorization: components["parameters"]["authorizationHeaderParam"]
+					/** @description Format of DateTime fields in the request and response. */
+					"Accept-Datetime-Format"?: components["parameters"]["acceptDatetimeFormatHeaderParam"]
+				}
+				path: {
+					/** @description Name of the Instrument */
+					instrument: components["parameters"]["instrumentNamePathParam"]
+				}
+				cookie?: never
+			}
+			requestBody?: never
+			responses: {
+				/** @description The order book has been successfully provided. */
+				200: {
+					headers: {
+						/** @description Value will be "gzip" regardless of provided Accept-Encoding header */
+						"Content-Encoding"?: string
+						/** @description A link to the next/previous order book snapshot. */
+						Link?: string
+						/** @description The unique identifier generated for the request */
+						RequestID?: string
+						[name: string]: unknown
+					}
+					content: {
+						"application/json": {
+							orderBook?: components["schemas"]["OrderBook"]
+						}
+					}
+				}
+				400: components["responses"]["400"]
+				401: components["responses"]["401"]
+				404: components["responses"]["404"]
+				405: components["responses"]["405"]
+			}
+		}
+		put?: never
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/instruments/{instrument}/positionBook": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		/**
+		 * Get Position Book
+		 * @description Fetch a position book for an instrument.
+		 */
+		get: {
+			parameters: {
+				query?: {
+					/** @description The time of the snapshot to fetch. If not specified, then the most recent snapshot is fetched. */
+					time?: string
+				}
+				header: {
+					/** @description The authorization bearer token previously obtained by the client */
+					Authorization: components["parameters"]["authorizationHeaderParam"]
+					/** @description Format of DateTime fields in the request and response. */
+					"Accept-Datetime-Format"?: components["parameters"]["acceptDatetimeFormatHeaderParam"]
+				}
+				path: {
+					/** @description Name of the Instrument */
+					instrument: components["parameters"]["instrumentNamePathParam"]
+				}
+				cookie?: never
+			}
+			requestBody?: never
+			responses: {
+				/** @description The position book has been successfully provided. */
+				200: {
+					headers: {
+						/** @description Value will be "gzip" regardless of provided Accept-Encoding header */
+						"Content-Encoding"?: string
+						/** @description A link to the next/previous position book snapshot. */
+						Link?: string
+						/** @description The unique identifier generated for the request */
+						RequestID?: string
+						[name: string]: unknown
+					}
+					content: {
+						"application/json": {
+							positionBook?: components["schemas"]["PositionBook"]
+						}
+					}
+				}
+				400: components["responses"]["400"]
+				401: components["responses"]["401"]
+				404: components["responses"]["404"]
+				405: components["responses"]["405"]
+			}
+		}
+		put?: never
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/accounts/{accountID}/positions": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		/**
+		 * List Positions
+		 * @description List all Positions for an Account. The Positions returned are for every instrument that has had a position during the lifetime of an the Account.
+		 */
+		get: operations["listPositions"]
+		put?: never
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/accounts/{accountID}/openPositions": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		/**
+		 * Open Positions
+		 * @description List all open Positions for an Account. An open Position is a Position in an Account that currently has a Trade opened for it.
+		 */
+		get: operations["listOpenPositions"]
+		put?: never
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/accounts/{accountID}/positions/{instrument}": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		/**
+		 * Instrument Position
+		 * @description Get the details of a single Instrument's Position in an Account. The Position may by open or not.
+		 */
+		get: operations["getPosition"]
+		put?: never
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/accounts/{accountID}/positions/{instrument}/close": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		get?: never
+		/**
+		 * Close Position
+		 * @description Closeout the open Position for a specific instrument in an Account.
+		 */
+		put: operations["closePosition"]
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/accounts/{accountID}/trades": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		/**
+		 * List Trades
+		 * @description Get a list of Trades for an Account
+		 */
+		get: operations["listTrades"]
+		put?: never
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/accounts/{accountID}/openTrades": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		/**
+		 * List Open Trades
+		 * @description Get the list of open Trades for an Account
+		 */
+		get: operations["listOpenTrades"]
+		put?: never
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/accounts/{accountID}/trades/{tradeSpecifier}": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		/**
+		 * Trade Details
+		 * @description Get the details of a specific Trade in an Account
+		 */
+		get: operations["getTrade"]
+		put?: never
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/accounts/{accountID}/trades/{tradeSpecifier}/close": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		get?: never
+		/**
+		 * Close Trade
+		 * @description Close (partially or fully) a specific open Trade in an Account
+		 */
+		put: operations["closeTrade"]
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/accounts/{accountID}/trades/{tradeSpecifier}/clientExtensions": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		get?: never
+		/**
+		 * Set Trade Client Extensions
+		 * @description Update the Client Extensions for a Trade. Do not add, update, or delete the Client Extensions if your account is associated with MT4.
+		 */
+		put: operations["setTradeClientExtensions"]
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/accounts/{accountID}/trades/{tradeSpecifier}/orders": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		get?: never
+		/**
+		 * Set Dependent Orders
+		 * @description Create, replace and cancel a Trade's dependent Orders (Take Profit, Stop Loss and Trailing Stop Loss) through the Trade itself
+		 */
+		put: operations["setTradeDependentOrders"]
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/accounts": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		/**
+		 * List Accounts
+		 * @description Get a list of all Accounts authorized for the provided token.
+		 */
+		get: operations["listAccounts"]
+		put?: never
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/accounts/{accountID}": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		/**
+		 * Account Details
+		 * @description Get the full details for a single Account that a client has access to. Full pending Order, open Trade and open Position representations are provided.
+		 */
+		get: operations["getAccount"]
+		put?: never
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/accounts/{accountID}/summary": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		/**
+		 * Account Summary
+		 * @description Get a summary for a single Account that a client has access to.
+		 */
+		get: operations["getAccountSummary"]
+		put?: never
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/accounts/{accountID}/instruments": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		/**
+		 * Account Instruments
+		 * @description Get the list of tradeable instruments for the given Account. The list of tradeable instruments is dependent on the regulatory division that the Account is located in, thus should be the same for all Accounts owned by a single user.
+		 */
+		get: operations["getAccountInstruments"]
+		put?: never
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/accounts/{accountID}/configuration": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		get?: never
+		put?: never
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		/**
+		 * Configure Account
+		 * @description Set the client-configurable portions of an Account.
+		 */
+		patch: operations["configureAccount"]
+		trace?: never
+	}
+	"/accounts/{accountID}/changes": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		/**
+		 * Poll Account Updates
+		 * @description Endpoint used to poll an Account for its current state and changes since a specified TransactionID.
+		 */
+		get: operations["getAccountChanges"]
+		put?: never
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/accounts/{accountID}/transactions": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		/**
+		 * List Transactions
+		 * @description Get a list of Transactions pages that satisfy a time-based Transaction query.
+		 */
+		get: operations["listTransactions"]
+		put?: never
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/accounts/{accountID}/transactions/{transactionID}": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		/**
+		 * Transaction Details
+		 * @description Get the details of a single Account Transaction.
+		 */
+		get: operations["getTransaction"]
+		put?: never
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/accounts/{accountID}/transactions/idrange": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		/**
+		 * Transaction ID Range
+		 * @description Get a range of Transactions for an Account based on the Transaction IDs.
+		 */
+		get: operations["getTransactionRange"]
+		put?: never
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/accounts/{accountID}/transactions/sinceid": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		/**
+		 * Transactions Since ID
+		 * @description Get a range of Transactions for an Account starting at (but not including) a provided Transaction ID.
+		 */
+		get: operations["getTransactionsSinceId"]
+		put?: never
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/accounts/{accountID}/transactions/stream": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		/**
+		 * Transaction Stream
+		 * @description Get a stream of Transactions for an Account starting from when the request is made.
+		 */
+		get: operations["streamTransactions"]
+		put?: never
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/users/{userSpecifier}": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		/**
+		 * User Info
+		 * @description Fetch the user information for the specified user. This endpoint is intended to be used by the user themself to obtain their own information.
+		 */
+		get: operations["getUserInfo"]
+		put?: never
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/users/{userSpecifier}/externalInfo": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		/**
+		 * External User Info
+		 * @description Fetch the externally-available user information for the specified user. This endpoint is intended to be used by 3rd parties that have been authorized by a user to view their personal information.
+		 */
+		get: operations["getExternalUserInfo"]
+		put?: never
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/pricing": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		/**
+		 * Get Base Prices
+		 * @description Get pricing information for a specified instrument. Accounts are not associated in any way with this endpoint.
+		 */
+		get: operations["getBasePrices"]
+		put?: never
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/pricing/range": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		/**
+		 * Get Price Range
+		 * @description Get pricing information for a specified range of prices. Accounts are not associated in any way with this endpoint.
+		 */
+		get: operations["getPriceRange"]
+		put?: never
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/accounts/{accountID}/pricing": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		/**
+		 * Current Account Prices
+		 * @description Get pricing information for a specified list of Instruments within an Account.
+		 */
+		get: operations["getPrices"]
+		put?: never
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/accounts/{accountID}/pricing/stream": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		/**
+		 * Price Stream
+		 * @description Get a stream of Account Prices starting from when the request is made.
+		 *     This pricing stream does not include every single price created for the Account, but instead will provide at most 4 prices per second (every 250 milliseconds) for each instrument being requested.
+		 *     If more than one price is created for an instrument during the 250 millisecond window, only the price in effect at the end of the window is sent. This means that during periods of rapid price movement, subscribers to this stream will not be sent every price.
+		 *     Pricing windows for different connections to the price stream are not all aligned in the same way (i.e. they are not all aligned to the top of the second). This means that during periods of rapid price movement, different subscribers may observe different prices depending on their alignment.
+		 */
+		get: operations["streamPricing"]
+		put?: never
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/accounts/{accountID}/instruments/{instrument}/candles": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		/**
+		 * Get Candlesticks
+		 * @description Fetch candlestick data for an instrument.
+		 */
+		get: operations["getInstrumentCandles"]
+		put?: never
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/accounts/{accountID}/orders": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		/**
+		 * List Orders
+		 * @description Get a list of Orders for an Account
+		 */
+		get: operations["listOrders"]
+		put?: never
+		/**
+		 * Create Order
+		 * @description Create an Order for an Account
+		 */
+		post: operations["createOrder"]
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/accounts/{accountID}/pendingOrders": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		/**
+		 * Pending Orders
+		 * @description List all pending Orders in an Account
+		 */
+		get: operations["listPendingOrders"]
+		put?: never
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/accounts/{accountID}/orders/{orderSpecifier}": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		/**
+		 * Get Order
+		 * @description Get details for a single Order in an Account
+		 */
+		get: operations["getOrder"]
+		/**
+		 * Replace Order
+		 * @description Replace an Order in an Account by simultaneously cancelling it and creating a replacement Order
+		 */
+		put: operations["replaceOrder"]
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/accounts/{accountID}/orders/{orderSpecifier}/cancel": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		get?: never
+		/**
+		 * Cancel Order
+		 * @description Cancel a pending Order in an Account
+		 */
+		put: operations["cancelOrder"]
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+	"/accounts/{accountID}/orders/{orderSpecifier}/clientExtensions": {
+		parameters: {
+			query?: never
+			header?: never
+			path?: never
+			cookie?: never
+		}
+		get?: never
+		/**
+		 * Set Order Extensions
+		 * @description Update the Client Extensions for an Order in an Account. Do not set, modify, or delete clientExtensions if your account is associated with MT4.
+		 */
+		put: operations["setOrderClientExtensions"]
+		post?: never
+		delete?: never
+		options?: never
+		head?: never
+		patch?: never
+		trace?: never
+	}
+}
+export type webhooks = Record<string, never>
+export interface components {
+	schemas: {
+		/**
+		 * @description The granularity of a candlestick
+		 * @enum {string}
+		 */
+		CandlestickGranularity:
+			| "S5"
+			| "S10"
+			| "S15"
+			| "S30"
+			| "M1"
+			| "M2"
+			| "M4"
+			| "M5"
+			| "M10"
+			| "M15"
+			| "M30"
+			| "H1"
+			| "H2"
+			| "H3"
+			| "H4"
+			| "H6"
+			| "H8"
+			| "H12"
+			| "D"
+			| "W"
+			| "M"
+		/**
+		 * @description The day of the week to use for candlestick granularities with weekly alignment.
+		 * @enum {string}
+		 */
+		WeeklyAlignment:
+			| "Monday"
+			| "Tuesday"
+			| "Wednesday"
+			| "Thursday"
+			| "Friday"
+			| "Saturday"
+			| "Sunday"
+		/** @description The Candlestick representation */
+		Candlestick: {
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The start time of the candlestick
+			 */
+			time?: string
+			bid?: components["schemas"]["CandlestickData"]
+			ask?: components["schemas"]["CandlestickData"]
+			mid?: components["schemas"]["CandlestickData"]
+			/** @description The number of prices created during the time-range represented by the candlestick. */
+			volume?: number
+			/** @description A flag indicating if the candlestick is complete. A complete candlestick is one whose ending time is not in the future. */
+			complete?: boolean
+		}
+		/** @description The price data (open, high, low, close) for the Candlestick representation. */
+		CandlestickData: {
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The first (open) price in the time-range represented by the candlestick.
+			 */
+			o?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The highest price in the time-range represented by the candlestick.
+			 */
+			h?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The lowest price in the time-range represented by the candlestick.
+			 */
+			l?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The last (closing) price in the time-range represented by the candlestick.
+			 */
+			c?: string
+		}
+		/** @description The representation of an instrument's order book at a point in time */
+		OrderBook: {
+			/**
+			 * Format: A string containing the base currency and quote currency delimited by a "_".
+			 * @description The order book's instrument
+			 */
+			instrument?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The time when the order book snapshot was created.
+			 */
+			time?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The price (midpoint) for the order book's instrument at the time of the order book snapshot
+			 */
+			price?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The price width for each bucket. Each bucket covers the price range from the bucket's price to the bucket's price + bucketWidth.
+			 */
+			bucketWidth?: string
+			/** @description The partitioned order book, divided into buckets using a default bucket width. These buckets are only provided for price ranges which actually contain order or position data. */
+			buckets?: components["schemas"]["OrderBookBucket"][]
+		}
+		/** @description The order book data for a partition of the instrument's prices. */
+		OrderBookBucket: {
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The lowest price (inclusive) covered by the bucket. The bucket covers the price range from the price to price + the order book's bucketWidth.
+			 */
+			price?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The percentage of the total number of orders represented by the long orders found in this bucket.
+			 */
+			longCountPercent?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The percentage of the total number of orders represented by the short orders found in this bucket.
+			 */
+			shortCountPercent?: string
+		}
+		/** @description The representation of an instrument's position book at a point in time */
+		PositionBook: {
+			/**
+			 * Format: A string containing the base currency and quote currency delimited by a "_".
+			 * @description The position book's instrument
+			 */
+			instrument?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The time when the position book snapshot was created
+			 */
+			time?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The price (midpoint) for the position book's instrument at the time of the position book snapshot
+			 */
+			price?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The price width for each bucket. Each bucket covers the price range from the bucket's price to the bucket's price + bucketWidth.
+			 */
+			bucketWidth?: string
+			/** @description The partitioned position book, divided into buckets using a default bucket width. These buckets are only provided for price ranges which actually contain order or position data. */
+			buckets?: components["schemas"]["PositionBookBucket"][]
+		}
+		/** @description The position book data for a partition of the instrument's prices. */
+		PositionBookBucket: {
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The lowest price (inclusive) covered by the bucket. The bucket covers the price range from the price to price + the position book's bucketWidth.
+			 */
+			price?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The percentage of the total number of positions represented by the long positions found in this bucket.
+			 */
+			longCountPercent?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The percentage of the total number of positions represented by the short positions found in this bucket.
+			 */
+			shortCountPercent?: string
+		}
+		/** @description The specification of a Position within an Account. */
+		Position: {
+			/**
+			 * Format: A string containing the base currency and quote currency delimited by a "_".
+			 * @description The Position's Instrument.
+			 */
+			instrument?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description Profit/loss realized by the Position over the lifetime of the Account.
+			 */
+			pl?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The unrealized profit/loss of all open Trades that contribute to this Position.
+			 */
+			unrealizedPL?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description Margin currently used by the Position.
+			 */
+			marginUsed?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description Profit/loss realized by the Position since the Account's resettablePL was last reset by the client.
+			 */
+			resettablePL?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The total amount of financing paid/collected for this instrument over the lifetime of the Account.
+			 */
+			financing?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The total amount of commission paid for this instrument over the lifetime of the Account.
+			 */
+			commission?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The total amount of fees charged over the lifetime of the Account for the execution of guaranteed Stop Loss Orders for this instrument.
+			 */
+			guaranteedExecutionFees?: string
+			long?: components["schemas"]["PositionSide"]
+			short?: components["schemas"]["PositionSide"]
+		}
+		/** @description The representation of a Position for a single direction (long or short). */
+		PositionSide: {
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description Number of units in the position (negative value indicates short position, positive indicates long position).
+			 */
+			units?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description Volume-weighted average of the underlying Trade open prices for the Position.
+			 */
+			averagePrice?: string
+			/** @description List of the open Trade IDs which contribute to the open Position. */
+			tradeIDs?: string[]
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description Profit/loss realized by the PositionSide over the lifetime of the Account.
+			 */
+			pl?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The unrealized profit/loss of all open Trades that contribute to this PositionSide.
+			 */
+			unrealizedPL?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description Profit/loss realized by the PositionSide since the Account's resettablePL was last reset by the client.
+			 */
+			resettablePL?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The total amount of financing paid/collected for this PositionSide over the lifetime of the Account.
+			 */
+			financing?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The total amount of fees charged over the lifetime of the Account for the execution of guaranteed Stop Loss Orders attached to Trades for this PositionSide.
+			 */
+			guaranteedExecutionFees?: string
+		}
+		/** @description The dynamic (calculated) state of a Position */
+		CalculatedPositionState: {
+			/**
+			 * Format: A string containing the base currency and quote currency delimited by a "_".
+			 * @description The Position's Instrument.
+			 */
+			instrument?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The Position's net unrealized profit/loss
+			 */
+			netUnrealizedPL?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The unrealized profit/loss of the Position's long open Trades
+			 */
+			longUnrealizedPL?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The unrealized profit/loss of the Position's short open Trades
+			 */
+			shortUnrealizedPL?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description Margin currently used by the Position.
+			 */
+			marginUsed?: string
+		}
+		/**
+		 * Format: The string representation of the OANDA-assigned TradeID. OANDA-assigned TradeIDs are positive integers, and are derived from the TransactionID of the Transaction that opened the Trade.
+		 * @description The Trade's identifier, unique within the Trade's Account.
+		 */
+		TradeID: string
+		/**
+		 * @description The current state of the Trade.
+		 * @enum {string}
+		 */
+		TradeState: "OPEN" | "CLOSED" | "CLOSE_WHEN_TRADEABLE"
+		/**
+		 * @description The state to filter the Trades by
+		 * @enum {string}
+		 */
+		TradeStateFilter: "OPEN" | "CLOSED" | "CLOSE_WHEN_TRADEABLE" | "ALL"
+		/**
+		 * Format: Either the Trade's OANDA-assigned TradeID or the Trade's client-provided ClientID prefixed by the "@" symbol
+		 * @description The identification of a Trade as referred to by clients
+		 */
+		TradeSpecifier: string
+		/** @description The specification of a Trade within an Account. This includes the full representation of the Trade's dependent Orders in addition to the IDs of those Orders. */
+		Trade: {
+			/**
+			 * Format: The string representation of the OANDA-assigned TradeID. OANDA-assigned TradeIDs are positive integers, and are derived from the TransactionID of the Transaction that opened the Trade.
+			 * @description The Trade's identifier, unique within the Trade's Account.
+			 */
+			id?: string
+			/**
+			 * Format: A string containing the base currency and quote currency delimited by a "_".
+			 * @description The Trade's Instrument.
+			 */
+			instrument?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The execution price of the Trade.
+			 */
+			price?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Trade was opened.
+			 */
+			openTime?: string
+			/**
+			 * @description The current state of the Trade.
+			 * @enum {string}
+			 */
+			state?: "OPEN" | "CLOSED" | "CLOSE_WHEN_TRADEABLE"
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The initial size of the Trade. Negative values indicate a short Trade, and positive values indicate a long Trade.
+			 */
+			initialUnits?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The margin required at the time the Trade was created. Note, this is the 'pure' margin required, it is not the 'effective' margin used that factors in the trade risk if a GSLO is attached to the trade.
+			 */
+			initialMarginRequired?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The number of units currently open for the Trade. This value is reduced to 0.0 as the Trade is closed.
+			 */
+			currentUnits?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The total profit/loss realized on the closed portion of the Trade.
+			 */
+			realizedPL?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The unrealized profit/loss on the open portion of the Trade.
+			 */
+			unrealizedPL?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description Margin currently used by the Trade.
+			 */
+			marginUsed?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The average closing price of the Trade. Only present if the Trade has been closed or reduced at least once.
+			 */
+			averageClosePrice?: string
+			/** @description The IDs of the Transactions that have closed portions of this Trade. */
+			closingTransactionIDs?: string[]
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The financing paid/collected for this Trade.
+			 */
+			financing?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Trade was fully closed. Only provided for Trades whose state is CLOSED.
+			 */
+			closeTime?: string
+			clientExtensions?: components["schemas"]["ClientExtensions"]
+			takeProfitOrder?: components["schemas"]["TakeProfitOrder"]
+			stopLossOrder?: components["schemas"]["StopLossOrder"]
+			trailingStopLossOrder?: components["schemas"]["TrailingStopLossOrder"]
+		}
+		/** @description The summary of a Trade within an Account. This representation does not provide the full details of the Trade's dependent Orders. */
+		TradeSummary: {
+			/**
+			 * Format: The string representation of the OANDA-assigned TradeID. OANDA-assigned TradeIDs are positive integers, and are derived from the TransactionID of the Transaction that opened the Trade.
+			 * @description The Trade's identifier, unique within the Trade's Account.
+			 */
+			id?: string
+			/**
+			 * Format: A string containing the base currency and quote currency delimited by a "_".
+			 * @description The Trade's Instrument.
+			 */
+			instrument?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The execution price of the Trade.
+			 */
+			price?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Trade was opened.
+			 */
+			openTime?: string
+			/**
+			 * @description The current state of the Trade.
+			 * @enum {string}
+			 */
+			state?: "OPEN" | "CLOSED" | "CLOSE_WHEN_TRADEABLE"
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The initial size of the Trade. Negative values indicate a short Trade, and positive values indicate a long Trade.
+			 */
+			initialUnits?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The margin required at the time the Trade was created. Note, this is the 'pure' margin required, it is not the 'effective' margin used that factors in the trade risk if a GSLO is attached to the trade.
+			 */
+			initialMarginRequired?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The number of units currently open for the Trade. This value is reduced to 0.0 as the Trade is closed.
+			 */
+			currentUnits?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The total profit/loss realized on the closed portion of the Trade.
+			 */
+			realizedPL?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The unrealized profit/loss on the open portion of the Trade.
+			 */
+			unrealizedPL?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description Margin currently used by the Trade.
+			 */
+			marginUsed?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The average closing price of the Trade. Only present if the Trade has been closed or reduced at least once.
+			 */
+			averageClosePrice?: string
+			/** @description The IDs of the Transactions that have closed portions of this Trade. */
+			closingTransactionIDs?: string[]
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The financing paid/collected for this Trade.
+			 */
+			financing?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Trade was fully closed. Only provided for Trades whose state is CLOSED.
+			 */
+			closeTime?: string
+			clientExtensions?: components["schemas"]["ClientExtensions"]
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description ID of the Trade's Take Profit Order, only provided if such an Order exists.
+			 */
+			takeProfitOrderID?: string
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description ID of the Trade's Stop Loss Order, only provided if such an Order exists.
+			 */
+			stopLossOrderID?: string
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description ID of the Trade's Trailing Stop Loss Order, only provided if such an Order exists.
+			 */
+			trailingStopLossOrderID?: string
+		}
+		/** @description The dynamic (calculated) state of an open Trade */
+		CalculatedTradeState: {
+			/**
+			 * Format: The string representation of the OANDA-assigned TradeID. OANDA-assigned TradeIDs are positive integers, and are derived from the TransactionID of the Transaction that opened the Trade.
+			 * @description The Trade's ID.
+			 */
+			id?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The Trade's unrealized profit/loss.
+			 */
+			unrealizedPL?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description Margin currently used by the Trade.
+			 */
+			marginUsed?: string
+		}
+		/**
+		 * @description The classification of TradePLs.
+		 * @enum {string}
+		 */
+		TradePL: "POSITIVE" | "NEGATIVE" | "ZERO"
+		/** @description The year that a Yearly Account Statement is generated for. */
+		StatementYear: number
+		/** @description A TransactionHeartbeat object is injected into the Transaction stream to ensure that the HTTP connection remains active. */
+		MT4TransactionHeartbeat: {
+			/** @description The string "HEARTBEAT" */
+			type?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the TransactionHeartbeat was created.
+			 */
+			time?: string
+		}
+		/**
+		 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+		 * @description The string representation of a decimal number.
+		 */
+		DecimalNumber: string
+		/**
+		 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+		 * @description The string representation of a quantity of an Account's home currency.
+		 */
+		AccountUnits: string
+		/**
+		 * Format: A string containing an ISO 4217 currency (http://en.wikipedia.org/wiki/ISO_4217)
+		 * @description Currency name identifier. Used by clients to refer to currencies.
+		 */
+		Currency: string
+		/**
+		 * Format: A string containing the base currency and quote currency delimited by a "_".
+		 * @description Instrument name identifier. Used by clients to refer to an Instrument.
+		 */
+		InstrumentName: string
+		/**
+		 * @description The type of an Instrument.
+		 * @enum {string}
+		 */
+		InstrumentType: "CURRENCY" | "CFD" | "METAL"
+		/** @description Full specification of an Instrument. */
+		Instrument: {
+			/**
+			 * Format: A string containing the base currency and quote currency delimited by a "_".
+			 * @description The name of the Instrument
+			 */
+			name?: string
+			/**
+			 * @description The type of the Instrument
+			 * @enum {string}
+			 */
+			type?: "CURRENCY" | "CFD" | "METAL"
+			/** @description The display name of the Instrument */
+			displayName?: string
+			/** @description The location of the "pip" for this instrument. The decimal position of the pip in this Instrument's price can be found at 10 ^ pipLocation (e.g. -4 pipLocation results in a decimal pip position of 10 ^ -4 = 0.0001). */
+			pipLocation?: number
+			/** @description The number of decimal places that should be used to display prices for this instrument. (e.g. a displayPrecision of 5 would result in a price of "1" being displayed as "1.00000") */
+			displayPrecision?: number
+			/** @description The amount of decimal places that may be provided when specifying the number of units traded for this instrument. */
+			tradeUnitsPrecision?: number
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The smallest number of units allowed to be traded for this instrument.
+			 */
+			minimumTradeSize?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The maximum trailing stop distance allowed for a trailing stop loss created for this instrument. Specified in price units.
+			 */
+			maximumTrailingStopDistance?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The minimum trailing stop distance allowed for a trailing stop loss created for this instrument. Specified in price units.
+			 */
+			minimumTrailingStopDistance?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The maximum position size allowed for this instrument. Specified in units.
+			 */
+			maximumPositionSize?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The maximum units allowed for an Order placed for this instrument. Specified in units.
+			 */
+			maximumOrderUnits?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The margin rate for this instrument.
+			 */
+			marginRate?: string
+			commission?: components["schemas"]["InstrumentCommission"]
+		}
+		/**
+		 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+		 * @description A date and time value using either RFC3339 or UNIX time representation.
+		 */
+		DateTime: string
+		/**
+		 * @description DateTime header
+		 * @enum {string}
+		 */
+		AcceptDatetimeFormat: "UNIX" | "RFC3339"
+		/** @description An InstrumentCommission represents an instrument-specific commission */
+		InstrumentCommission: {
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The commission amount (in the Account's home currency) charged per unitsTraded of the instrument
+			 */
+			commission?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The number of units traded that the commission amount is based on.
+			 */
+			unitsTraded?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The minimum commission amount (in the Account's home currency) that is charged when an Order is filled for this instrument.
+			 */
+			minimumCommission?: string
+		}
+		/** @description A GuaranteedStopLossOrderLevelRestriction represents the total position size that can exist within a given price window for Trades with guaranteed Stop Loss Orders attached for a specific Instrument. */
+		GuaranteedStopLossOrderLevelRestriction: {
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description Applies to Trades with a guaranteed Stop Loss Order attached for the specified Instrument. This is the total allowed Trade volume that can exist within the priceRange based on the trigger prices of the guaranteed Stop Loss Orders.
+			 */
+			volume?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The price range the volume applies to. This value is in price units.
+			 */
+			priceRange?: string
+		}
+		/**
+		 * @description In the context of an Order or a Trade, defines whether the units are positive or negative.
+		 * @enum {string}
+		 */
+		Direction: "LONG" | "SHORT"
+		/**
+		 * Format: "-"-delimited string with format "{siteID}-{divisionID}-{userID}-{accountNumber}"
+		 * @description The string representation of an Account Identifier.
+		 */
+		AccountID: string
+		/** @description The full details of a client's Account. This includes full open Trade, open Position and pending Order representation. */
+		Account: {
+			/**
+			 * Format: "-"-delimited string with format "{siteID}-{divisionID}-{userID}-{accountNumber}"
+			 * @description The Account's identifier
+			 */
+			id?: string
+			/** @description Client-assigned alias for the Account. Only provided if the Account has an alias set */
+			alias?: string
+			/**
+			 * Format: A string containing an ISO 4217 currency (http://en.wikipedia.org/wiki/ISO_4217)
+			 * @description The home currency of the Account
+			 */
+			currency?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The current balance of the Account.
+			 */
+			balance?: string
+			/** @description ID of the user that created the Account. */
+			createdByUserID?: number
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Account was created.
+			 */
+			createdTime?: string
+			/**
+			 * @description The current guaranteed Stop Loss Order mode of the Account.
+			 * @enum {string}
+			 */
+			guaranteedStopLossOrderMode?: "DISABLED" | "ALLOWED" | "REQUIRED"
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The total profit/loss realized over the lifetime of the Account.
+			 */
+			pl?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The total realized profit/loss for the Account since it was last reset by the client.
+			 */
+			resettablePL?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time that the Account's resettablePL was last reset.
+			 */
+			resettablePLTime?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The total amount of financing paid/collected over the lifetime of the Account.
+			 */
+			financing?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The total amount of commission paid over the lifetime of the Account.
+			 */
+			commission?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The total amount of fees charged over the lifetime of the Account for the execution of guaranteed Stop Loss Orders.
+			 */
+			guaranteedExecutionFees?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description Client-provided margin rate override for the Account. The effective margin rate of the Account is the lesser of this value and the OANDA margin rate for the Account's division. This value is only provided if a margin rate override exists for the Account.
+			 */
+			marginRate?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Account entered a margin call state. Only provided if the Account is in a margin call.
+			 */
+			marginCallEnterTime?: string
+			/** @description The number of times that the Account's current margin call was extended. */
+			marginCallExtensionCount?: number
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time of the Account's last margin call extension.
+			 */
+			lastMarginCallExtensionTime?: string
+			/** @description The number of Trades currently open in the Account. */
+			openTradeCount?: number
+			/** @description The number of Positions currently open in the Account. */
+			openPositionCount?: number
+			/** @description The number of Orders currently pending in the Account. */
+			pendingOrderCount?: number
+			/** @description Flag indicating that the Account has hedging enabled. */
+			hedgingEnabled?: boolean
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time of the last order that was filled for this account.
+			 */
+			lastOrderFillTimestamp?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The total unrealized profit/loss for all Trades currently open in the Account.
+			 */
+			unrealizedPL?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The net asset value of the Account. Equal to Account balance + unrealizedPL.
+			 */
+			NAV?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description Margin currently used for the Account.
+			 */
+			marginUsed?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description Margin available for Account currency.
+			 */
+			marginAvailable?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The value of the Account's open positions represented in the Account's home currency.
+			 */
+			positionValue?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The Account's margin closeout unrealized PL.
+			 */
+			marginCloseoutUnrealizedPL?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The Account's margin closeout NAV.
+			 */
+			marginCloseoutNAV?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The Account's margin closeout margin used.
+			 */
+			marginCloseoutMarginUsed?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The Account's margin closeout percentage. When this value is 1.0 or above the Account is in a margin closeout situation.
+			 */
+			marginCloseoutPercent?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The value of the Account's open positions as used for margin closeout calculations represented in the Account's home currency.
+			 */
+			marginCloseoutPositionValue?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The current WithdrawalLimit for the account which will be zero or a positive value indicating how much can be withdrawn from the account.
+			 */
+			withdrawalLimit?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The Account's margin call margin used.
+			 */
+			marginCallMarginUsed?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The Account's margin call percentage. When this value is 1.0 or above the Account is in a margin call situation.
+			 */
+			marginCallPercent?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the last Transaction created for the Account.
+			 */
+			lastTransactionID?: string
+			/** @description The details of the Trades currently open in the Account. */
+			trades?: components["schemas"]["TradeSummary"][]
+			/** @description The details all Account Positions. */
+			positions?: components["schemas"]["Position"][]
+			/** @description The details of the Orders currently pending in the Account. */
+			orders?: components["schemas"]["Order"][]
+		}
+		/** @description An AccountState Object is used to represent an Account's current price-dependent state. Price-dependent Account state is dependent on OANDA's current Prices, and includes things like unrealized PL, NAV and Trailing Stop Loss Order state. */
+		AccountChangesState: {
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The total unrealized profit/loss for all Trades currently open in the Account.
+			 */
+			unrealizedPL?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The net asset value of the Account. Equal to Account balance + unrealizedPL.
+			 */
+			NAV?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description Margin currently used for the Account.
+			 */
+			marginUsed?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description Margin available for Account currency.
+			 */
+			marginAvailable?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The value of the Account's open positions represented in the Account's home currency.
+			 */
+			positionValue?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The Account's margin closeout unrealized PL.
+			 */
+			marginCloseoutUnrealizedPL?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The Account's margin closeout NAV.
+			 */
+			marginCloseoutNAV?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The Account's margin closeout margin used.
+			 */
+			marginCloseoutMarginUsed?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The Account's margin closeout percentage. When this value is 1.0 or above the Account is in a margin closeout situation.
+			 */
+			marginCloseoutPercent?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The value of the Account's open positions as used for margin closeout calculations represented in the Account's home currency.
+			 */
+			marginCloseoutPositionValue?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The current WithdrawalLimit for the account which will be zero or a positive value indicating how much can be withdrawn from the account.
+			 */
+			withdrawalLimit?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The Account's margin call margin used.
+			 */
+			marginCallMarginUsed?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The Account's margin call percentage. When this value is 1.0 or above the Account is in a margin call situation.
+			 */
+			marginCallPercent?: string
+			/** @description The price-dependent state of each pending Order in the Account. */
+			orders?: components["schemas"]["DynamicOrderState"][]
+			/** @description The price-dependent state for each open Trade in the Account. */
+			trades?: components["schemas"]["CalculatedTradeState"][]
+			/** @description The price-dependent state for each open Position in the Account. */
+			positions?: components["schemas"]["CalculatedPositionState"][]
+		}
+		/** @description Properties related to an Account. */
+		AccountProperties: {
+			/**
+			 * Format: "-"-delimited string with format "{siteID}-{divisionID}-{userID}-{accountNumber}"
+			 * @description The Account's identifier
+			 */
+			id?: string
+			/** @description The Account's associated MT4 Account ID. This field will not be present if the Account is not an MT4 account. */
+			mt4AccountID?: number
+			/** @description The Account's tags */
+			tags?: string[]
+		}
+		/**
+		 * @description The overall behaviour of the Account regarding guaranteed Stop Loss Orders.
+		 * @enum {string}
+		 */
+		GuaranteedStopLossOrderMode: "DISABLED" | "ALLOWED" | "REQUIRED"
+		/** @description A summary representation of a client's Account. The AccountSummary does not provide to full specification of pending Orders, open Trades and Positions. */
+		AccountSummary: {
+			/**
+			 * Format: "-"-delimited string with format "{siteID}-{divisionID}-{userID}-{accountNumber}"
+			 * @description The Account's identifier
+			 */
+			id?: string
+			/** @description Client-assigned alias for the Account. Only provided if the Account has an alias set */
+			alias?: string
+			/**
+			 * Format: A string containing an ISO 4217 currency (http://en.wikipedia.org/wiki/ISO_4217)
+			 * @description The home currency of the Account
+			 */
+			currency?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The current balance of the Account.
+			 */
+			balance?: string
+			/** @description ID of the user that created the Account. */
+			createdByUserID?: number
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Account was created.
+			 */
+			createdTime?: string
+			/**
+			 * @description The current guaranteed Stop Loss Order mode of the Account.
+			 * @enum {string}
+			 */
+			guaranteedStopLossOrderMode?: "DISABLED" | "ALLOWED" | "REQUIRED"
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The total profit/loss realized over the lifetime of the Account.
+			 */
+			pl?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The total realized profit/loss for the Account since it was last reset by the client.
+			 */
+			resettablePL?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time that the Account's resettablePL was last reset.
+			 */
+			resettablePLTime?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The total amount of financing paid/collected over the lifetime of the Account.
+			 */
+			financing?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The total amount of commission paid over the lifetime of the Account.
+			 */
+			commission?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The total amount of fees charged over the lifetime of the Account for the execution of guaranteed Stop Loss Orders.
+			 */
+			guaranteedExecutionFees?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description Client-provided margin rate override for the Account. The effective margin rate of the Account is the lesser of this value and the OANDA margin rate for the Account's division. This value is only provided if a margin rate override exists for the Account.
+			 */
+			marginRate?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Account entered a margin call state. Only provided if the Account is in a margin call.
+			 */
+			marginCallEnterTime?: string
+			/** @description The number of times that the Account's current margin call was extended. */
+			marginCallExtensionCount?: number
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time of the Account's last margin call extension.
+			 */
+			lastMarginCallExtensionTime?: string
+			/** @description The number of Trades currently open in the Account. */
+			openTradeCount?: number
+			/** @description The number of Positions currently open in the Account. */
+			openPositionCount?: number
+			/** @description The number of Orders currently pending in the Account. */
+			pendingOrderCount?: number
+			/** @description Flag indicating that the Account has hedging enabled. */
+			hedgingEnabled?: boolean
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time of the last order that was filled for this account.
+			 */
+			lastOrderFillTimestamp?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The total unrealized profit/loss for all Trades currently open in the Account.
+			 */
+			unrealizedPL?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The net asset value of the Account. Equal to Account balance + unrealizedPL.
+			 */
+			NAV?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description Margin currently used for the Account.
+			 */
+			marginUsed?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description Margin available for Account currency.
+			 */
+			marginAvailable?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The value of the Account's open positions represented in the Account's home currency.
+			 */
+			positionValue?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The Account's margin closeout unrealized PL.
+			 */
+			marginCloseoutUnrealizedPL?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The Account's margin closeout NAV.
+			 */
+			marginCloseoutNAV?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The Account's margin closeout margin used.
+			 */
+			marginCloseoutMarginUsed?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The Account's margin closeout percentage. When this value is 1.0 or above the Account is in a margin closeout situation.
+			 */
+			marginCloseoutPercent?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The value of the Account's open positions as used for margin closeout calculations represented in the Account's home currency.
+			 */
+			marginCloseoutPositionValue?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The current WithdrawalLimit for the account which will be zero or a positive value indicating how much can be withdrawn from the account.
+			 */
+			withdrawalLimit?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The Account's margin call margin used.
+			 */
+			marginCallMarginUsed?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The Account's margin call percentage. When this value is 1.0 or above the Account is in a margin call situation.
+			 */
+			marginCallPercent?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the last Transaction created for the Account.
+			 */
+			lastTransactionID?: string
+		}
+		/** @description The dynamically calculated state of a client's Account. */
+		CalculatedAccountState: {
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The total unrealized profit/loss for all Trades currently open in the Account.
+			 */
+			unrealizedPL?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The net asset value of the Account. Equal to Account balance + unrealizedPL.
+			 */
+			NAV?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description Margin currently used for the Account.
+			 */
+			marginUsed?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description Margin available for Account currency.
+			 */
+			marginAvailable?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The value of the Account's open positions represented in the Account's home currency.
+			 */
+			positionValue?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The Account's margin closeout unrealized PL.
+			 */
+			marginCloseoutUnrealizedPL?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The Account's margin closeout NAV.
+			 */
+			marginCloseoutNAV?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The Account's margin closeout margin used.
+			 */
+			marginCloseoutMarginUsed?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The Account's margin closeout percentage. When this value is 1.0 or above the Account is in a margin closeout situation.
+			 */
+			marginCloseoutPercent?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The value of the Account's open positions as used for margin closeout calculations represented in the Account's home currency.
+			 */
+			marginCloseoutPositionValue?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The current WithdrawalLimit for the account which will be zero or a positive value indicating how much can be withdrawn from the account.
+			 */
+			withdrawalLimit?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The Account's margin call margin used.
+			 */
+			marginCallMarginUsed?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The Account's margin call percentage. When this value is 1.0 or above the Account is in a margin call situation.
+			 */
+			marginCallPercent?: string
+		}
+		/** @description An AccountChanges Object is used to represent the changes to an Account's Orders, Trades and Positions since a specified Account TransactionID in the past. */
+		AccountChanges: {
+			/** @description The Orders created. These Orders may have been filled, cancelled or triggered in the same period. */
+			ordersCreated?: components["schemas"]["Order"][]
+			/** @description The Orders cancelled. */
+			ordersCancelled?: components["schemas"]["Order"][]
+			/** @description The Orders filled. */
+			ordersFilled?: components["schemas"]["Order"][]
+			/** @description The Orders triggered. */
+			ordersTriggered?: components["schemas"]["Order"][]
+			/** @description The Trades opened. */
+			tradesOpened?: components["schemas"]["TradeSummary"][]
+			/** @description The Trades reduced. */
+			tradesReduced?: components["schemas"]["TradeSummary"][]
+			/** @description The Trades closed. */
+			tradesClosed?: components["schemas"]["TradeSummary"][]
+			/** @description The Positions changed. */
+			positions?: components["schemas"]["Position"][]
+			/** @description The Transactions that have been generated. */
+			transactions?: components["schemas"]["Transaction"][]
+		}
+		/**
+		 * @description The financing mode of an Account
+		 * @enum {string}
+		 */
+		AccountFinancingMode: "NO_FINANCING" | "SECOND_BY_SECOND" | "DAILY"
+		/**
+		 * @description The way that position values for an Account are calculated and aggregated.
+		 * @enum {string}
+		 */
+		PositionAggregationMode: "ABSOLUTE_SUM" | "MAXIMAL_SIDE" | "NET_SUM"
+		/**
+		 * Format: String representation of the numerical OANDA-assigned TransactionID
+		 * @description The unique Transaction identifier within each Account.
+		 */
+		TransactionID: string
+		/**
+		 * @description The possible types of a Transaction
+		 * @enum {string}
+		 */
+		TransactionType:
 			| "CREATE"
 			| "CLOSE"
 			| "REOPEN"
@@ -524,2635 +2056,3739 @@ export namespace Schemas {
 			| "DELAYED_TRADE_CLOSURE"
 			| "DAILY_FINANCING"
 			| "RESET_RESETTABLE_PL"
-		divisionID: number
-		siteID: number
-		accountUserID: number
-		accountNumber: number
-		homeCurrency: string
-	}>
-	export type CloseTransaction = Partial<{
-		id: string
-		time: string
-		userID: number
-		accountID: string
-		batchID: string
-		requestID: string
-		type:
-			| "CREATE"
-			| "CLOSE"
-			| "REOPEN"
-			| "CLIENT_CONFIGURE"
-			| "CLIENT_CONFIGURE_REJECT"
-			| "TRANSFER_FUNDS"
-			| "TRANSFER_FUNDS_REJECT"
-			| "MARKET_ORDER"
-			| "MARKET_ORDER_REJECT"
-			| "FIXED_PRICE_ORDER"
-			| "LIMIT_ORDER"
-			| "LIMIT_ORDER_REJECT"
-			| "STOP_ORDER"
-			| "STOP_ORDER_REJECT"
-			| "MARKET_IF_TOUCHED_ORDER"
-			| "MARKET_IF_TOUCHED_ORDER_REJECT"
-			| "TAKE_PROFIT_ORDER"
-			| "TAKE_PROFIT_ORDER_REJECT"
-			| "STOP_LOSS_ORDER"
-			| "STOP_LOSS_ORDER_REJECT"
-			| "TRAILING_STOP_LOSS_ORDER"
-			| "TRAILING_STOP_LOSS_ORDER_REJECT"
-			| "ORDER_FILL"
-			| "ORDER_CANCEL"
-			| "ORDER_CANCEL_REJECT"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "MARGIN_CALL_ENTER"
-			| "MARGIN_CALL_EXTEND"
-			| "MARGIN_CALL_EXIT"
-			| "DELAYED_TRADE_CLOSURE"
-			| "DAILY_FINANCING"
-			| "RESET_RESETTABLE_PL"
-	}>
-	export type ReopenTransaction = Partial<{
-		id: string
-		time: string
-		userID: number
-		accountID: string
-		batchID: string
-		requestID: string
-		type:
-			| "CREATE"
-			| "CLOSE"
-			| "REOPEN"
-			| "CLIENT_CONFIGURE"
-			| "CLIENT_CONFIGURE_REJECT"
-			| "TRANSFER_FUNDS"
-			| "TRANSFER_FUNDS_REJECT"
-			| "MARKET_ORDER"
-			| "MARKET_ORDER_REJECT"
-			| "FIXED_PRICE_ORDER"
-			| "LIMIT_ORDER"
-			| "LIMIT_ORDER_REJECT"
-			| "STOP_ORDER"
-			| "STOP_ORDER_REJECT"
-			| "MARKET_IF_TOUCHED_ORDER"
-			| "MARKET_IF_TOUCHED_ORDER_REJECT"
-			| "TAKE_PROFIT_ORDER"
-			| "TAKE_PROFIT_ORDER_REJECT"
-			| "STOP_LOSS_ORDER"
-			| "STOP_LOSS_ORDER_REJECT"
-			| "TRAILING_STOP_LOSS_ORDER"
-			| "TRAILING_STOP_LOSS_ORDER_REJECT"
-			| "ORDER_FILL"
-			| "ORDER_CANCEL"
-			| "ORDER_CANCEL_REJECT"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "MARGIN_CALL_ENTER"
-			| "MARGIN_CALL_EXTEND"
-			| "MARGIN_CALL_EXIT"
-			| "DELAYED_TRADE_CLOSURE"
-			| "DAILY_FINANCING"
-			| "RESET_RESETTABLE_PL"
-	}>
-	export type ClientConfigureTransaction = Partial<{
-		id: string
-		time: string
-		userID: number
-		accountID: string
-		batchID: string
-		requestID: string
-		type:
-			| "CREATE"
-			| "CLOSE"
-			| "REOPEN"
-			| "CLIENT_CONFIGURE"
-			| "CLIENT_CONFIGURE_REJECT"
-			| "TRANSFER_FUNDS"
-			| "TRANSFER_FUNDS_REJECT"
-			| "MARKET_ORDER"
-			| "MARKET_ORDER_REJECT"
-			| "FIXED_PRICE_ORDER"
-			| "LIMIT_ORDER"
-			| "LIMIT_ORDER_REJECT"
-			| "STOP_ORDER"
-			| "STOP_ORDER_REJECT"
-			| "MARKET_IF_TOUCHED_ORDER"
-			| "MARKET_IF_TOUCHED_ORDER_REJECT"
-			| "TAKE_PROFIT_ORDER"
-			| "TAKE_PROFIT_ORDER_REJECT"
-			| "STOP_LOSS_ORDER"
-			| "STOP_LOSS_ORDER_REJECT"
-			| "TRAILING_STOP_LOSS_ORDER"
-			| "TRAILING_STOP_LOSS_ORDER_REJECT"
-			| "ORDER_FILL"
-			| "ORDER_CANCEL"
-			| "ORDER_CANCEL_REJECT"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "MARGIN_CALL_ENTER"
-			| "MARGIN_CALL_EXTEND"
-			| "MARGIN_CALL_EXIT"
-			| "DELAYED_TRADE_CLOSURE"
-			| "DAILY_FINANCING"
-			| "RESET_RESETTABLE_PL"
-		alias: string
-		marginRate: string
-	}>
-	export type ClientConfigureRejectTransaction = Partial<{
-		id: string
-		time: string
-		userID: number
-		accountID: string
-		batchID: string
-		requestID: string
-		type:
-			| "CREATE"
-			| "CLOSE"
-			| "REOPEN"
-			| "CLIENT_CONFIGURE"
-			| "CLIENT_CONFIGURE_REJECT"
-			| "TRANSFER_FUNDS"
-			| "TRANSFER_FUNDS_REJECT"
-			| "MARKET_ORDER"
-			| "MARKET_ORDER_REJECT"
-			| "FIXED_PRICE_ORDER"
-			| "LIMIT_ORDER"
-			| "LIMIT_ORDER_REJECT"
-			| "STOP_ORDER"
-			| "STOP_ORDER_REJECT"
-			| "MARKET_IF_TOUCHED_ORDER"
-			| "MARKET_IF_TOUCHED_ORDER_REJECT"
-			| "TAKE_PROFIT_ORDER"
-			| "TAKE_PROFIT_ORDER_REJECT"
-			| "STOP_LOSS_ORDER"
-			| "STOP_LOSS_ORDER_REJECT"
-			| "TRAILING_STOP_LOSS_ORDER"
-			| "TRAILING_STOP_LOSS_ORDER_REJECT"
-			| "ORDER_FILL"
-			| "ORDER_CANCEL"
-			| "ORDER_CANCEL_REJECT"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "MARGIN_CALL_ENTER"
-			| "MARGIN_CALL_EXTEND"
-			| "MARGIN_CALL_EXIT"
-			| "DELAYED_TRADE_CLOSURE"
-			| "DAILY_FINANCING"
-			| "RESET_RESETTABLE_PL"
-		alias: string
-		marginRate: string
-		rejectReason:
-			| "INTERNAL_SERVER_ERROR"
-			| "INSTRUMENT_PRICE_UNKNOWN"
-			| "ACCOUNT_NOT_ACTIVE"
-			| "ACCOUNT_LOCKED"
-			| "ACCOUNT_ORDER_CREATION_LOCKED"
-			| "ACCOUNT_CONFIGURATION_LOCKED"
-			| "ACCOUNT_DEPOSIT_LOCKED"
-			| "ACCOUNT_WITHDRAWAL_LOCKED"
-			| "ACCOUNT_ORDER_CANCEL_LOCKED"
-			| "INSTRUMENT_NOT_TRADEABLE"
-			| "PENDING_ORDERS_ALLOWED_EXCEEDED"
-			| "ORDER_ID_UNSPECIFIED"
-			| "ORDER_DOESNT_EXIST"
-			| "ORDER_IDENTIFIER_INCONSISTENCY"
-			| "TRADE_ID_UNSPECIFIED"
-			| "TRADE_DOESNT_EXIST"
-			| "TRADE_IDENTIFIER_INCONSISTENCY"
-			| "INSUFFICIENT_MARGIN"
-			| "INSTRUMENT_MISSING"
-			| "INSTRUMENT_UNKNOWN"
-			| "UNITS_MISSING"
-			| "UNITS_INVALID"
-			| "UNITS_PRECISION_EXCEEDED"
-			| "UNITS_LIMIT_EXCEEDED"
-			| "UNITS_MIMIMUM_NOT_MET"
-			| "PRICE_MISSING"
-			| "PRICE_INVALID"
-			| "PRICE_PRECISION_EXCEEDED"
-			| "PRICE_DISTANCE_MISSING"
-			| "PRICE_DISTANCE_INVALID"
-			| "PRICE_DISTANCE_PRECISION_EXCEEDED"
-			| "PRICE_DISTANCE_MAXIMUM_EXCEEDED"
-			| "PRICE_DISTANCE_MINIMUM_NOT_MET"
-			| "TIME_IN_FORCE_MISSING"
-			| "TIME_IN_FORCE_INVALID"
-			| "TIME_IN_FORCE_GTD_TIMESTAMP_MISSING"
-			| "TIME_IN_FORCE_GTD_TIMESTAMP_IN_PAST"
-			| "PRICE_BOUND_INVALID"
-			| "PRICE_BOUND_PRECISION_EXCEEDED"
-			| "ORDERS_ON_FILL_DUPLICATE_CLIENT_ORDER_IDS"
-			| "TRADE_ON_FILL_CLIENT_EXTENSIONS_NOT_SUPPORTED"
-			| "CLIENT_ORDER_ID_INVALID"
-			| "CLIENT_ORDER_ID_ALREADY_EXISTS"
-			| "CLIENT_ORDER_TAG_INVALID"
-			| "CLIENT_ORDER_COMMENT_INVALID"
-			| "CLIENT_TRADE_ID_INVALID"
-			| "CLIENT_TRADE_ID_ALREADY_EXISTS"
-			| "CLIENT_TRADE_TAG_INVALID"
-			| "CLIENT_TRADE_COMMENT_INVALID"
-			| "ORDER_FILL_POSITION_ACTION_MISSING"
-			| "ORDER_FILL_POSITION_ACTION_INVALID"
-			| "TRIGGER_CONDITION_MISSING"
-			| "TRIGGER_CONDITION_INVALID"
-			| "ORDER_PARTIAL_FILL_OPTION_MISSING"
-			| "ORDER_PARTIAL_FILL_OPTION_INVALID"
-			| "INVALID_REISSUE_IMMEDIATE_PARTIAL_FILL"
-			| "TAKE_PROFIT_ORDER_ALREADY_EXISTS"
-			| "TAKE_PROFIT_ON_FILL_PRICE_MISSING"
-			| "TAKE_PROFIT_ON_FILL_PRICE_INVALID"
-			| "TAKE_PROFIT_ON_FILL_PRICE_PRECISION_EXCEEDED"
-			| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_MISSING"
-			| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_INVALID"
-			| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_MISSING"
-			| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_IN_PAST"
-			| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_ID_INVALID"
-			| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_TAG_INVALID"
-			| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
-			| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_MISSING"
-			| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_INVALID"
-			| "STOP_LOSS_ORDER_ALREADY_EXISTS"
-			| "STOP_LOSS_ORDER_GUARANTEED_REQUIRED"
-			| "STOP_LOSS_ORDER_GUARANTEED_PRICE_WITHIN_SPREAD"
-			| "STOP_LOSS_ORDER_GUARANTEED_NOT_ALLOWED"
-			| "STOP_LOSS_ORDER_GUARANTEED_HALTED_CREATE_VIOLATION"
-			| "STOP_LOSS_ORDER_GUARANTEED_HALTED_TIGHTEN_VIOLATION"
-			| "STOP_LOSS_ORDER_GUARANTEED_HEDGING_NOT_ALLOWED"
-			| "STOP_LOSS_ORDER_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
-			| "STOP_LOSS_ORDER_NOT_CANCELABLE"
-			| "STOP_LOSS_ORDER_NOT_REPLACEABLE"
-			| "STOP_LOSS_ORDER_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
-			| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
-			| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_MISSING"
-			| "STOP_LOSS_ON_FILL_REQUIRED_FOR_PENDING_ORDER"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_NOT_ALLOWED"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_REQUIRED"
-			| "STOP_LOSS_ON_FILL_PRICE_MISSING"
-			| "STOP_LOSS_ON_FILL_PRICE_INVALID"
-			| "STOP_LOSS_ON_FILL_PRICE_PRECISION_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_DISTANCE_INVALID"
-			| "STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_DISTANCE_PRECISION_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
-			| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_MISSING"
-			| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
-			| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
-			| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
-			| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
-			| "STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
-			| "STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
-			| "STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
-			| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
-			| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
-			| "TRAILING_STOP_LOSS_ORDER_ALREADY_EXISTS"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_PRECISION_EXCEEDED"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MINIMUM_NOT_MET"
-			| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
-			| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
-			| "TRAILING_STOP_LOSS_ORDERS_NOT_SUPPORTED"
-			| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
-			| "CLOSE_TRADE_TYPE_MISSING"
-			| "CLOSE_TRADE_PARTIAL_UNITS_MISSING"
-			| "CLOSE_TRADE_UNITS_EXCEED_TRADE_SIZE"
-			| "CLOSEOUT_POSITION_DOESNT_EXIST"
-			| "CLOSEOUT_POSITION_INCOMPLETE_SPECIFICATION"
-			| "CLOSEOUT_POSITION_UNITS_EXCEED_POSITION_SIZE"
-			| "CLOSEOUT_POSITION_REJECT"
-			| "CLOSEOUT_POSITION_PARTIAL_UNITS_MISSING"
-			| "MARKUP_GROUP_ID_INVALID"
-			| "POSITION_AGGREGATION_MODE_INVALID"
-			| "ADMIN_CONFIGURE_DATA_MISSING"
-			| "MARGIN_RATE_INVALID"
-			| "MARGIN_RATE_WOULD_TRIGGER_CLOSEOUT"
-			| "ALIAS_INVALID"
-			| "CLIENT_CONFIGURE_DATA_MISSING"
-			| "MARGIN_RATE_WOULD_TRIGGER_MARGIN_CALL"
-			| "AMOUNT_INVALID"
-			| "INSUFFICIENT_FUNDS"
-			| "AMOUNT_MISSING"
-			| "FUNDING_REASON_MISSING"
-			| "CLIENT_EXTENSIONS_DATA_MISSING"
-			| "REPLACING_ORDER_INVALID"
-			| "REPLACING_TRADE_ID_INVALID"
-	}>
-	export type FundingReason =
-		| "CLIENT_FUNDING"
-		| "ACCOUNT_TRANSFER"
-		| "DIVISION_MIGRATION"
-		| "SITE_MIGRATION"
-		| "ADJUSTMENT"
-	export type TransferFundsTransaction = Partial<{
-		id: string
-		time: string
-		userID: number
-		accountID: string
-		batchID: string
-		requestID: string
-		type:
-			| "CREATE"
-			| "CLOSE"
-			| "REOPEN"
-			| "CLIENT_CONFIGURE"
-			| "CLIENT_CONFIGURE_REJECT"
-			| "TRANSFER_FUNDS"
-			| "TRANSFER_FUNDS_REJECT"
-			| "MARKET_ORDER"
-			| "MARKET_ORDER_REJECT"
-			| "FIXED_PRICE_ORDER"
-			| "LIMIT_ORDER"
-			| "LIMIT_ORDER_REJECT"
-			| "STOP_ORDER"
-			| "STOP_ORDER_REJECT"
-			| "MARKET_IF_TOUCHED_ORDER"
-			| "MARKET_IF_TOUCHED_ORDER_REJECT"
-			| "TAKE_PROFIT_ORDER"
-			| "TAKE_PROFIT_ORDER_REJECT"
-			| "STOP_LOSS_ORDER"
-			| "STOP_LOSS_ORDER_REJECT"
-			| "TRAILING_STOP_LOSS_ORDER"
-			| "TRAILING_STOP_LOSS_ORDER_REJECT"
-			| "ORDER_FILL"
-			| "ORDER_CANCEL"
-			| "ORDER_CANCEL_REJECT"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "MARGIN_CALL_ENTER"
-			| "MARGIN_CALL_EXTEND"
-			| "MARGIN_CALL_EXIT"
-			| "DELAYED_TRADE_CLOSURE"
-			| "DAILY_FINANCING"
-			| "RESET_RESETTABLE_PL"
-		amount: string
-		fundingReason:
+		/** @description The base Transaction specification. Specifies properties that are common between all Transaction. */
+		Transaction: {
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The Transaction's Identifier.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Transaction was created.
+			 */
+			time?: string
+			/** @description The ID of the user that initiated the creation of the Transaction. */
+			userID?: number
+			/**
+			 * Format: "-"-delimited string with format "{siteID}-{divisionID}-{userID}-{accountNumber}"
+			 * @description The ID of the Account the Transaction was created for.
+			 */
+			accountID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.
+			 */
+			batchID?: string
+			/** @description The Request ID of the request which generated the transaction. */
+			requestID?: string
+		}
+		/** @description A CreateTransaction represents the creation of an Account. */
+		CreateTransaction: {
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The Transaction's Identifier.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Transaction was created.
+			 */
+			time?: string
+			/** @description The ID of the user that initiated the creation of the Transaction. */
+			userID?: number
+			/**
+			 * Format: "-"-delimited string with format "{siteID}-{divisionID}-{userID}-{accountNumber}"
+			 * @description The ID of the Account the Transaction was created for.
+			 */
+			accountID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.
+			 */
+			batchID?: string
+			/** @description The Request ID of the request which generated the transaction. */
+			requestID?: string
+			/**
+			 * @description The Type of the Transaction. Always set to "CREATE" in a CreateTransaction.
+			 * @enum {string}
+			 */
+			type?:
+				| "CREATE"
+				| "CLOSE"
+				| "REOPEN"
+				| "CLIENT_CONFIGURE"
+				| "CLIENT_CONFIGURE_REJECT"
+				| "TRANSFER_FUNDS"
+				| "TRANSFER_FUNDS_REJECT"
+				| "MARKET_ORDER"
+				| "MARKET_ORDER_REJECT"
+				| "FIXED_PRICE_ORDER"
+				| "LIMIT_ORDER"
+				| "LIMIT_ORDER_REJECT"
+				| "STOP_ORDER"
+				| "STOP_ORDER_REJECT"
+				| "MARKET_IF_TOUCHED_ORDER"
+				| "MARKET_IF_TOUCHED_ORDER_REJECT"
+				| "TAKE_PROFIT_ORDER"
+				| "TAKE_PROFIT_ORDER_REJECT"
+				| "STOP_LOSS_ORDER"
+				| "STOP_LOSS_ORDER_REJECT"
+				| "TRAILING_STOP_LOSS_ORDER"
+				| "TRAILING_STOP_LOSS_ORDER_REJECT"
+				| "ORDER_FILL"
+				| "ORDER_CANCEL"
+				| "ORDER_CANCEL_REJECT"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "MARGIN_CALL_ENTER"
+				| "MARGIN_CALL_EXTEND"
+				| "MARGIN_CALL_EXIT"
+				| "DELAYED_TRADE_CLOSURE"
+				| "DAILY_FINANCING"
+				| "RESET_RESETTABLE_PL"
+			/** @description The ID of the Division that the Account is in */
+			divisionID?: number
+			/** @description The ID of the Site that the Account was created at */
+			siteID?: number
+			/** @description The ID of the user that the Account was created for */
+			accountUserID?: number
+			/** @description The number of the Account within the site/division/user */
+			accountNumber?: number
+			/**
+			 * Format: A string containing an ISO 4217 currency (http://en.wikipedia.org/wiki/ISO_4217)
+			 * @description The home currency of the Account
+			 */
+			homeCurrency?: string
+		}
+		/** @description A CloseTransaction represents the closing of an Account. */
+		CloseTransaction: {
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The Transaction's Identifier.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Transaction was created.
+			 */
+			time?: string
+			/** @description The ID of the user that initiated the creation of the Transaction. */
+			userID?: number
+			/**
+			 * Format: "-"-delimited string with format "{siteID}-{divisionID}-{userID}-{accountNumber}"
+			 * @description The ID of the Account the Transaction was created for.
+			 */
+			accountID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.
+			 */
+			batchID?: string
+			/** @description The Request ID of the request which generated the transaction. */
+			requestID?: string
+			/**
+			 * @description The Type of the Transaction. Always set to "CLOSE" in a CloseTransaction.
+			 * @enum {string}
+			 */
+			type?:
+				| "CREATE"
+				| "CLOSE"
+				| "REOPEN"
+				| "CLIENT_CONFIGURE"
+				| "CLIENT_CONFIGURE_REJECT"
+				| "TRANSFER_FUNDS"
+				| "TRANSFER_FUNDS_REJECT"
+				| "MARKET_ORDER"
+				| "MARKET_ORDER_REJECT"
+				| "FIXED_PRICE_ORDER"
+				| "LIMIT_ORDER"
+				| "LIMIT_ORDER_REJECT"
+				| "STOP_ORDER"
+				| "STOP_ORDER_REJECT"
+				| "MARKET_IF_TOUCHED_ORDER"
+				| "MARKET_IF_TOUCHED_ORDER_REJECT"
+				| "TAKE_PROFIT_ORDER"
+				| "TAKE_PROFIT_ORDER_REJECT"
+				| "STOP_LOSS_ORDER"
+				| "STOP_LOSS_ORDER_REJECT"
+				| "TRAILING_STOP_LOSS_ORDER"
+				| "TRAILING_STOP_LOSS_ORDER_REJECT"
+				| "ORDER_FILL"
+				| "ORDER_CANCEL"
+				| "ORDER_CANCEL_REJECT"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "MARGIN_CALL_ENTER"
+				| "MARGIN_CALL_EXTEND"
+				| "MARGIN_CALL_EXIT"
+				| "DELAYED_TRADE_CLOSURE"
+				| "DAILY_FINANCING"
+				| "RESET_RESETTABLE_PL"
+		}
+		/** @description A ReopenTransaction represents the re-opening of a closed Account. */
+		ReopenTransaction: {
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The Transaction's Identifier.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Transaction was created.
+			 */
+			time?: string
+			/** @description The ID of the user that initiated the creation of the Transaction. */
+			userID?: number
+			/**
+			 * Format: "-"-delimited string with format "{siteID}-{divisionID}-{userID}-{accountNumber}"
+			 * @description The ID of the Account the Transaction was created for.
+			 */
+			accountID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.
+			 */
+			batchID?: string
+			/** @description The Request ID of the request which generated the transaction. */
+			requestID?: string
+			/**
+			 * @description The Type of the Transaction. Always set to "REOPEN" in a ReopenTransaction.
+			 * @enum {string}
+			 */
+			type?:
+				| "CREATE"
+				| "CLOSE"
+				| "REOPEN"
+				| "CLIENT_CONFIGURE"
+				| "CLIENT_CONFIGURE_REJECT"
+				| "TRANSFER_FUNDS"
+				| "TRANSFER_FUNDS_REJECT"
+				| "MARKET_ORDER"
+				| "MARKET_ORDER_REJECT"
+				| "FIXED_PRICE_ORDER"
+				| "LIMIT_ORDER"
+				| "LIMIT_ORDER_REJECT"
+				| "STOP_ORDER"
+				| "STOP_ORDER_REJECT"
+				| "MARKET_IF_TOUCHED_ORDER"
+				| "MARKET_IF_TOUCHED_ORDER_REJECT"
+				| "TAKE_PROFIT_ORDER"
+				| "TAKE_PROFIT_ORDER_REJECT"
+				| "STOP_LOSS_ORDER"
+				| "STOP_LOSS_ORDER_REJECT"
+				| "TRAILING_STOP_LOSS_ORDER"
+				| "TRAILING_STOP_LOSS_ORDER_REJECT"
+				| "ORDER_FILL"
+				| "ORDER_CANCEL"
+				| "ORDER_CANCEL_REJECT"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "MARGIN_CALL_ENTER"
+				| "MARGIN_CALL_EXTEND"
+				| "MARGIN_CALL_EXIT"
+				| "DELAYED_TRADE_CLOSURE"
+				| "DAILY_FINANCING"
+				| "RESET_RESETTABLE_PL"
+		}
+		/** @description A ClientConfigureTransaction represents the configuration of an Account by a client. */
+		ClientConfigureTransaction: {
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The Transaction's Identifier.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Transaction was created.
+			 */
+			time?: string
+			/** @description The ID of the user that initiated the creation of the Transaction. */
+			userID?: number
+			/**
+			 * Format: "-"-delimited string with format "{siteID}-{divisionID}-{userID}-{accountNumber}"
+			 * @description The ID of the Account the Transaction was created for.
+			 */
+			accountID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.
+			 */
+			batchID?: string
+			/** @description The Request ID of the request which generated the transaction. */
+			requestID?: string
+			/**
+			 * @description The Type of the Transaction. Always set to "CLIENT_CONFIGURE" in a ClientConfigureTransaction.
+			 * @enum {string}
+			 */
+			type?:
+				| "CREATE"
+				| "CLOSE"
+				| "REOPEN"
+				| "CLIENT_CONFIGURE"
+				| "CLIENT_CONFIGURE_REJECT"
+				| "TRANSFER_FUNDS"
+				| "TRANSFER_FUNDS_REJECT"
+				| "MARKET_ORDER"
+				| "MARKET_ORDER_REJECT"
+				| "FIXED_PRICE_ORDER"
+				| "LIMIT_ORDER"
+				| "LIMIT_ORDER_REJECT"
+				| "STOP_ORDER"
+				| "STOP_ORDER_REJECT"
+				| "MARKET_IF_TOUCHED_ORDER"
+				| "MARKET_IF_TOUCHED_ORDER_REJECT"
+				| "TAKE_PROFIT_ORDER"
+				| "TAKE_PROFIT_ORDER_REJECT"
+				| "STOP_LOSS_ORDER"
+				| "STOP_LOSS_ORDER_REJECT"
+				| "TRAILING_STOP_LOSS_ORDER"
+				| "TRAILING_STOP_LOSS_ORDER_REJECT"
+				| "ORDER_FILL"
+				| "ORDER_CANCEL"
+				| "ORDER_CANCEL_REJECT"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "MARGIN_CALL_ENTER"
+				| "MARGIN_CALL_EXTEND"
+				| "MARGIN_CALL_EXIT"
+				| "DELAYED_TRADE_CLOSURE"
+				| "DAILY_FINANCING"
+				| "RESET_RESETTABLE_PL"
+			/** @description The client-provided alias for the Account. */
+			alias?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The margin rate override for the Account.
+			 */
+			marginRate?: string
+		}
+		/** @description A ClientConfigureRejectTransaction represents the reject of configuration of an Account by a client. */
+		ClientConfigureRejectTransaction: {
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The Transaction's Identifier.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Transaction was created.
+			 */
+			time?: string
+			/** @description The ID of the user that initiated the creation of the Transaction. */
+			userID?: number
+			/**
+			 * Format: "-"-delimited string with format "{siteID}-{divisionID}-{userID}-{accountNumber}"
+			 * @description The ID of the Account the Transaction was created for.
+			 */
+			accountID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.
+			 */
+			batchID?: string
+			/** @description The Request ID of the request which generated the transaction. */
+			requestID?: string
+			/**
+			 * @description The Type of the Transaction. Always set to "CLIENT_CONFIGURE_REJECT" in a ClientConfigureRejectTransaction.
+			 * @enum {string}
+			 */
+			type?:
+				| "CREATE"
+				| "CLOSE"
+				| "REOPEN"
+				| "CLIENT_CONFIGURE"
+				| "CLIENT_CONFIGURE_REJECT"
+				| "TRANSFER_FUNDS"
+				| "TRANSFER_FUNDS_REJECT"
+				| "MARKET_ORDER"
+				| "MARKET_ORDER_REJECT"
+				| "FIXED_PRICE_ORDER"
+				| "LIMIT_ORDER"
+				| "LIMIT_ORDER_REJECT"
+				| "STOP_ORDER"
+				| "STOP_ORDER_REJECT"
+				| "MARKET_IF_TOUCHED_ORDER"
+				| "MARKET_IF_TOUCHED_ORDER_REJECT"
+				| "TAKE_PROFIT_ORDER"
+				| "TAKE_PROFIT_ORDER_REJECT"
+				| "STOP_LOSS_ORDER"
+				| "STOP_LOSS_ORDER_REJECT"
+				| "TRAILING_STOP_LOSS_ORDER"
+				| "TRAILING_STOP_LOSS_ORDER_REJECT"
+				| "ORDER_FILL"
+				| "ORDER_CANCEL"
+				| "ORDER_CANCEL_REJECT"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "MARGIN_CALL_ENTER"
+				| "MARGIN_CALL_EXTEND"
+				| "MARGIN_CALL_EXIT"
+				| "DELAYED_TRADE_CLOSURE"
+				| "DAILY_FINANCING"
+				| "RESET_RESETTABLE_PL"
+			/** @description The client-provided alias for the Account. */
+			alias?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The margin rate override for the Account.
+			 */
+			marginRate?: string
+			/**
+			 * @description The reason that the Reject Transaction was created
+			 * @enum {string}
+			 */
+			rejectReason?:
+				| "INTERNAL_SERVER_ERROR"
+				| "INSTRUMENT_PRICE_UNKNOWN"
+				| "ACCOUNT_NOT_ACTIVE"
+				| "ACCOUNT_LOCKED"
+				| "ACCOUNT_ORDER_CREATION_LOCKED"
+				| "ACCOUNT_CONFIGURATION_LOCKED"
+				| "ACCOUNT_DEPOSIT_LOCKED"
+				| "ACCOUNT_WITHDRAWAL_LOCKED"
+				| "ACCOUNT_ORDER_CANCEL_LOCKED"
+				| "INSTRUMENT_NOT_TRADEABLE"
+				| "PENDING_ORDERS_ALLOWED_EXCEEDED"
+				| "ORDER_ID_UNSPECIFIED"
+				| "ORDER_DOESNT_EXIST"
+				| "ORDER_IDENTIFIER_INCONSISTENCY"
+				| "TRADE_ID_UNSPECIFIED"
+				| "TRADE_DOESNT_EXIST"
+				| "TRADE_IDENTIFIER_INCONSISTENCY"
+				| "INSUFFICIENT_MARGIN"
+				| "INSTRUMENT_MISSING"
+				| "INSTRUMENT_UNKNOWN"
+				| "UNITS_MISSING"
+				| "UNITS_INVALID"
+				| "UNITS_PRECISION_EXCEEDED"
+				| "UNITS_LIMIT_EXCEEDED"
+				| "UNITS_MIMIMUM_NOT_MET"
+				| "PRICE_MISSING"
+				| "PRICE_INVALID"
+				| "PRICE_PRECISION_EXCEEDED"
+				| "PRICE_DISTANCE_MISSING"
+				| "PRICE_DISTANCE_INVALID"
+				| "PRICE_DISTANCE_PRECISION_EXCEEDED"
+				| "PRICE_DISTANCE_MAXIMUM_EXCEEDED"
+				| "PRICE_DISTANCE_MINIMUM_NOT_MET"
+				| "TIME_IN_FORCE_MISSING"
+				| "TIME_IN_FORCE_INVALID"
+				| "TIME_IN_FORCE_GTD_TIMESTAMP_MISSING"
+				| "TIME_IN_FORCE_GTD_TIMESTAMP_IN_PAST"
+				| "PRICE_BOUND_INVALID"
+				| "PRICE_BOUND_PRECISION_EXCEEDED"
+				| "ORDERS_ON_FILL_DUPLICATE_CLIENT_ORDER_IDS"
+				| "TRADE_ON_FILL_CLIENT_EXTENSIONS_NOT_SUPPORTED"
+				| "CLIENT_ORDER_ID_INVALID"
+				| "CLIENT_ORDER_ID_ALREADY_EXISTS"
+				| "CLIENT_ORDER_TAG_INVALID"
+				| "CLIENT_ORDER_COMMENT_INVALID"
+				| "CLIENT_TRADE_ID_INVALID"
+				| "CLIENT_TRADE_ID_ALREADY_EXISTS"
+				| "CLIENT_TRADE_TAG_INVALID"
+				| "CLIENT_TRADE_COMMENT_INVALID"
+				| "ORDER_FILL_POSITION_ACTION_MISSING"
+				| "ORDER_FILL_POSITION_ACTION_INVALID"
+				| "TRIGGER_CONDITION_MISSING"
+				| "TRIGGER_CONDITION_INVALID"
+				| "ORDER_PARTIAL_FILL_OPTION_MISSING"
+				| "ORDER_PARTIAL_FILL_OPTION_INVALID"
+				| "INVALID_REISSUE_IMMEDIATE_PARTIAL_FILL"
+				| "TAKE_PROFIT_ORDER_ALREADY_EXISTS"
+				| "TAKE_PROFIT_ON_FILL_PRICE_MISSING"
+				| "TAKE_PROFIT_ON_FILL_PRICE_INVALID"
+				| "TAKE_PROFIT_ON_FILL_PRICE_PRECISION_EXCEEDED"
+				| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_MISSING"
+				| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_INVALID"
+				| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_MISSING"
+				| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_IN_PAST"
+				| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_ID_INVALID"
+				| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_TAG_INVALID"
+				| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
+				| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_MISSING"
+				| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_INVALID"
+				| "STOP_LOSS_ORDER_ALREADY_EXISTS"
+				| "STOP_LOSS_ORDER_GUARANTEED_REQUIRED"
+				| "STOP_LOSS_ORDER_GUARANTEED_PRICE_WITHIN_SPREAD"
+				| "STOP_LOSS_ORDER_GUARANTEED_NOT_ALLOWED"
+				| "STOP_LOSS_ORDER_GUARANTEED_HALTED_CREATE_VIOLATION"
+				| "STOP_LOSS_ORDER_GUARANTEED_HALTED_TIGHTEN_VIOLATION"
+				| "STOP_LOSS_ORDER_GUARANTEED_HEDGING_NOT_ALLOWED"
+				| "STOP_LOSS_ORDER_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
+				| "STOP_LOSS_ORDER_NOT_CANCELABLE"
+				| "STOP_LOSS_ORDER_NOT_REPLACEABLE"
+				| "STOP_LOSS_ORDER_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
+				| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
+				| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_MISSING"
+				| "STOP_LOSS_ON_FILL_REQUIRED_FOR_PENDING_ORDER"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_NOT_ALLOWED"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_REQUIRED"
+				| "STOP_LOSS_ON_FILL_PRICE_MISSING"
+				| "STOP_LOSS_ON_FILL_PRICE_INVALID"
+				| "STOP_LOSS_ON_FILL_PRICE_PRECISION_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_DISTANCE_INVALID"
+				| "STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_DISTANCE_PRECISION_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
+				| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_MISSING"
+				| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
+				| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
+				| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
+				| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
+				| "STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
+				| "STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
+				| "STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
+				| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
+				| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
+				| "TRAILING_STOP_LOSS_ORDER_ALREADY_EXISTS"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_PRECISION_EXCEEDED"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MINIMUM_NOT_MET"
+				| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
+				| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
+				| "TRAILING_STOP_LOSS_ORDERS_NOT_SUPPORTED"
+				| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
+				| "CLOSE_TRADE_TYPE_MISSING"
+				| "CLOSE_TRADE_PARTIAL_UNITS_MISSING"
+				| "CLOSE_TRADE_UNITS_EXCEED_TRADE_SIZE"
+				| "CLOSEOUT_POSITION_DOESNT_EXIST"
+				| "CLOSEOUT_POSITION_INCOMPLETE_SPECIFICATION"
+				| "CLOSEOUT_POSITION_UNITS_EXCEED_POSITION_SIZE"
+				| "CLOSEOUT_POSITION_REJECT"
+				| "CLOSEOUT_POSITION_PARTIAL_UNITS_MISSING"
+				| "MARKUP_GROUP_ID_INVALID"
+				| "POSITION_AGGREGATION_MODE_INVALID"
+				| "ADMIN_CONFIGURE_DATA_MISSING"
+				| "MARGIN_RATE_INVALID"
+				| "MARGIN_RATE_WOULD_TRIGGER_CLOSEOUT"
+				| "ALIAS_INVALID"
+				| "CLIENT_CONFIGURE_DATA_MISSING"
+				| "MARGIN_RATE_WOULD_TRIGGER_MARGIN_CALL"
+				| "AMOUNT_INVALID"
+				| "INSUFFICIENT_FUNDS"
+				| "AMOUNT_MISSING"
+				| "FUNDING_REASON_MISSING"
+				| "CLIENT_EXTENSIONS_DATA_MISSING"
+				| "REPLACING_ORDER_INVALID"
+				| "REPLACING_TRADE_ID_INVALID"
+		}
+		/**
+		 * @description The reason that an Account is being funded.
+		 * @enum {string}
+		 */
+		FundingReason:
 			| "CLIENT_FUNDING"
 			| "ACCOUNT_TRANSFER"
 			| "DIVISION_MIGRATION"
 			| "SITE_MIGRATION"
 			| "ADJUSTMENT"
-		comment: string
-		accountBalance: string
-	}>
-	export type TransferFundsRejectTransaction = Partial<{
-		id: string
-		time: string
-		userID: number
-		accountID: string
-		batchID: string
-		requestID: string
-		type:
-			| "CREATE"
-			| "CLOSE"
-			| "REOPEN"
-			| "CLIENT_CONFIGURE"
-			| "CLIENT_CONFIGURE_REJECT"
-			| "TRANSFER_FUNDS"
-			| "TRANSFER_FUNDS_REJECT"
-			| "MARKET_ORDER"
-			| "MARKET_ORDER_REJECT"
-			| "FIXED_PRICE_ORDER"
-			| "LIMIT_ORDER"
-			| "LIMIT_ORDER_REJECT"
-			| "STOP_ORDER"
-			| "STOP_ORDER_REJECT"
-			| "MARKET_IF_TOUCHED_ORDER"
-			| "MARKET_IF_TOUCHED_ORDER_REJECT"
-			| "TAKE_PROFIT_ORDER"
-			| "TAKE_PROFIT_ORDER_REJECT"
-			| "STOP_LOSS_ORDER"
-			| "STOP_LOSS_ORDER_REJECT"
-			| "TRAILING_STOP_LOSS_ORDER"
-			| "TRAILING_STOP_LOSS_ORDER_REJECT"
-			| "ORDER_FILL"
-			| "ORDER_CANCEL"
-			| "ORDER_CANCEL_REJECT"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "MARGIN_CALL_ENTER"
-			| "MARGIN_CALL_EXTEND"
-			| "MARGIN_CALL_EXIT"
-			| "DELAYED_TRADE_CLOSURE"
-			| "DAILY_FINANCING"
-			| "RESET_RESETTABLE_PL"
-		amount: string
-		fundingReason:
-			| "CLIENT_FUNDING"
-			| "ACCOUNT_TRANSFER"
-			| "DIVISION_MIGRATION"
-			| "SITE_MIGRATION"
-			| "ADJUSTMENT"
-		comment: string
-		rejectReason:
-			| "INTERNAL_SERVER_ERROR"
-			| "INSTRUMENT_PRICE_UNKNOWN"
-			| "ACCOUNT_NOT_ACTIVE"
-			| "ACCOUNT_LOCKED"
-			| "ACCOUNT_ORDER_CREATION_LOCKED"
-			| "ACCOUNT_CONFIGURATION_LOCKED"
-			| "ACCOUNT_DEPOSIT_LOCKED"
-			| "ACCOUNT_WITHDRAWAL_LOCKED"
-			| "ACCOUNT_ORDER_CANCEL_LOCKED"
-			| "INSTRUMENT_NOT_TRADEABLE"
-			| "PENDING_ORDERS_ALLOWED_EXCEEDED"
-			| "ORDER_ID_UNSPECIFIED"
-			| "ORDER_DOESNT_EXIST"
-			| "ORDER_IDENTIFIER_INCONSISTENCY"
-			| "TRADE_ID_UNSPECIFIED"
-			| "TRADE_DOESNT_EXIST"
-			| "TRADE_IDENTIFIER_INCONSISTENCY"
-			| "INSUFFICIENT_MARGIN"
-			| "INSTRUMENT_MISSING"
-			| "INSTRUMENT_UNKNOWN"
-			| "UNITS_MISSING"
-			| "UNITS_INVALID"
-			| "UNITS_PRECISION_EXCEEDED"
-			| "UNITS_LIMIT_EXCEEDED"
-			| "UNITS_MIMIMUM_NOT_MET"
-			| "PRICE_MISSING"
-			| "PRICE_INVALID"
-			| "PRICE_PRECISION_EXCEEDED"
-			| "PRICE_DISTANCE_MISSING"
-			| "PRICE_DISTANCE_INVALID"
-			| "PRICE_DISTANCE_PRECISION_EXCEEDED"
-			| "PRICE_DISTANCE_MAXIMUM_EXCEEDED"
-			| "PRICE_DISTANCE_MINIMUM_NOT_MET"
-			| "TIME_IN_FORCE_MISSING"
-			| "TIME_IN_FORCE_INVALID"
-			| "TIME_IN_FORCE_GTD_TIMESTAMP_MISSING"
-			| "TIME_IN_FORCE_GTD_TIMESTAMP_IN_PAST"
-			| "PRICE_BOUND_INVALID"
-			| "PRICE_BOUND_PRECISION_EXCEEDED"
-			| "ORDERS_ON_FILL_DUPLICATE_CLIENT_ORDER_IDS"
-			| "TRADE_ON_FILL_CLIENT_EXTENSIONS_NOT_SUPPORTED"
-			| "CLIENT_ORDER_ID_INVALID"
-			| "CLIENT_ORDER_ID_ALREADY_EXISTS"
-			| "CLIENT_ORDER_TAG_INVALID"
-			| "CLIENT_ORDER_COMMENT_INVALID"
-			| "CLIENT_TRADE_ID_INVALID"
-			| "CLIENT_TRADE_ID_ALREADY_EXISTS"
-			| "CLIENT_TRADE_TAG_INVALID"
-			| "CLIENT_TRADE_COMMENT_INVALID"
-			| "ORDER_FILL_POSITION_ACTION_MISSING"
-			| "ORDER_FILL_POSITION_ACTION_INVALID"
-			| "TRIGGER_CONDITION_MISSING"
-			| "TRIGGER_CONDITION_INVALID"
-			| "ORDER_PARTIAL_FILL_OPTION_MISSING"
-			| "ORDER_PARTIAL_FILL_OPTION_INVALID"
-			| "INVALID_REISSUE_IMMEDIATE_PARTIAL_FILL"
-			| "TAKE_PROFIT_ORDER_ALREADY_EXISTS"
-			| "TAKE_PROFIT_ON_FILL_PRICE_MISSING"
-			| "TAKE_PROFIT_ON_FILL_PRICE_INVALID"
-			| "TAKE_PROFIT_ON_FILL_PRICE_PRECISION_EXCEEDED"
-			| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_MISSING"
-			| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_INVALID"
-			| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_MISSING"
-			| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_IN_PAST"
-			| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_ID_INVALID"
-			| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_TAG_INVALID"
-			| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
-			| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_MISSING"
-			| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_INVALID"
-			| "STOP_LOSS_ORDER_ALREADY_EXISTS"
-			| "STOP_LOSS_ORDER_GUARANTEED_REQUIRED"
-			| "STOP_LOSS_ORDER_GUARANTEED_PRICE_WITHIN_SPREAD"
-			| "STOP_LOSS_ORDER_GUARANTEED_NOT_ALLOWED"
-			| "STOP_LOSS_ORDER_GUARANTEED_HALTED_CREATE_VIOLATION"
-			| "STOP_LOSS_ORDER_GUARANTEED_HALTED_TIGHTEN_VIOLATION"
-			| "STOP_LOSS_ORDER_GUARANTEED_HEDGING_NOT_ALLOWED"
-			| "STOP_LOSS_ORDER_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
-			| "STOP_LOSS_ORDER_NOT_CANCELABLE"
-			| "STOP_LOSS_ORDER_NOT_REPLACEABLE"
-			| "STOP_LOSS_ORDER_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
-			| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
-			| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_MISSING"
-			| "STOP_LOSS_ON_FILL_REQUIRED_FOR_PENDING_ORDER"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_NOT_ALLOWED"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_REQUIRED"
-			| "STOP_LOSS_ON_FILL_PRICE_MISSING"
-			| "STOP_LOSS_ON_FILL_PRICE_INVALID"
-			| "STOP_LOSS_ON_FILL_PRICE_PRECISION_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_DISTANCE_INVALID"
-			| "STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_DISTANCE_PRECISION_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
-			| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_MISSING"
-			| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
-			| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
-			| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
-			| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
-			| "STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
-			| "STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
-			| "STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
-			| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
-			| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
-			| "TRAILING_STOP_LOSS_ORDER_ALREADY_EXISTS"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_PRECISION_EXCEEDED"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MINIMUM_NOT_MET"
-			| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
-			| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
-			| "TRAILING_STOP_LOSS_ORDERS_NOT_SUPPORTED"
-			| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
-			| "CLOSE_TRADE_TYPE_MISSING"
-			| "CLOSE_TRADE_PARTIAL_UNITS_MISSING"
-			| "CLOSE_TRADE_UNITS_EXCEED_TRADE_SIZE"
-			| "CLOSEOUT_POSITION_DOESNT_EXIST"
-			| "CLOSEOUT_POSITION_INCOMPLETE_SPECIFICATION"
-			| "CLOSEOUT_POSITION_UNITS_EXCEED_POSITION_SIZE"
-			| "CLOSEOUT_POSITION_REJECT"
-			| "CLOSEOUT_POSITION_PARTIAL_UNITS_MISSING"
-			| "MARKUP_GROUP_ID_INVALID"
-			| "POSITION_AGGREGATION_MODE_INVALID"
-			| "ADMIN_CONFIGURE_DATA_MISSING"
-			| "MARGIN_RATE_INVALID"
-			| "MARGIN_RATE_WOULD_TRIGGER_CLOSEOUT"
-			| "ALIAS_INVALID"
-			| "CLIENT_CONFIGURE_DATA_MISSING"
-			| "MARGIN_RATE_WOULD_TRIGGER_MARGIN_CALL"
-			| "AMOUNT_INVALID"
-			| "INSUFFICIENT_FUNDS"
-			| "AMOUNT_MISSING"
-			| "FUNDING_REASON_MISSING"
-			| "CLIENT_EXTENSIONS_DATA_MISSING"
-			| "REPLACING_ORDER_INVALID"
-			| "REPLACING_TRADE_ID_INVALID"
-	}>
-	export type MarketOrderReason =
-		| "CLIENT_ORDER"
-		| "TRADE_CLOSE"
-		| "POSITION_CLOSEOUT"
-		| "MARGIN_CLOSEOUT"
-		| "DELAYED_TRADE_CLOSE"
-	export type FixedPriceOrderReason = "PLATFORM_ACCOUNT_MIGRATION"
-	export type MarketOrderTradeClose = Partial<{
-		tradeID: string
-		clientTradeID: string
-		units: string
-	}>
-	export type MarketOrderPositionCloseout = Partial<{
-		instrument: string
-		units: string
-	}>
-	export type MarketOrderMarginCloseout = Partial<{
-		reason:
-			| "MARGIN_CHECK_VIOLATION"
-			| "REGULATORY_MARGIN_CALL_VIOLATION"
-			| "REGULATORY_MARGIN_CHECK_VIOLATION"
-	}>
-	export type MarketOrderDelayedTradeClose = Partial<{
-		tradeID: string
-		clientTradeID: string
-		sourceTransactionID: string
-	}>
-	export type TakeProfitDetails = Partial<{
-		price: string
-		timeInForce: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
-		gtdTime: string
-		clientExtensions: ClientExtensions
-	}>
-	export type StopLossDetails = Partial<{
-		price: string
-		distance: string
-		timeInForce: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
-		gtdTime: string
-		clientExtensions: ClientExtensions
-		guaranteed: boolean
-	}>
-	export type TrailingStopLossDetails = Partial<{
-		distance: string
-		timeInForce: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
-		gtdTime: string
-		clientExtensions: ClientExtensions
-	}>
-	export type MarketOrderTransaction = Partial<{
-		id: string
-		time: string
-		userID: number
-		accountID: string
-		batchID: string
-		requestID: string
-		type:
-			| "CREATE"
-			| "CLOSE"
-			| "REOPEN"
-			| "CLIENT_CONFIGURE"
-			| "CLIENT_CONFIGURE_REJECT"
-			| "TRANSFER_FUNDS"
-			| "TRANSFER_FUNDS_REJECT"
-			| "MARKET_ORDER"
-			| "MARKET_ORDER_REJECT"
-			| "FIXED_PRICE_ORDER"
-			| "LIMIT_ORDER"
-			| "LIMIT_ORDER_REJECT"
-			| "STOP_ORDER"
-			| "STOP_ORDER_REJECT"
-			| "MARKET_IF_TOUCHED_ORDER"
-			| "MARKET_IF_TOUCHED_ORDER_REJECT"
-			| "TAKE_PROFIT_ORDER"
-			| "TAKE_PROFIT_ORDER_REJECT"
-			| "STOP_LOSS_ORDER"
-			| "STOP_LOSS_ORDER_REJECT"
-			| "TRAILING_STOP_LOSS_ORDER"
-			| "TRAILING_STOP_LOSS_ORDER_REJECT"
-			| "ORDER_FILL"
-			| "ORDER_CANCEL"
-			| "ORDER_CANCEL_REJECT"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "MARGIN_CALL_ENTER"
-			| "MARGIN_CALL_EXTEND"
-			| "MARGIN_CALL_EXIT"
-			| "DELAYED_TRADE_CLOSURE"
-			| "DAILY_FINANCING"
-			| "RESET_RESETTABLE_PL"
-		instrument: string
-		units: string
-		timeInForce: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
-		priceBound: string
-		positionFill: "OPEN_ONLY" | "REDUCE_FIRST" | "REDUCE_ONLY" | "DEFAULT"
-		tradeClose: MarketOrderTradeClose
-		longPositionCloseout: MarketOrderPositionCloseout
-		shortPositionCloseout: MarketOrderPositionCloseout
-		marginCloseout: MarketOrderMarginCloseout
-		delayedTradeClose: MarketOrderDelayedTradeClose
-		reason:
+		/** @description A TransferFundsTransaction represents the transfer of funds in/out of an Account. */
+		TransferFundsTransaction: {
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The Transaction's Identifier.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Transaction was created.
+			 */
+			time?: string
+			/** @description The ID of the user that initiated the creation of the Transaction. */
+			userID?: number
+			/**
+			 * Format: "-"-delimited string with format "{siteID}-{divisionID}-{userID}-{accountNumber}"
+			 * @description The ID of the Account the Transaction was created for.
+			 */
+			accountID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.
+			 */
+			batchID?: string
+			/** @description The Request ID of the request which generated the transaction. */
+			requestID?: string
+			/**
+			 * @description The Type of the Transaction. Always set to "TRANSFER_FUNDS" in a TransferFundsTransaction.
+			 * @enum {string}
+			 */
+			type?:
+				| "CREATE"
+				| "CLOSE"
+				| "REOPEN"
+				| "CLIENT_CONFIGURE"
+				| "CLIENT_CONFIGURE_REJECT"
+				| "TRANSFER_FUNDS"
+				| "TRANSFER_FUNDS_REJECT"
+				| "MARKET_ORDER"
+				| "MARKET_ORDER_REJECT"
+				| "FIXED_PRICE_ORDER"
+				| "LIMIT_ORDER"
+				| "LIMIT_ORDER_REJECT"
+				| "STOP_ORDER"
+				| "STOP_ORDER_REJECT"
+				| "MARKET_IF_TOUCHED_ORDER"
+				| "MARKET_IF_TOUCHED_ORDER_REJECT"
+				| "TAKE_PROFIT_ORDER"
+				| "TAKE_PROFIT_ORDER_REJECT"
+				| "STOP_LOSS_ORDER"
+				| "STOP_LOSS_ORDER_REJECT"
+				| "TRAILING_STOP_LOSS_ORDER"
+				| "TRAILING_STOP_LOSS_ORDER_REJECT"
+				| "ORDER_FILL"
+				| "ORDER_CANCEL"
+				| "ORDER_CANCEL_REJECT"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "MARGIN_CALL_ENTER"
+				| "MARGIN_CALL_EXTEND"
+				| "MARGIN_CALL_EXIT"
+				| "DELAYED_TRADE_CLOSURE"
+				| "DAILY_FINANCING"
+				| "RESET_RESETTABLE_PL"
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The amount to deposit/withdraw from the Account in the Account's home currency. A positive value indicates a deposit, a negative value indicates a withdrawal.
+			 */
+			amount?: string
+			/**
+			 * @description The reason that an Account is being funded.
+			 * @enum {string}
+			 */
+			fundingReason?:
+				| "CLIENT_FUNDING"
+				| "ACCOUNT_TRANSFER"
+				| "DIVISION_MIGRATION"
+				| "SITE_MIGRATION"
+				| "ADJUSTMENT"
+			/** @description An optional comment that may be attached to a fund transfer for audit purposes */
+			comment?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The Account's balance after funds are transferred.
+			 */
+			accountBalance?: string
+		}
+		/** @description A TransferFundsRejectTransaction represents the rejection of the transfer of funds in/out of an Account. */
+		TransferFundsRejectTransaction: {
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The Transaction's Identifier.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Transaction was created.
+			 */
+			time?: string
+			/** @description The ID of the user that initiated the creation of the Transaction. */
+			userID?: number
+			/**
+			 * Format: "-"-delimited string with format "{siteID}-{divisionID}-{userID}-{accountNumber}"
+			 * @description The ID of the Account the Transaction was created for.
+			 */
+			accountID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.
+			 */
+			batchID?: string
+			/** @description The Request ID of the request which generated the transaction. */
+			requestID?: string
+			/**
+			 * @description The Type of the Transaction. Always set to "TRANSFER_FUNDS_REJECT" in a TransferFundsRejectTransaction.
+			 * @enum {string}
+			 */
+			type?:
+				| "CREATE"
+				| "CLOSE"
+				| "REOPEN"
+				| "CLIENT_CONFIGURE"
+				| "CLIENT_CONFIGURE_REJECT"
+				| "TRANSFER_FUNDS"
+				| "TRANSFER_FUNDS_REJECT"
+				| "MARKET_ORDER"
+				| "MARKET_ORDER_REJECT"
+				| "FIXED_PRICE_ORDER"
+				| "LIMIT_ORDER"
+				| "LIMIT_ORDER_REJECT"
+				| "STOP_ORDER"
+				| "STOP_ORDER_REJECT"
+				| "MARKET_IF_TOUCHED_ORDER"
+				| "MARKET_IF_TOUCHED_ORDER_REJECT"
+				| "TAKE_PROFIT_ORDER"
+				| "TAKE_PROFIT_ORDER_REJECT"
+				| "STOP_LOSS_ORDER"
+				| "STOP_LOSS_ORDER_REJECT"
+				| "TRAILING_STOP_LOSS_ORDER"
+				| "TRAILING_STOP_LOSS_ORDER_REJECT"
+				| "ORDER_FILL"
+				| "ORDER_CANCEL"
+				| "ORDER_CANCEL_REJECT"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "MARGIN_CALL_ENTER"
+				| "MARGIN_CALL_EXTEND"
+				| "MARGIN_CALL_EXIT"
+				| "DELAYED_TRADE_CLOSURE"
+				| "DAILY_FINANCING"
+				| "RESET_RESETTABLE_PL"
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The amount to deposit/withdraw from the Account in the Account's home currency. A positive value indicates a deposit, a negative value indicates a withdrawal.
+			 */
+			amount?: string
+			/**
+			 * @description The reason that an Account is being funded.
+			 * @enum {string}
+			 */
+			fundingReason?:
+				| "CLIENT_FUNDING"
+				| "ACCOUNT_TRANSFER"
+				| "DIVISION_MIGRATION"
+				| "SITE_MIGRATION"
+				| "ADJUSTMENT"
+			/** @description An optional comment that may be attached to a fund transfer for audit purposes */
+			comment?: string
+			/**
+			 * @description The reason that the Reject Transaction was created
+			 * @enum {string}
+			 */
+			rejectReason?:
+				| "INTERNAL_SERVER_ERROR"
+				| "INSTRUMENT_PRICE_UNKNOWN"
+				| "ACCOUNT_NOT_ACTIVE"
+				| "ACCOUNT_LOCKED"
+				| "ACCOUNT_ORDER_CREATION_LOCKED"
+				| "ACCOUNT_CONFIGURATION_LOCKED"
+				| "ACCOUNT_DEPOSIT_LOCKED"
+				| "ACCOUNT_WITHDRAWAL_LOCKED"
+				| "ACCOUNT_ORDER_CANCEL_LOCKED"
+				| "INSTRUMENT_NOT_TRADEABLE"
+				| "PENDING_ORDERS_ALLOWED_EXCEEDED"
+				| "ORDER_ID_UNSPECIFIED"
+				| "ORDER_DOESNT_EXIST"
+				| "ORDER_IDENTIFIER_INCONSISTENCY"
+				| "TRADE_ID_UNSPECIFIED"
+				| "TRADE_DOESNT_EXIST"
+				| "TRADE_IDENTIFIER_INCONSISTENCY"
+				| "INSUFFICIENT_MARGIN"
+				| "INSTRUMENT_MISSING"
+				| "INSTRUMENT_UNKNOWN"
+				| "UNITS_MISSING"
+				| "UNITS_INVALID"
+				| "UNITS_PRECISION_EXCEEDED"
+				| "UNITS_LIMIT_EXCEEDED"
+				| "UNITS_MIMIMUM_NOT_MET"
+				| "PRICE_MISSING"
+				| "PRICE_INVALID"
+				| "PRICE_PRECISION_EXCEEDED"
+				| "PRICE_DISTANCE_MISSING"
+				| "PRICE_DISTANCE_INVALID"
+				| "PRICE_DISTANCE_PRECISION_EXCEEDED"
+				| "PRICE_DISTANCE_MAXIMUM_EXCEEDED"
+				| "PRICE_DISTANCE_MINIMUM_NOT_MET"
+				| "TIME_IN_FORCE_MISSING"
+				| "TIME_IN_FORCE_INVALID"
+				| "TIME_IN_FORCE_GTD_TIMESTAMP_MISSING"
+				| "TIME_IN_FORCE_GTD_TIMESTAMP_IN_PAST"
+				| "PRICE_BOUND_INVALID"
+				| "PRICE_BOUND_PRECISION_EXCEEDED"
+				| "ORDERS_ON_FILL_DUPLICATE_CLIENT_ORDER_IDS"
+				| "TRADE_ON_FILL_CLIENT_EXTENSIONS_NOT_SUPPORTED"
+				| "CLIENT_ORDER_ID_INVALID"
+				| "CLIENT_ORDER_ID_ALREADY_EXISTS"
+				| "CLIENT_ORDER_TAG_INVALID"
+				| "CLIENT_ORDER_COMMENT_INVALID"
+				| "CLIENT_TRADE_ID_INVALID"
+				| "CLIENT_TRADE_ID_ALREADY_EXISTS"
+				| "CLIENT_TRADE_TAG_INVALID"
+				| "CLIENT_TRADE_COMMENT_INVALID"
+				| "ORDER_FILL_POSITION_ACTION_MISSING"
+				| "ORDER_FILL_POSITION_ACTION_INVALID"
+				| "TRIGGER_CONDITION_MISSING"
+				| "TRIGGER_CONDITION_INVALID"
+				| "ORDER_PARTIAL_FILL_OPTION_MISSING"
+				| "ORDER_PARTIAL_FILL_OPTION_INVALID"
+				| "INVALID_REISSUE_IMMEDIATE_PARTIAL_FILL"
+				| "TAKE_PROFIT_ORDER_ALREADY_EXISTS"
+				| "TAKE_PROFIT_ON_FILL_PRICE_MISSING"
+				| "TAKE_PROFIT_ON_FILL_PRICE_INVALID"
+				| "TAKE_PROFIT_ON_FILL_PRICE_PRECISION_EXCEEDED"
+				| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_MISSING"
+				| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_INVALID"
+				| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_MISSING"
+				| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_IN_PAST"
+				| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_ID_INVALID"
+				| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_TAG_INVALID"
+				| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
+				| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_MISSING"
+				| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_INVALID"
+				| "STOP_LOSS_ORDER_ALREADY_EXISTS"
+				| "STOP_LOSS_ORDER_GUARANTEED_REQUIRED"
+				| "STOP_LOSS_ORDER_GUARANTEED_PRICE_WITHIN_SPREAD"
+				| "STOP_LOSS_ORDER_GUARANTEED_NOT_ALLOWED"
+				| "STOP_LOSS_ORDER_GUARANTEED_HALTED_CREATE_VIOLATION"
+				| "STOP_LOSS_ORDER_GUARANTEED_HALTED_TIGHTEN_VIOLATION"
+				| "STOP_LOSS_ORDER_GUARANTEED_HEDGING_NOT_ALLOWED"
+				| "STOP_LOSS_ORDER_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
+				| "STOP_LOSS_ORDER_NOT_CANCELABLE"
+				| "STOP_LOSS_ORDER_NOT_REPLACEABLE"
+				| "STOP_LOSS_ORDER_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
+				| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
+				| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_MISSING"
+				| "STOP_LOSS_ON_FILL_REQUIRED_FOR_PENDING_ORDER"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_NOT_ALLOWED"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_REQUIRED"
+				| "STOP_LOSS_ON_FILL_PRICE_MISSING"
+				| "STOP_LOSS_ON_FILL_PRICE_INVALID"
+				| "STOP_LOSS_ON_FILL_PRICE_PRECISION_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_DISTANCE_INVALID"
+				| "STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_DISTANCE_PRECISION_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
+				| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_MISSING"
+				| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
+				| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
+				| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
+				| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
+				| "STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
+				| "STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
+				| "STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
+				| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
+				| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
+				| "TRAILING_STOP_LOSS_ORDER_ALREADY_EXISTS"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_PRECISION_EXCEEDED"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MINIMUM_NOT_MET"
+				| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
+				| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
+				| "TRAILING_STOP_LOSS_ORDERS_NOT_SUPPORTED"
+				| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
+				| "CLOSE_TRADE_TYPE_MISSING"
+				| "CLOSE_TRADE_PARTIAL_UNITS_MISSING"
+				| "CLOSE_TRADE_UNITS_EXCEED_TRADE_SIZE"
+				| "CLOSEOUT_POSITION_DOESNT_EXIST"
+				| "CLOSEOUT_POSITION_INCOMPLETE_SPECIFICATION"
+				| "CLOSEOUT_POSITION_UNITS_EXCEED_POSITION_SIZE"
+				| "CLOSEOUT_POSITION_REJECT"
+				| "CLOSEOUT_POSITION_PARTIAL_UNITS_MISSING"
+				| "MARKUP_GROUP_ID_INVALID"
+				| "POSITION_AGGREGATION_MODE_INVALID"
+				| "ADMIN_CONFIGURE_DATA_MISSING"
+				| "MARGIN_RATE_INVALID"
+				| "MARGIN_RATE_WOULD_TRIGGER_CLOSEOUT"
+				| "ALIAS_INVALID"
+				| "CLIENT_CONFIGURE_DATA_MISSING"
+				| "MARGIN_RATE_WOULD_TRIGGER_MARGIN_CALL"
+				| "AMOUNT_INVALID"
+				| "INSUFFICIENT_FUNDS"
+				| "AMOUNT_MISSING"
+				| "FUNDING_REASON_MISSING"
+				| "CLIENT_EXTENSIONS_DATA_MISSING"
+				| "REPLACING_ORDER_INVALID"
+				| "REPLACING_TRADE_ID_INVALID"
+		}
+		/**
+		 * @description The reason that the Market Order was created
+		 * @enum {string}
+		 */
+		MarketOrderReason:
 			| "CLIENT_ORDER"
 			| "TRADE_CLOSE"
 			| "POSITION_CLOSEOUT"
 			| "MARGIN_CLOSEOUT"
 			| "DELAYED_TRADE_CLOSE"
-		clientExtensions: ClientExtensions
-		takeProfitOnFill: TakeProfitDetails
-		stopLossOnFill: StopLossDetails
-		trailingStopLossOnFill: TrailingStopLossDetails
-		tradeClientExtensions: ClientExtensions
-	}>
-	export type MarketOrderRejectTransaction = Partial<{
-		id: string
-		time: string
-		userID: number
-		accountID: string
-		batchID: string
-		requestID: string
-		type:
-			| "CREATE"
-			| "CLOSE"
-			| "REOPEN"
-			| "CLIENT_CONFIGURE"
-			| "CLIENT_CONFIGURE_REJECT"
-			| "TRANSFER_FUNDS"
-			| "TRANSFER_FUNDS_REJECT"
-			| "MARKET_ORDER"
-			| "MARKET_ORDER_REJECT"
-			| "FIXED_PRICE_ORDER"
-			| "LIMIT_ORDER"
-			| "LIMIT_ORDER_REJECT"
-			| "STOP_ORDER"
-			| "STOP_ORDER_REJECT"
-			| "MARKET_IF_TOUCHED_ORDER"
-			| "MARKET_IF_TOUCHED_ORDER_REJECT"
-			| "TAKE_PROFIT_ORDER"
-			| "TAKE_PROFIT_ORDER_REJECT"
-			| "STOP_LOSS_ORDER"
-			| "STOP_LOSS_ORDER_REJECT"
-			| "TRAILING_STOP_LOSS_ORDER"
-			| "TRAILING_STOP_LOSS_ORDER_REJECT"
-			| "ORDER_FILL"
-			| "ORDER_CANCEL"
-			| "ORDER_CANCEL_REJECT"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "MARGIN_CALL_ENTER"
-			| "MARGIN_CALL_EXTEND"
-			| "MARGIN_CALL_EXIT"
-			| "DELAYED_TRADE_CLOSURE"
-			| "DAILY_FINANCING"
-			| "RESET_RESETTABLE_PL"
-		instrument: string
-		units: string
-		timeInForce: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
-		priceBound: string
-		positionFill: "OPEN_ONLY" | "REDUCE_FIRST" | "REDUCE_ONLY" | "DEFAULT"
-		tradeClose: MarketOrderTradeClose
-		longPositionCloseout: MarketOrderPositionCloseout
-		shortPositionCloseout: MarketOrderPositionCloseout
-		marginCloseout: MarketOrderMarginCloseout
-		delayedTradeClose: MarketOrderDelayedTradeClose
-		reason:
-			| "CLIENT_ORDER"
-			| "TRADE_CLOSE"
-			| "POSITION_CLOSEOUT"
-			| "MARGIN_CLOSEOUT"
-			| "DELAYED_TRADE_CLOSE"
-		clientExtensions: ClientExtensions
-		takeProfitOnFill: TakeProfitDetails
-		stopLossOnFill: StopLossDetails
-		trailingStopLossOnFill: TrailingStopLossDetails
-		tradeClientExtensions: ClientExtensions
-		rejectReason:
-			| "INTERNAL_SERVER_ERROR"
-			| "INSTRUMENT_PRICE_UNKNOWN"
-			| "ACCOUNT_NOT_ACTIVE"
-			| "ACCOUNT_LOCKED"
-			| "ACCOUNT_ORDER_CREATION_LOCKED"
-			| "ACCOUNT_CONFIGURATION_LOCKED"
-			| "ACCOUNT_DEPOSIT_LOCKED"
-			| "ACCOUNT_WITHDRAWAL_LOCKED"
-			| "ACCOUNT_ORDER_CANCEL_LOCKED"
-			| "INSTRUMENT_NOT_TRADEABLE"
-			| "PENDING_ORDERS_ALLOWED_EXCEEDED"
-			| "ORDER_ID_UNSPECIFIED"
-			| "ORDER_DOESNT_EXIST"
-			| "ORDER_IDENTIFIER_INCONSISTENCY"
-			| "TRADE_ID_UNSPECIFIED"
-			| "TRADE_DOESNT_EXIST"
-			| "TRADE_IDENTIFIER_INCONSISTENCY"
-			| "INSUFFICIENT_MARGIN"
-			| "INSTRUMENT_MISSING"
-			| "INSTRUMENT_UNKNOWN"
-			| "UNITS_MISSING"
-			| "UNITS_INVALID"
-			| "UNITS_PRECISION_EXCEEDED"
-			| "UNITS_LIMIT_EXCEEDED"
-			| "UNITS_MIMIMUM_NOT_MET"
-			| "PRICE_MISSING"
-			| "PRICE_INVALID"
-			| "PRICE_PRECISION_EXCEEDED"
-			| "PRICE_DISTANCE_MISSING"
-			| "PRICE_DISTANCE_INVALID"
-			| "PRICE_DISTANCE_PRECISION_EXCEEDED"
-			| "PRICE_DISTANCE_MAXIMUM_EXCEEDED"
-			| "PRICE_DISTANCE_MINIMUM_NOT_MET"
-			| "TIME_IN_FORCE_MISSING"
-			| "TIME_IN_FORCE_INVALID"
-			| "TIME_IN_FORCE_GTD_TIMESTAMP_MISSING"
-			| "TIME_IN_FORCE_GTD_TIMESTAMP_IN_PAST"
-			| "PRICE_BOUND_INVALID"
-			| "PRICE_BOUND_PRECISION_EXCEEDED"
-			| "ORDERS_ON_FILL_DUPLICATE_CLIENT_ORDER_IDS"
-			| "TRADE_ON_FILL_CLIENT_EXTENSIONS_NOT_SUPPORTED"
-			| "CLIENT_ORDER_ID_INVALID"
-			| "CLIENT_ORDER_ID_ALREADY_EXISTS"
-			| "CLIENT_ORDER_TAG_INVALID"
-			| "CLIENT_ORDER_COMMENT_INVALID"
-			| "CLIENT_TRADE_ID_INVALID"
-			| "CLIENT_TRADE_ID_ALREADY_EXISTS"
-			| "CLIENT_TRADE_TAG_INVALID"
-			| "CLIENT_TRADE_COMMENT_INVALID"
-			| "ORDER_FILL_POSITION_ACTION_MISSING"
-			| "ORDER_FILL_POSITION_ACTION_INVALID"
-			| "TRIGGER_CONDITION_MISSING"
-			| "TRIGGER_CONDITION_INVALID"
-			| "ORDER_PARTIAL_FILL_OPTION_MISSING"
-			| "ORDER_PARTIAL_FILL_OPTION_INVALID"
-			| "INVALID_REISSUE_IMMEDIATE_PARTIAL_FILL"
-			| "TAKE_PROFIT_ORDER_ALREADY_EXISTS"
-			| "TAKE_PROFIT_ON_FILL_PRICE_MISSING"
-			| "TAKE_PROFIT_ON_FILL_PRICE_INVALID"
-			| "TAKE_PROFIT_ON_FILL_PRICE_PRECISION_EXCEEDED"
-			| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_MISSING"
-			| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_INVALID"
-			| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_MISSING"
-			| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_IN_PAST"
-			| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_ID_INVALID"
-			| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_TAG_INVALID"
-			| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
-			| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_MISSING"
-			| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_INVALID"
-			| "STOP_LOSS_ORDER_ALREADY_EXISTS"
-			| "STOP_LOSS_ORDER_GUARANTEED_REQUIRED"
-			| "STOP_LOSS_ORDER_GUARANTEED_PRICE_WITHIN_SPREAD"
-			| "STOP_LOSS_ORDER_GUARANTEED_NOT_ALLOWED"
-			| "STOP_LOSS_ORDER_GUARANTEED_HALTED_CREATE_VIOLATION"
-			| "STOP_LOSS_ORDER_GUARANTEED_HALTED_TIGHTEN_VIOLATION"
-			| "STOP_LOSS_ORDER_GUARANTEED_HEDGING_NOT_ALLOWED"
-			| "STOP_LOSS_ORDER_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
-			| "STOP_LOSS_ORDER_NOT_CANCELABLE"
-			| "STOP_LOSS_ORDER_NOT_REPLACEABLE"
-			| "STOP_LOSS_ORDER_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
-			| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
-			| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_MISSING"
-			| "STOP_LOSS_ON_FILL_REQUIRED_FOR_PENDING_ORDER"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_NOT_ALLOWED"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_REQUIRED"
-			| "STOP_LOSS_ON_FILL_PRICE_MISSING"
-			| "STOP_LOSS_ON_FILL_PRICE_INVALID"
-			| "STOP_LOSS_ON_FILL_PRICE_PRECISION_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_DISTANCE_INVALID"
-			| "STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_DISTANCE_PRECISION_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
-			| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_MISSING"
-			| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
-			| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
-			| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
-			| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
-			| "STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
-			| "STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
-			| "STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
-			| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
-			| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
-			| "TRAILING_STOP_LOSS_ORDER_ALREADY_EXISTS"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_PRECISION_EXCEEDED"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MINIMUM_NOT_MET"
-			| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
-			| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
-			| "TRAILING_STOP_LOSS_ORDERS_NOT_SUPPORTED"
-			| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
-			| "CLOSE_TRADE_TYPE_MISSING"
-			| "CLOSE_TRADE_PARTIAL_UNITS_MISSING"
-			| "CLOSE_TRADE_UNITS_EXCEED_TRADE_SIZE"
-			| "CLOSEOUT_POSITION_DOESNT_EXIST"
-			| "CLOSEOUT_POSITION_INCOMPLETE_SPECIFICATION"
-			| "CLOSEOUT_POSITION_UNITS_EXCEED_POSITION_SIZE"
-			| "CLOSEOUT_POSITION_REJECT"
-			| "CLOSEOUT_POSITION_PARTIAL_UNITS_MISSING"
-			| "MARKUP_GROUP_ID_INVALID"
-			| "POSITION_AGGREGATION_MODE_INVALID"
-			| "ADMIN_CONFIGURE_DATA_MISSING"
-			| "MARGIN_RATE_INVALID"
-			| "MARGIN_RATE_WOULD_TRIGGER_CLOSEOUT"
-			| "ALIAS_INVALID"
-			| "CLIENT_CONFIGURE_DATA_MISSING"
-			| "MARGIN_RATE_WOULD_TRIGGER_MARGIN_CALL"
-			| "AMOUNT_INVALID"
-			| "INSUFFICIENT_FUNDS"
-			| "AMOUNT_MISSING"
-			| "FUNDING_REASON_MISSING"
-			| "CLIENT_EXTENSIONS_DATA_MISSING"
-			| "REPLACING_ORDER_INVALID"
-			| "REPLACING_TRADE_ID_INVALID"
-	}>
-	export type FixedPriceOrderTransaction = Partial<{
-		id: string
-		time: string
-		userID: number
-		accountID: string
-		batchID: string
-		requestID: string
-		type:
-			| "CREATE"
-			| "CLOSE"
-			| "REOPEN"
-			| "CLIENT_CONFIGURE"
-			| "CLIENT_CONFIGURE_REJECT"
-			| "TRANSFER_FUNDS"
-			| "TRANSFER_FUNDS_REJECT"
-			| "MARKET_ORDER"
-			| "MARKET_ORDER_REJECT"
-			| "FIXED_PRICE_ORDER"
-			| "LIMIT_ORDER"
-			| "LIMIT_ORDER_REJECT"
-			| "STOP_ORDER"
-			| "STOP_ORDER_REJECT"
-			| "MARKET_IF_TOUCHED_ORDER"
-			| "MARKET_IF_TOUCHED_ORDER_REJECT"
-			| "TAKE_PROFIT_ORDER"
-			| "TAKE_PROFIT_ORDER_REJECT"
-			| "STOP_LOSS_ORDER"
-			| "STOP_LOSS_ORDER_REJECT"
-			| "TRAILING_STOP_LOSS_ORDER"
-			| "TRAILING_STOP_LOSS_ORDER_REJECT"
-			| "ORDER_FILL"
-			| "ORDER_CANCEL"
-			| "ORDER_CANCEL_REJECT"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "MARGIN_CALL_ENTER"
-			| "MARGIN_CALL_EXTEND"
-			| "MARGIN_CALL_EXIT"
-			| "DELAYED_TRADE_CLOSURE"
-			| "DAILY_FINANCING"
-			| "RESET_RESETTABLE_PL"
-		instrument: string
-		units: string
-		price: string
-		positionFill: "OPEN_ONLY" | "REDUCE_FIRST" | "REDUCE_ONLY" | "DEFAULT"
-		tradeState: string
-		reason: "PLATFORM_ACCOUNT_MIGRATION"
-		clientExtensions: ClientExtensions
-		takeProfitOnFill: TakeProfitDetails
-		stopLossOnFill: StopLossDetails
-		trailingStopLossOnFill: TrailingStopLossDetails
-		tradeClientExtensions: ClientExtensions
-	}>
-	export type LimitOrderReason = "CLIENT_ORDER" | "REPLACEMENT"
-	export type LimitOrderTransaction = Partial<{
-		id: string
-		time: string
-		userID: number
-		accountID: string
-		batchID: string
-		requestID: string
-		type:
-			| "CREATE"
-			| "CLOSE"
-			| "REOPEN"
-			| "CLIENT_CONFIGURE"
-			| "CLIENT_CONFIGURE_REJECT"
-			| "TRANSFER_FUNDS"
-			| "TRANSFER_FUNDS_REJECT"
-			| "MARKET_ORDER"
-			| "MARKET_ORDER_REJECT"
-			| "FIXED_PRICE_ORDER"
-			| "LIMIT_ORDER"
-			| "LIMIT_ORDER_REJECT"
-			| "STOP_ORDER"
-			| "STOP_ORDER_REJECT"
-			| "MARKET_IF_TOUCHED_ORDER"
-			| "MARKET_IF_TOUCHED_ORDER_REJECT"
-			| "TAKE_PROFIT_ORDER"
-			| "TAKE_PROFIT_ORDER_REJECT"
-			| "STOP_LOSS_ORDER"
-			| "STOP_LOSS_ORDER_REJECT"
-			| "TRAILING_STOP_LOSS_ORDER"
-			| "TRAILING_STOP_LOSS_ORDER_REJECT"
-			| "ORDER_FILL"
-			| "ORDER_CANCEL"
-			| "ORDER_CANCEL_REJECT"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "MARGIN_CALL_ENTER"
-			| "MARGIN_CALL_EXTEND"
-			| "MARGIN_CALL_EXIT"
-			| "DELAYED_TRADE_CLOSURE"
-			| "DAILY_FINANCING"
-			| "RESET_RESETTABLE_PL"
-		instrument: string
-		units: string
-		price: string
-		timeInForce: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
-		gtdTime: string
-		positionFill: "OPEN_ONLY" | "REDUCE_FIRST" | "REDUCE_ONLY" | "DEFAULT"
-		triggerCondition: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
-		reason: "CLIENT_ORDER" | "REPLACEMENT"
-		clientExtensions: ClientExtensions
-		takeProfitOnFill: TakeProfitDetails
-		stopLossOnFill: StopLossDetails
-		trailingStopLossOnFill: TrailingStopLossDetails
-		tradeClientExtensions: ClientExtensions
-		replacesOrderID: string
-		cancellingTransactionID: string
-	}>
-	export type LimitOrderRejectTransaction = Partial<{
-		id: string
-		time: string
-		userID: number
-		accountID: string
-		batchID: string
-		requestID: string
-		type:
-			| "CREATE"
-			| "CLOSE"
-			| "REOPEN"
-			| "CLIENT_CONFIGURE"
-			| "CLIENT_CONFIGURE_REJECT"
-			| "TRANSFER_FUNDS"
-			| "TRANSFER_FUNDS_REJECT"
-			| "MARKET_ORDER"
-			| "MARKET_ORDER_REJECT"
-			| "FIXED_PRICE_ORDER"
-			| "LIMIT_ORDER"
-			| "LIMIT_ORDER_REJECT"
-			| "STOP_ORDER"
-			| "STOP_ORDER_REJECT"
-			| "MARKET_IF_TOUCHED_ORDER"
-			| "MARKET_IF_TOUCHED_ORDER_REJECT"
-			| "TAKE_PROFIT_ORDER"
-			| "TAKE_PROFIT_ORDER_REJECT"
-			| "STOP_LOSS_ORDER"
-			| "STOP_LOSS_ORDER_REJECT"
-			| "TRAILING_STOP_LOSS_ORDER"
-			| "TRAILING_STOP_LOSS_ORDER_REJECT"
-			| "ORDER_FILL"
-			| "ORDER_CANCEL"
-			| "ORDER_CANCEL_REJECT"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "MARGIN_CALL_ENTER"
-			| "MARGIN_CALL_EXTEND"
-			| "MARGIN_CALL_EXIT"
-			| "DELAYED_TRADE_CLOSURE"
-			| "DAILY_FINANCING"
-			| "RESET_RESETTABLE_PL"
-		instrument: string
-		units: string
-		price: string
-		timeInForce: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
-		gtdTime: string
-		positionFill: "OPEN_ONLY" | "REDUCE_FIRST" | "REDUCE_ONLY" | "DEFAULT"
-		triggerCondition: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
-		reason: "CLIENT_ORDER" | "REPLACEMENT"
-		clientExtensions: ClientExtensions
-		takeProfitOnFill: TakeProfitDetails
-		stopLossOnFill: StopLossDetails
-		trailingStopLossOnFill: TrailingStopLossDetails
-		tradeClientExtensions: ClientExtensions
-		intendedReplacesOrderID: string
-		rejectReason:
-			| "INTERNAL_SERVER_ERROR"
-			| "INSTRUMENT_PRICE_UNKNOWN"
-			| "ACCOUNT_NOT_ACTIVE"
-			| "ACCOUNT_LOCKED"
-			| "ACCOUNT_ORDER_CREATION_LOCKED"
-			| "ACCOUNT_CONFIGURATION_LOCKED"
-			| "ACCOUNT_DEPOSIT_LOCKED"
-			| "ACCOUNT_WITHDRAWAL_LOCKED"
-			| "ACCOUNT_ORDER_CANCEL_LOCKED"
-			| "INSTRUMENT_NOT_TRADEABLE"
-			| "PENDING_ORDERS_ALLOWED_EXCEEDED"
-			| "ORDER_ID_UNSPECIFIED"
-			| "ORDER_DOESNT_EXIST"
-			| "ORDER_IDENTIFIER_INCONSISTENCY"
-			| "TRADE_ID_UNSPECIFIED"
-			| "TRADE_DOESNT_EXIST"
-			| "TRADE_IDENTIFIER_INCONSISTENCY"
-			| "INSUFFICIENT_MARGIN"
-			| "INSTRUMENT_MISSING"
-			| "INSTRUMENT_UNKNOWN"
-			| "UNITS_MISSING"
-			| "UNITS_INVALID"
-			| "UNITS_PRECISION_EXCEEDED"
-			| "UNITS_LIMIT_EXCEEDED"
-			| "UNITS_MIMIMUM_NOT_MET"
-			| "PRICE_MISSING"
-			| "PRICE_INVALID"
-			| "PRICE_PRECISION_EXCEEDED"
-			| "PRICE_DISTANCE_MISSING"
-			| "PRICE_DISTANCE_INVALID"
-			| "PRICE_DISTANCE_PRECISION_EXCEEDED"
-			| "PRICE_DISTANCE_MAXIMUM_EXCEEDED"
-			| "PRICE_DISTANCE_MINIMUM_NOT_MET"
-			| "TIME_IN_FORCE_MISSING"
-			| "TIME_IN_FORCE_INVALID"
-			| "TIME_IN_FORCE_GTD_TIMESTAMP_MISSING"
-			| "TIME_IN_FORCE_GTD_TIMESTAMP_IN_PAST"
-			| "PRICE_BOUND_INVALID"
-			| "PRICE_BOUND_PRECISION_EXCEEDED"
-			| "ORDERS_ON_FILL_DUPLICATE_CLIENT_ORDER_IDS"
-			| "TRADE_ON_FILL_CLIENT_EXTENSIONS_NOT_SUPPORTED"
-			| "CLIENT_ORDER_ID_INVALID"
-			| "CLIENT_ORDER_ID_ALREADY_EXISTS"
-			| "CLIENT_ORDER_TAG_INVALID"
-			| "CLIENT_ORDER_COMMENT_INVALID"
-			| "CLIENT_TRADE_ID_INVALID"
-			| "CLIENT_TRADE_ID_ALREADY_EXISTS"
-			| "CLIENT_TRADE_TAG_INVALID"
-			| "CLIENT_TRADE_COMMENT_INVALID"
-			| "ORDER_FILL_POSITION_ACTION_MISSING"
-			| "ORDER_FILL_POSITION_ACTION_INVALID"
-			| "TRIGGER_CONDITION_MISSING"
-			| "TRIGGER_CONDITION_INVALID"
-			| "ORDER_PARTIAL_FILL_OPTION_MISSING"
-			| "ORDER_PARTIAL_FILL_OPTION_INVALID"
-			| "INVALID_REISSUE_IMMEDIATE_PARTIAL_FILL"
-			| "TAKE_PROFIT_ORDER_ALREADY_EXISTS"
-			| "TAKE_PROFIT_ON_FILL_PRICE_MISSING"
-			| "TAKE_PROFIT_ON_FILL_PRICE_INVALID"
-			| "TAKE_PROFIT_ON_FILL_PRICE_PRECISION_EXCEEDED"
-			| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_MISSING"
-			| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_INVALID"
-			| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_MISSING"
-			| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_IN_PAST"
-			| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_ID_INVALID"
-			| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_TAG_INVALID"
-			| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
-			| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_MISSING"
-			| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_INVALID"
-			| "STOP_LOSS_ORDER_ALREADY_EXISTS"
-			| "STOP_LOSS_ORDER_GUARANTEED_REQUIRED"
-			| "STOP_LOSS_ORDER_GUARANTEED_PRICE_WITHIN_SPREAD"
-			| "STOP_LOSS_ORDER_GUARANTEED_NOT_ALLOWED"
-			| "STOP_LOSS_ORDER_GUARANTEED_HALTED_CREATE_VIOLATION"
-			| "STOP_LOSS_ORDER_GUARANTEED_HALTED_TIGHTEN_VIOLATION"
-			| "STOP_LOSS_ORDER_GUARANTEED_HEDGING_NOT_ALLOWED"
-			| "STOP_LOSS_ORDER_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
-			| "STOP_LOSS_ORDER_NOT_CANCELABLE"
-			| "STOP_LOSS_ORDER_NOT_REPLACEABLE"
-			| "STOP_LOSS_ORDER_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
-			| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
-			| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_MISSING"
-			| "STOP_LOSS_ON_FILL_REQUIRED_FOR_PENDING_ORDER"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_NOT_ALLOWED"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_REQUIRED"
-			| "STOP_LOSS_ON_FILL_PRICE_MISSING"
-			| "STOP_LOSS_ON_FILL_PRICE_INVALID"
-			| "STOP_LOSS_ON_FILL_PRICE_PRECISION_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_DISTANCE_INVALID"
-			| "STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_DISTANCE_PRECISION_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
-			| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_MISSING"
-			| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
-			| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
-			| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
-			| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
-			| "STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
-			| "STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
-			| "STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
-			| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
-			| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
-			| "TRAILING_STOP_LOSS_ORDER_ALREADY_EXISTS"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_PRECISION_EXCEEDED"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MINIMUM_NOT_MET"
-			| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
-			| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
-			| "TRAILING_STOP_LOSS_ORDERS_NOT_SUPPORTED"
-			| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
-			| "CLOSE_TRADE_TYPE_MISSING"
-			| "CLOSE_TRADE_PARTIAL_UNITS_MISSING"
-			| "CLOSE_TRADE_UNITS_EXCEED_TRADE_SIZE"
-			| "CLOSEOUT_POSITION_DOESNT_EXIST"
-			| "CLOSEOUT_POSITION_INCOMPLETE_SPECIFICATION"
-			| "CLOSEOUT_POSITION_UNITS_EXCEED_POSITION_SIZE"
-			| "CLOSEOUT_POSITION_REJECT"
-			| "CLOSEOUT_POSITION_PARTIAL_UNITS_MISSING"
-			| "MARKUP_GROUP_ID_INVALID"
-			| "POSITION_AGGREGATION_MODE_INVALID"
-			| "ADMIN_CONFIGURE_DATA_MISSING"
-			| "MARGIN_RATE_INVALID"
-			| "MARGIN_RATE_WOULD_TRIGGER_CLOSEOUT"
-			| "ALIAS_INVALID"
-			| "CLIENT_CONFIGURE_DATA_MISSING"
-			| "MARGIN_RATE_WOULD_TRIGGER_MARGIN_CALL"
-			| "AMOUNT_INVALID"
-			| "INSUFFICIENT_FUNDS"
-			| "AMOUNT_MISSING"
-			| "FUNDING_REASON_MISSING"
-			| "CLIENT_EXTENSIONS_DATA_MISSING"
-			| "REPLACING_ORDER_INVALID"
-			| "REPLACING_TRADE_ID_INVALID"
-	}>
-	export type StopOrderReason = "CLIENT_ORDER" | "REPLACEMENT"
-	export type StopOrderTransaction = Partial<{
-		id: string
-		time: string
-		userID: number
-		accountID: string
-		batchID: string
-		requestID: string
-		type:
-			| "CREATE"
-			| "CLOSE"
-			| "REOPEN"
-			| "CLIENT_CONFIGURE"
-			| "CLIENT_CONFIGURE_REJECT"
-			| "TRANSFER_FUNDS"
-			| "TRANSFER_FUNDS_REJECT"
-			| "MARKET_ORDER"
-			| "MARKET_ORDER_REJECT"
-			| "FIXED_PRICE_ORDER"
-			| "LIMIT_ORDER"
-			| "LIMIT_ORDER_REJECT"
-			| "STOP_ORDER"
-			| "STOP_ORDER_REJECT"
-			| "MARKET_IF_TOUCHED_ORDER"
-			| "MARKET_IF_TOUCHED_ORDER_REJECT"
-			| "TAKE_PROFIT_ORDER"
-			| "TAKE_PROFIT_ORDER_REJECT"
-			| "STOP_LOSS_ORDER"
-			| "STOP_LOSS_ORDER_REJECT"
-			| "TRAILING_STOP_LOSS_ORDER"
-			| "TRAILING_STOP_LOSS_ORDER_REJECT"
-			| "ORDER_FILL"
-			| "ORDER_CANCEL"
-			| "ORDER_CANCEL_REJECT"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "MARGIN_CALL_ENTER"
-			| "MARGIN_CALL_EXTEND"
-			| "MARGIN_CALL_EXIT"
-			| "DELAYED_TRADE_CLOSURE"
-			| "DAILY_FINANCING"
-			| "RESET_RESETTABLE_PL"
-		instrument: string
-		units: string
-		price: string
-		priceBound: string
-		timeInForce: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
-		gtdTime: string
-		positionFill: "OPEN_ONLY" | "REDUCE_FIRST" | "REDUCE_ONLY" | "DEFAULT"
-		triggerCondition: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
-		reason: "CLIENT_ORDER" | "REPLACEMENT"
-		clientExtensions: ClientExtensions
-		takeProfitOnFill: TakeProfitDetails
-		stopLossOnFill: StopLossDetails
-		trailingStopLossOnFill: TrailingStopLossDetails
-		tradeClientExtensions: ClientExtensions
-		replacesOrderID: string
-		cancellingTransactionID: string
-	}>
-	export type StopOrderRejectTransaction = Partial<{
-		id: string
-		time: string
-		userID: number
-		accountID: string
-		batchID: string
-		requestID: string
-		type:
-			| "CREATE"
-			| "CLOSE"
-			| "REOPEN"
-			| "CLIENT_CONFIGURE"
-			| "CLIENT_CONFIGURE_REJECT"
-			| "TRANSFER_FUNDS"
-			| "TRANSFER_FUNDS_REJECT"
-			| "MARKET_ORDER"
-			| "MARKET_ORDER_REJECT"
-			| "FIXED_PRICE_ORDER"
-			| "LIMIT_ORDER"
-			| "LIMIT_ORDER_REJECT"
-			| "STOP_ORDER"
-			| "STOP_ORDER_REJECT"
-			| "MARKET_IF_TOUCHED_ORDER"
-			| "MARKET_IF_TOUCHED_ORDER_REJECT"
-			| "TAKE_PROFIT_ORDER"
-			| "TAKE_PROFIT_ORDER_REJECT"
-			| "STOP_LOSS_ORDER"
-			| "STOP_LOSS_ORDER_REJECT"
-			| "TRAILING_STOP_LOSS_ORDER"
-			| "TRAILING_STOP_LOSS_ORDER_REJECT"
-			| "ORDER_FILL"
-			| "ORDER_CANCEL"
-			| "ORDER_CANCEL_REJECT"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "MARGIN_CALL_ENTER"
-			| "MARGIN_CALL_EXTEND"
-			| "MARGIN_CALL_EXIT"
-			| "DELAYED_TRADE_CLOSURE"
-			| "DAILY_FINANCING"
-			| "RESET_RESETTABLE_PL"
-		instrument: string
-		units: string
-		price: string
-		priceBound: string
-		timeInForce: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
-		gtdTime: string
-		positionFill: "OPEN_ONLY" | "REDUCE_FIRST" | "REDUCE_ONLY" | "DEFAULT"
-		triggerCondition: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
-		reason: "CLIENT_ORDER" | "REPLACEMENT"
-		clientExtensions: ClientExtensions
-		takeProfitOnFill: TakeProfitDetails
-		stopLossOnFill: StopLossDetails
-		trailingStopLossOnFill: TrailingStopLossDetails
-		tradeClientExtensions: ClientExtensions
-		intendedReplacesOrderID: string
-		rejectReason:
-			| "INTERNAL_SERVER_ERROR"
-			| "INSTRUMENT_PRICE_UNKNOWN"
-			| "ACCOUNT_NOT_ACTIVE"
-			| "ACCOUNT_LOCKED"
-			| "ACCOUNT_ORDER_CREATION_LOCKED"
-			| "ACCOUNT_CONFIGURATION_LOCKED"
-			| "ACCOUNT_DEPOSIT_LOCKED"
-			| "ACCOUNT_WITHDRAWAL_LOCKED"
-			| "ACCOUNT_ORDER_CANCEL_LOCKED"
-			| "INSTRUMENT_NOT_TRADEABLE"
-			| "PENDING_ORDERS_ALLOWED_EXCEEDED"
-			| "ORDER_ID_UNSPECIFIED"
-			| "ORDER_DOESNT_EXIST"
-			| "ORDER_IDENTIFIER_INCONSISTENCY"
-			| "TRADE_ID_UNSPECIFIED"
-			| "TRADE_DOESNT_EXIST"
-			| "TRADE_IDENTIFIER_INCONSISTENCY"
-			| "INSUFFICIENT_MARGIN"
-			| "INSTRUMENT_MISSING"
-			| "INSTRUMENT_UNKNOWN"
-			| "UNITS_MISSING"
-			| "UNITS_INVALID"
-			| "UNITS_PRECISION_EXCEEDED"
-			| "UNITS_LIMIT_EXCEEDED"
-			| "UNITS_MIMIMUM_NOT_MET"
-			| "PRICE_MISSING"
-			| "PRICE_INVALID"
-			| "PRICE_PRECISION_EXCEEDED"
-			| "PRICE_DISTANCE_MISSING"
-			| "PRICE_DISTANCE_INVALID"
-			| "PRICE_DISTANCE_PRECISION_EXCEEDED"
-			| "PRICE_DISTANCE_MAXIMUM_EXCEEDED"
-			| "PRICE_DISTANCE_MINIMUM_NOT_MET"
-			| "TIME_IN_FORCE_MISSING"
-			| "TIME_IN_FORCE_INVALID"
-			| "TIME_IN_FORCE_GTD_TIMESTAMP_MISSING"
-			| "TIME_IN_FORCE_GTD_TIMESTAMP_IN_PAST"
-			| "PRICE_BOUND_INVALID"
-			| "PRICE_BOUND_PRECISION_EXCEEDED"
-			| "ORDERS_ON_FILL_DUPLICATE_CLIENT_ORDER_IDS"
-			| "TRADE_ON_FILL_CLIENT_EXTENSIONS_NOT_SUPPORTED"
-			| "CLIENT_ORDER_ID_INVALID"
-			| "CLIENT_ORDER_ID_ALREADY_EXISTS"
-			| "CLIENT_ORDER_TAG_INVALID"
-			| "CLIENT_ORDER_COMMENT_INVALID"
-			| "CLIENT_TRADE_ID_INVALID"
-			| "CLIENT_TRADE_ID_ALREADY_EXISTS"
-			| "CLIENT_TRADE_TAG_INVALID"
-			| "CLIENT_TRADE_COMMENT_INVALID"
-			| "ORDER_FILL_POSITION_ACTION_MISSING"
-			| "ORDER_FILL_POSITION_ACTION_INVALID"
-			| "TRIGGER_CONDITION_MISSING"
-			| "TRIGGER_CONDITION_INVALID"
-			| "ORDER_PARTIAL_FILL_OPTION_MISSING"
-			| "ORDER_PARTIAL_FILL_OPTION_INVALID"
-			| "INVALID_REISSUE_IMMEDIATE_PARTIAL_FILL"
-			| "TAKE_PROFIT_ORDER_ALREADY_EXISTS"
-			| "TAKE_PROFIT_ON_FILL_PRICE_MISSING"
-			| "TAKE_PROFIT_ON_FILL_PRICE_INVALID"
-			| "TAKE_PROFIT_ON_FILL_PRICE_PRECISION_EXCEEDED"
-			| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_MISSING"
-			| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_INVALID"
-			| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_MISSING"
-			| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_IN_PAST"
-			| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_ID_INVALID"
-			| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_TAG_INVALID"
-			| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
-			| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_MISSING"
-			| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_INVALID"
-			| "STOP_LOSS_ORDER_ALREADY_EXISTS"
-			| "STOP_LOSS_ORDER_GUARANTEED_REQUIRED"
-			| "STOP_LOSS_ORDER_GUARANTEED_PRICE_WITHIN_SPREAD"
-			| "STOP_LOSS_ORDER_GUARANTEED_NOT_ALLOWED"
-			| "STOP_LOSS_ORDER_GUARANTEED_HALTED_CREATE_VIOLATION"
-			| "STOP_LOSS_ORDER_GUARANTEED_HALTED_TIGHTEN_VIOLATION"
-			| "STOP_LOSS_ORDER_GUARANTEED_HEDGING_NOT_ALLOWED"
-			| "STOP_LOSS_ORDER_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
-			| "STOP_LOSS_ORDER_NOT_CANCELABLE"
-			| "STOP_LOSS_ORDER_NOT_REPLACEABLE"
-			| "STOP_LOSS_ORDER_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
-			| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
-			| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_MISSING"
-			| "STOP_LOSS_ON_FILL_REQUIRED_FOR_PENDING_ORDER"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_NOT_ALLOWED"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_REQUIRED"
-			| "STOP_LOSS_ON_FILL_PRICE_MISSING"
-			| "STOP_LOSS_ON_FILL_PRICE_INVALID"
-			| "STOP_LOSS_ON_FILL_PRICE_PRECISION_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_DISTANCE_INVALID"
-			| "STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_DISTANCE_PRECISION_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
-			| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_MISSING"
-			| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
-			| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
-			| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
-			| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
-			| "STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
-			| "STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
-			| "STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
-			| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
-			| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
-			| "TRAILING_STOP_LOSS_ORDER_ALREADY_EXISTS"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_PRECISION_EXCEEDED"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MINIMUM_NOT_MET"
-			| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
-			| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
-			| "TRAILING_STOP_LOSS_ORDERS_NOT_SUPPORTED"
-			| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
-			| "CLOSE_TRADE_TYPE_MISSING"
-			| "CLOSE_TRADE_PARTIAL_UNITS_MISSING"
-			| "CLOSE_TRADE_UNITS_EXCEED_TRADE_SIZE"
-			| "CLOSEOUT_POSITION_DOESNT_EXIST"
-			| "CLOSEOUT_POSITION_INCOMPLETE_SPECIFICATION"
-			| "CLOSEOUT_POSITION_UNITS_EXCEED_POSITION_SIZE"
-			| "CLOSEOUT_POSITION_REJECT"
-			| "CLOSEOUT_POSITION_PARTIAL_UNITS_MISSING"
-			| "MARKUP_GROUP_ID_INVALID"
-			| "POSITION_AGGREGATION_MODE_INVALID"
-			| "ADMIN_CONFIGURE_DATA_MISSING"
-			| "MARGIN_RATE_INVALID"
-			| "MARGIN_RATE_WOULD_TRIGGER_CLOSEOUT"
-			| "ALIAS_INVALID"
-			| "CLIENT_CONFIGURE_DATA_MISSING"
-			| "MARGIN_RATE_WOULD_TRIGGER_MARGIN_CALL"
-			| "AMOUNT_INVALID"
-			| "INSUFFICIENT_FUNDS"
-			| "AMOUNT_MISSING"
-			| "FUNDING_REASON_MISSING"
-			| "CLIENT_EXTENSIONS_DATA_MISSING"
-			| "REPLACING_ORDER_INVALID"
-			| "REPLACING_TRADE_ID_INVALID"
-	}>
-	export type MarketIfTouchedOrderReason = "CLIENT_ORDER" | "REPLACEMENT"
-	export type MarketIfTouchedOrderTransaction = Partial<{
-		id: string
-		time: string
-		userID: number
-		accountID: string
-		batchID: string
-		requestID: string
-		type:
-			| "CREATE"
-			| "CLOSE"
-			| "REOPEN"
-			| "CLIENT_CONFIGURE"
-			| "CLIENT_CONFIGURE_REJECT"
-			| "TRANSFER_FUNDS"
-			| "TRANSFER_FUNDS_REJECT"
-			| "MARKET_ORDER"
-			| "MARKET_ORDER_REJECT"
-			| "FIXED_PRICE_ORDER"
-			| "LIMIT_ORDER"
-			| "LIMIT_ORDER_REJECT"
-			| "STOP_ORDER"
-			| "STOP_ORDER_REJECT"
-			| "MARKET_IF_TOUCHED_ORDER"
-			| "MARKET_IF_TOUCHED_ORDER_REJECT"
-			| "TAKE_PROFIT_ORDER"
-			| "TAKE_PROFIT_ORDER_REJECT"
-			| "STOP_LOSS_ORDER"
-			| "STOP_LOSS_ORDER_REJECT"
-			| "TRAILING_STOP_LOSS_ORDER"
-			| "TRAILING_STOP_LOSS_ORDER_REJECT"
-			| "ORDER_FILL"
-			| "ORDER_CANCEL"
-			| "ORDER_CANCEL_REJECT"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "MARGIN_CALL_ENTER"
-			| "MARGIN_CALL_EXTEND"
-			| "MARGIN_CALL_EXIT"
-			| "DELAYED_TRADE_CLOSURE"
-			| "DAILY_FINANCING"
-			| "RESET_RESETTABLE_PL"
-		instrument: string
-		units: string
-		price: string
-		priceBound: string
-		timeInForce: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
-		gtdTime: string
-		positionFill: "OPEN_ONLY" | "REDUCE_FIRST" | "REDUCE_ONLY" | "DEFAULT"
-		triggerCondition: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
-		reason: "CLIENT_ORDER" | "REPLACEMENT"
-		clientExtensions: ClientExtensions
-		takeProfitOnFill: TakeProfitDetails
-		stopLossOnFill: StopLossDetails
-		trailingStopLossOnFill: TrailingStopLossDetails
-		tradeClientExtensions: ClientExtensions
-		replacesOrderID: string
-		cancellingTransactionID: string
-	}>
-	export type MarketIfTouchedOrderRejectTransaction = Partial<{
-		id: string
-		time: string
-		userID: number
-		accountID: string
-		batchID: string
-		requestID: string
-		type:
-			| "CREATE"
-			| "CLOSE"
-			| "REOPEN"
-			| "CLIENT_CONFIGURE"
-			| "CLIENT_CONFIGURE_REJECT"
-			| "TRANSFER_FUNDS"
-			| "TRANSFER_FUNDS_REJECT"
-			| "MARKET_ORDER"
-			| "MARKET_ORDER_REJECT"
-			| "FIXED_PRICE_ORDER"
-			| "LIMIT_ORDER"
-			| "LIMIT_ORDER_REJECT"
-			| "STOP_ORDER"
-			| "STOP_ORDER_REJECT"
-			| "MARKET_IF_TOUCHED_ORDER"
-			| "MARKET_IF_TOUCHED_ORDER_REJECT"
-			| "TAKE_PROFIT_ORDER"
-			| "TAKE_PROFIT_ORDER_REJECT"
-			| "STOP_LOSS_ORDER"
-			| "STOP_LOSS_ORDER_REJECT"
-			| "TRAILING_STOP_LOSS_ORDER"
-			| "TRAILING_STOP_LOSS_ORDER_REJECT"
-			| "ORDER_FILL"
-			| "ORDER_CANCEL"
-			| "ORDER_CANCEL_REJECT"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "MARGIN_CALL_ENTER"
-			| "MARGIN_CALL_EXTEND"
-			| "MARGIN_CALL_EXIT"
-			| "DELAYED_TRADE_CLOSURE"
-			| "DAILY_FINANCING"
-			| "RESET_RESETTABLE_PL"
-		instrument: string
-		units: string
-		price: string
-		priceBound: string
-		timeInForce: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
-		gtdTime: string
-		positionFill: "OPEN_ONLY" | "REDUCE_FIRST" | "REDUCE_ONLY" | "DEFAULT"
-		triggerCondition: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
-		reason: "CLIENT_ORDER" | "REPLACEMENT"
-		clientExtensions: ClientExtensions
-		takeProfitOnFill: TakeProfitDetails
-		stopLossOnFill: StopLossDetails
-		trailingStopLossOnFill: TrailingStopLossDetails
-		tradeClientExtensions: ClientExtensions
-		intendedReplacesOrderID: string
-		rejectReason:
-			| "INTERNAL_SERVER_ERROR"
-			| "INSTRUMENT_PRICE_UNKNOWN"
-			| "ACCOUNT_NOT_ACTIVE"
-			| "ACCOUNT_LOCKED"
-			| "ACCOUNT_ORDER_CREATION_LOCKED"
-			| "ACCOUNT_CONFIGURATION_LOCKED"
-			| "ACCOUNT_DEPOSIT_LOCKED"
-			| "ACCOUNT_WITHDRAWAL_LOCKED"
-			| "ACCOUNT_ORDER_CANCEL_LOCKED"
-			| "INSTRUMENT_NOT_TRADEABLE"
-			| "PENDING_ORDERS_ALLOWED_EXCEEDED"
-			| "ORDER_ID_UNSPECIFIED"
-			| "ORDER_DOESNT_EXIST"
-			| "ORDER_IDENTIFIER_INCONSISTENCY"
-			| "TRADE_ID_UNSPECIFIED"
-			| "TRADE_DOESNT_EXIST"
-			| "TRADE_IDENTIFIER_INCONSISTENCY"
-			| "INSUFFICIENT_MARGIN"
-			| "INSTRUMENT_MISSING"
-			| "INSTRUMENT_UNKNOWN"
-			| "UNITS_MISSING"
-			| "UNITS_INVALID"
-			| "UNITS_PRECISION_EXCEEDED"
-			| "UNITS_LIMIT_EXCEEDED"
-			| "UNITS_MIMIMUM_NOT_MET"
-			| "PRICE_MISSING"
-			| "PRICE_INVALID"
-			| "PRICE_PRECISION_EXCEEDED"
-			| "PRICE_DISTANCE_MISSING"
-			| "PRICE_DISTANCE_INVALID"
-			| "PRICE_DISTANCE_PRECISION_EXCEEDED"
-			| "PRICE_DISTANCE_MAXIMUM_EXCEEDED"
-			| "PRICE_DISTANCE_MINIMUM_NOT_MET"
-			| "TIME_IN_FORCE_MISSING"
-			| "TIME_IN_FORCE_INVALID"
-			| "TIME_IN_FORCE_GTD_TIMESTAMP_MISSING"
-			| "TIME_IN_FORCE_GTD_TIMESTAMP_IN_PAST"
-			| "PRICE_BOUND_INVALID"
-			| "PRICE_BOUND_PRECISION_EXCEEDED"
-			| "ORDERS_ON_FILL_DUPLICATE_CLIENT_ORDER_IDS"
-			| "TRADE_ON_FILL_CLIENT_EXTENSIONS_NOT_SUPPORTED"
-			| "CLIENT_ORDER_ID_INVALID"
-			| "CLIENT_ORDER_ID_ALREADY_EXISTS"
-			| "CLIENT_ORDER_TAG_INVALID"
-			| "CLIENT_ORDER_COMMENT_INVALID"
-			| "CLIENT_TRADE_ID_INVALID"
-			| "CLIENT_TRADE_ID_ALREADY_EXISTS"
-			| "CLIENT_TRADE_TAG_INVALID"
-			| "CLIENT_TRADE_COMMENT_INVALID"
-			| "ORDER_FILL_POSITION_ACTION_MISSING"
-			| "ORDER_FILL_POSITION_ACTION_INVALID"
-			| "TRIGGER_CONDITION_MISSING"
-			| "TRIGGER_CONDITION_INVALID"
-			| "ORDER_PARTIAL_FILL_OPTION_MISSING"
-			| "ORDER_PARTIAL_FILL_OPTION_INVALID"
-			| "INVALID_REISSUE_IMMEDIATE_PARTIAL_FILL"
-			| "TAKE_PROFIT_ORDER_ALREADY_EXISTS"
-			| "TAKE_PROFIT_ON_FILL_PRICE_MISSING"
-			| "TAKE_PROFIT_ON_FILL_PRICE_INVALID"
-			| "TAKE_PROFIT_ON_FILL_PRICE_PRECISION_EXCEEDED"
-			| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_MISSING"
-			| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_INVALID"
-			| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_MISSING"
-			| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_IN_PAST"
-			| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_ID_INVALID"
-			| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_TAG_INVALID"
-			| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
-			| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_MISSING"
-			| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_INVALID"
-			| "STOP_LOSS_ORDER_ALREADY_EXISTS"
-			| "STOP_LOSS_ORDER_GUARANTEED_REQUIRED"
-			| "STOP_LOSS_ORDER_GUARANTEED_PRICE_WITHIN_SPREAD"
-			| "STOP_LOSS_ORDER_GUARANTEED_NOT_ALLOWED"
-			| "STOP_LOSS_ORDER_GUARANTEED_HALTED_CREATE_VIOLATION"
-			| "STOP_LOSS_ORDER_GUARANTEED_HALTED_TIGHTEN_VIOLATION"
-			| "STOP_LOSS_ORDER_GUARANTEED_HEDGING_NOT_ALLOWED"
-			| "STOP_LOSS_ORDER_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
-			| "STOP_LOSS_ORDER_NOT_CANCELABLE"
-			| "STOP_LOSS_ORDER_NOT_REPLACEABLE"
-			| "STOP_LOSS_ORDER_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
-			| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
-			| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_MISSING"
-			| "STOP_LOSS_ON_FILL_REQUIRED_FOR_PENDING_ORDER"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_NOT_ALLOWED"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_REQUIRED"
-			| "STOP_LOSS_ON_FILL_PRICE_MISSING"
-			| "STOP_LOSS_ON_FILL_PRICE_INVALID"
-			| "STOP_LOSS_ON_FILL_PRICE_PRECISION_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_DISTANCE_INVALID"
-			| "STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_DISTANCE_PRECISION_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
-			| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_MISSING"
-			| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
-			| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
-			| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
-			| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
-			| "STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
-			| "STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
-			| "STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
-			| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
-			| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
-			| "TRAILING_STOP_LOSS_ORDER_ALREADY_EXISTS"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_PRECISION_EXCEEDED"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MINIMUM_NOT_MET"
-			| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
-			| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
-			| "TRAILING_STOP_LOSS_ORDERS_NOT_SUPPORTED"
-			| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
-			| "CLOSE_TRADE_TYPE_MISSING"
-			| "CLOSE_TRADE_PARTIAL_UNITS_MISSING"
-			| "CLOSE_TRADE_UNITS_EXCEED_TRADE_SIZE"
-			| "CLOSEOUT_POSITION_DOESNT_EXIST"
-			| "CLOSEOUT_POSITION_INCOMPLETE_SPECIFICATION"
-			| "CLOSEOUT_POSITION_UNITS_EXCEED_POSITION_SIZE"
-			| "CLOSEOUT_POSITION_REJECT"
-			| "CLOSEOUT_POSITION_PARTIAL_UNITS_MISSING"
-			| "MARKUP_GROUP_ID_INVALID"
-			| "POSITION_AGGREGATION_MODE_INVALID"
-			| "ADMIN_CONFIGURE_DATA_MISSING"
-			| "MARGIN_RATE_INVALID"
-			| "MARGIN_RATE_WOULD_TRIGGER_CLOSEOUT"
-			| "ALIAS_INVALID"
-			| "CLIENT_CONFIGURE_DATA_MISSING"
-			| "MARGIN_RATE_WOULD_TRIGGER_MARGIN_CALL"
-			| "AMOUNT_INVALID"
-			| "INSUFFICIENT_FUNDS"
-			| "AMOUNT_MISSING"
-			| "FUNDING_REASON_MISSING"
-			| "CLIENT_EXTENSIONS_DATA_MISSING"
-			| "REPLACING_ORDER_INVALID"
-			| "REPLACING_TRADE_ID_INVALID"
-	}>
-	export type TakeProfitOrderReason = "CLIENT_ORDER" | "REPLACEMENT" | "ON_FILL"
-	export type TakeProfitOrderTransaction = Partial<{
-		id: string
-		time: string
-		userID: number
-		accountID: string
-		batchID: string
-		requestID: string
-		type:
-			| "CREATE"
-			| "CLOSE"
-			| "REOPEN"
-			| "CLIENT_CONFIGURE"
-			| "CLIENT_CONFIGURE_REJECT"
-			| "TRANSFER_FUNDS"
-			| "TRANSFER_FUNDS_REJECT"
-			| "MARKET_ORDER"
-			| "MARKET_ORDER_REJECT"
-			| "FIXED_PRICE_ORDER"
-			| "LIMIT_ORDER"
-			| "LIMIT_ORDER_REJECT"
-			| "STOP_ORDER"
-			| "STOP_ORDER_REJECT"
-			| "MARKET_IF_TOUCHED_ORDER"
-			| "MARKET_IF_TOUCHED_ORDER_REJECT"
-			| "TAKE_PROFIT_ORDER"
-			| "TAKE_PROFIT_ORDER_REJECT"
-			| "STOP_LOSS_ORDER"
-			| "STOP_LOSS_ORDER_REJECT"
-			| "TRAILING_STOP_LOSS_ORDER"
-			| "TRAILING_STOP_LOSS_ORDER_REJECT"
-			| "ORDER_FILL"
-			| "ORDER_CANCEL"
-			| "ORDER_CANCEL_REJECT"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "MARGIN_CALL_ENTER"
-			| "MARGIN_CALL_EXTEND"
-			| "MARGIN_CALL_EXIT"
-			| "DELAYED_TRADE_CLOSURE"
-			| "DAILY_FINANCING"
-			| "RESET_RESETTABLE_PL"
-		tradeID: string
-		clientTradeID: string
-		price: string
-		timeInForce: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
-		gtdTime: string
-		triggerCondition: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
-		reason: "CLIENT_ORDER" | "REPLACEMENT" | "ON_FILL"
-		clientExtensions: ClientExtensions
-		orderFillTransactionID: string
-		replacesOrderID: string
-		cancellingTransactionID: string
-	}>
-	export type TakeProfitOrderRejectTransaction = Partial<{
-		id: string
-		time: string
-		userID: number
-		accountID: string
-		batchID: string
-		requestID: string
-		type:
-			| "CREATE"
-			| "CLOSE"
-			| "REOPEN"
-			| "CLIENT_CONFIGURE"
-			| "CLIENT_CONFIGURE_REJECT"
-			| "TRANSFER_FUNDS"
-			| "TRANSFER_FUNDS_REJECT"
-			| "MARKET_ORDER"
-			| "MARKET_ORDER_REJECT"
-			| "FIXED_PRICE_ORDER"
-			| "LIMIT_ORDER"
-			| "LIMIT_ORDER_REJECT"
-			| "STOP_ORDER"
-			| "STOP_ORDER_REJECT"
-			| "MARKET_IF_TOUCHED_ORDER"
-			| "MARKET_IF_TOUCHED_ORDER_REJECT"
-			| "TAKE_PROFIT_ORDER"
-			| "TAKE_PROFIT_ORDER_REJECT"
-			| "STOP_LOSS_ORDER"
-			| "STOP_LOSS_ORDER_REJECT"
-			| "TRAILING_STOP_LOSS_ORDER"
-			| "TRAILING_STOP_LOSS_ORDER_REJECT"
-			| "ORDER_FILL"
-			| "ORDER_CANCEL"
-			| "ORDER_CANCEL_REJECT"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "MARGIN_CALL_ENTER"
-			| "MARGIN_CALL_EXTEND"
-			| "MARGIN_CALL_EXIT"
-			| "DELAYED_TRADE_CLOSURE"
-			| "DAILY_FINANCING"
-			| "RESET_RESETTABLE_PL"
-		tradeID: string
-		clientTradeID: string
-		price: string
-		timeInForce: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
-		gtdTime: string
-		triggerCondition: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
-		reason: "CLIENT_ORDER" | "REPLACEMENT" | "ON_FILL"
-		clientExtensions: ClientExtensions
-		orderFillTransactionID: string
-		intendedReplacesOrderID: string
-		rejectReason:
-			| "INTERNAL_SERVER_ERROR"
-			| "INSTRUMENT_PRICE_UNKNOWN"
-			| "ACCOUNT_NOT_ACTIVE"
-			| "ACCOUNT_LOCKED"
-			| "ACCOUNT_ORDER_CREATION_LOCKED"
-			| "ACCOUNT_CONFIGURATION_LOCKED"
-			| "ACCOUNT_DEPOSIT_LOCKED"
-			| "ACCOUNT_WITHDRAWAL_LOCKED"
-			| "ACCOUNT_ORDER_CANCEL_LOCKED"
-			| "INSTRUMENT_NOT_TRADEABLE"
-			| "PENDING_ORDERS_ALLOWED_EXCEEDED"
-			| "ORDER_ID_UNSPECIFIED"
-			| "ORDER_DOESNT_EXIST"
-			| "ORDER_IDENTIFIER_INCONSISTENCY"
-			| "TRADE_ID_UNSPECIFIED"
-			| "TRADE_DOESNT_EXIST"
-			| "TRADE_IDENTIFIER_INCONSISTENCY"
-			| "INSUFFICIENT_MARGIN"
-			| "INSTRUMENT_MISSING"
-			| "INSTRUMENT_UNKNOWN"
-			| "UNITS_MISSING"
-			| "UNITS_INVALID"
-			| "UNITS_PRECISION_EXCEEDED"
-			| "UNITS_LIMIT_EXCEEDED"
-			| "UNITS_MIMIMUM_NOT_MET"
-			| "PRICE_MISSING"
-			| "PRICE_INVALID"
-			| "PRICE_PRECISION_EXCEEDED"
-			| "PRICE_DISTANCE_MISSING"
-			| "PRICE_DISTANCE_INVALID"
-			| "PRICE_DISTANCE_PRECISION_EXCEEDED"
-			| "PRICE_DISTANCE_MAXIMUM_EXCEEDED"
-			| "PRICE_DISTANCE_MINIMUM_NOT_MET"
-			| "TIME_IN_FORCE_MISSING"
-			| "TIME_IN_FORCE_INVALID"
-			| "TIME_IN_FORCE_GTD_TIMESTAMP_MISSING"
-			| "TIME_IN_FORCE_GTD_TIMESTAMP_IN_PAST"
-			| "PRICE_BOUND_INVALID"
-			| "PRICE_BOUND_PRECISION_EXCEEDED"
-			| "ORDERS_ON_FILL_DUPLICATE_CLIENT_ORDER_IDS"
-			| "TRADE_ON_FILL_CLIENT_EXTENSIONS_NOT_SUPPORTED"
-			| "CLIENT_ORDER_ID_INVALID"
-			| "CLIENT_ORDER_ID_ALREADY_EXISTS"
-			| "CLIENT_ORDER_TAG_INVALID"
-			| "CLIENT_ORDER_COMMENT_INVALID"
-			| "CLIENT_TRADE_ID_INVALID"
-			| "CLIENT_TRADE_ID_ALREADY_EXISTS"
-			| "CLIENT_TRADE_TAG_INVALID"
-			| "CLIENT_TRADE_COMMENT_INVALID"
-			| "ORDER_FILL_POSITION_ACTION_MISSING"
-			| "ORDER_FILL_POSITION_ACTION_INVALID"
-			| "TRIGGER_CONDITION_MISSING"
-			| "TRIGGER_CONDITION_INVALID"
-			| "ORDER_PARTIAL_FILL_OPTION_MISSING"
-			| "ORDER_PARTIAL_FILL_OPTION_INVALID"
-			| "INVALID_REISSUE_IMMEDIATE_PARTIAL_FILL"
-			| "TAKE_PROFIT_ORDER_ALREADY_EXISTS"
-			| "TAKE_PROFIT_ON_FILL_PRICE_MISSING"
-			| "TAKE_PROFIT_ON_FILL_PRICE_INVALID"
-			| "TAKE_PROFIT_ON_FILL_PRICE_PRECISION_EXCEEDED"
-			| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_MISSING"
-			| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_INVALID"
-			| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_MISSING"
-			| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_IN_PAST"
-			| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_ID_INVALID"
-			| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_TAG_INVALID"
-			| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
-			| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_MISSING"
-			| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_INVALID"
-			| "STOP_LOSS_ORDER_ALREADY_EXISTS"
-			| "STOP_LOSS_ORDER_GUARANTEED_REQUIRED"
-			| "STOP_LOSS_ORDER_GUARANTEED_PRICE_WITHIN_SPREAD"
-			| "STOP_LOSS_ORDER_GUARANTEED_NOT_ALLOWED"
-			| "STOP_LOSS_ORDER_GUARANTEED_HALTED_CREATE_VIOLATION"
-			| "STOP_LOSS_ORDER_GUARANTEED_HALTED_TIGHTEN_VIOLATION"
-			| "STOP_LOSS_ORDER_GUARANTEED_HEDGING_NOT_ALLOWED"
-			| "STOP_LOSS_ORDER_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
-			| "STOP_LOSS_ORDER_NOT_CANCELABLE"
-			| "STOP_LOSS_ORDER_NOT_REPLACEABLE"
-			| "STOP_LOSS_ORDER_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
-			| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
-			| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_MISSING"
-			| "STOP_LOSS_ON_FILL_REQUIRED_FOR_PENDING_ORDER"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_NOT_ALLOWED"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_REQUIRED"
-			| "STOP_LOSS_ON_FILL_PRICE_MISSING"
-			| "STOP_LOSS_ON_FILL_PRICE_INVALID"
-			| "STOP_LOSS_ON_FILL_PRICE_PRECISION_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_DISTANCE_INVALID"
-			| "STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_DISTANCE_PRECISION_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
-			| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_MISSING"
-			| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
-			| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
-			| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
-			| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
-			| "STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
-			| "STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
-			| "STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
-			| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
-			| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
-			| "TRAILING_STOP_LOSS_ORDER_ALREADY_EXISTS"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_PRECISION_EXCEEDED"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MINIMUM_NOT_MET"
-			| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
-			| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
-			| "TRAILING_STOP_LOSS_ORDERS_NOT_SUPPORTED"
-			| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
-			| "CLOSE_TRADE_TYPE_MISSING"
-			| "CLOSE_TRADE_PARTIAL_UNITS_MISSING"
-			| "CLOSE_TRADE_UNITS_EXCEED_TRADE_SIZE"
-			| "CLOSEOUT_POSITION_DOESNT_EXIST"
-			| "CLOSEOUT_POSITION_INCOMPLETE_SPECIFICATION"
-			| "CLOSEOUT_POSITION_UNITS_EXCEED_POSITION_SIZE"
-			| "CLOSEOUT_POSITION_REJECT"
-			| "CLOSEOUT_POSITION_PARTIAL_UNITS_MISSING"
-			| "MARKUP_GROUP_ID_INVALID"
-			| "POSITION_AGGREGATION_MODE_INVALID"
-			| "ADMIN_CONFIGURE_DATA_MISSING"
-			| "MARGIN_RATE_INVALID"
-			| "MARGIN_RATE_WOULD_TRIGGER_CLOSEOUT"
-			| "ALIAS_INVALID"
-			| "CLIENT_CONFIGURE_DATA_MISSING"
-			| "MARGIN_RATE_WOULD_TRIGGER_MARGIN_CALL"
-			| "AMOUNT_INVALID"
-			| "INSUFFICIENT_FUNDS"
-			| "AMOUNT_MISSING"
-			| "FUNDING_REASON_MISSING"
-			| "CLIENT_EXTENSIONS_DATA_MISSING"
-			| "REPLACING_ORDER_INVALID"
-			| "REPLACING_TRADE_ID_INVALID"
-	}>
-	export type StopLossOrderReason = "CLIENT_ORDER" | "REPLACEMENT" | "ON_FILL"
-	export type StopLossOrderTransaction = Partial<{
-		id: string
-		time: string
-		userID: number
-		accountID: string
-		batchID: string
-		requestID: string
-		type:
-			| "CREATE"
-			| "CLOSE"
-			| "REOPEN"
-			| "CLIENT_CONFIGURE"
-			| "CLIENT_CONFIGURE_REJECT"
-			| "TRANSFER_FUNDS"
-			| "TRANSFER_FUNDS_REJECT"
-			| "MARKET_ORDER"
-			| "MARKET_ORDER_REJECT"
-			| "FIXED_PRICE_ORDER"
-			| "LIMIT_ORDER"
-			| "LIMIT_ORDER_REJECT"
-			| "STOP_ORDER"
-			| "STOP_ORDER_REJECT"
-			| "MARKET_IF_TOUCHED_ORDER"
-			| "MARKET_IF_TOUCHED_ORDER_REJECT"
-			| "TAKE_PROFIT_ORDER"
-			| "TAKE_PROFIT_ORDER_REJECT"
-			| "STOP_LOSS_ORDER"
-			| "STOP_LOSS_ORDER_REJECT"
-			| "TRAILING_STOP_LOSS_ORDER"
-			| "TRAILING_STOP_LOSS_ORDER_REJECT"
-			| "ORDER_FILL"
-			| "ORDER_CANCEL"
-			| "ORDER_CANCEL_REJECT"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "MARGIN_CALL_ENTER"
-			| "MARGIN_CALL_EXTEND"
-			| "MARGIN_CALL_EXIT"
-			| "DELAYED_TRADE_CLOSURE"
-			| "DAILY_FINANCING"
-			| "RESET_RESETTABLE_PL"
-		tradeID: string
-		clientTradeID: string
-		price: string
-		distance: string
-		timeInForce: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
-		gtdTime: string
-		triggerCondition: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
-		guaranteed: boolean
-		guaranteedExecutionPremium: string
-		reason: "CLIENT_ORDER" | "REPLACEMENT" | "ON_FILL"
-		clientExtensions: ClientExtensions
-		orderFillTransactionID: string
-		replacesOrderID: string
-		cancellingTransactionID: string
-	}>
-	export type StopLossOrderRejectTransaction = Partial<{
-		id: string
-		time: string
-		userID: number
-		accountID: string
-		batchID: string
-		requestID: string
-		type:
-			| "CREATE"
-			| "CLOSE"
-			| "REOPEN"
-			| "CLIENT_CONFIGURE"
-			| "CLIENT_CONFIGURE_REJECT"
-			| "TRANSFER_FUNDS"
-			| "TRANSFER_FUNDS_REJECT"
-			| "MARKET_ORDER"
-			| "MARKET_ORDER_REJECT"
-			| "FIXED_PRICE_ORDER"
-			| "LIMIT_ORDER"
-			| "LIMIT_ORDER_REJECT"
-			| "STOP_ORDER"
-			| "STOP_ORDER_REJECT"
-			| "MARKET_IF_TOUCHED_ORDER"
-			| "MARKET_IF_TOUCHED_ORDER_REJECT"
-			| "TAKE_PROFIT_ORDER"
-			| "TAKE_PROFIT_ORDER_REJECT"
-			| "STOP_LOSS_ORDER"
-			| "STOP_LOSS_ORDER_REJECT"
-			| "TRAILING_STOP_LOSS_ORDER"
-			| "TRAILING_STOP_LOSS_ORDER_REJECT"
-			| "ORDER_FILL"
-			| "ORDER_CANCEL"
-			| "ORDER_CANCEL_REJECT"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "MARGIN_CALL_ENTER"
-			| "MARGIN_CALL_EXTEND"
-			| "MARGIN_CALL_EXIT"
-			| "DELAYED_TRADE_CLOSURE"
-			| "DAILY_FINANCING"
-			| "RESET_RESETTABLE_PL"
-		tradeID: string
-		clientTradeID: string
-		price: string
-		distance: string
-		timeInForce: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
-		gtdTime: string
-		triggerCondition: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
-		guaranteed: boolean
-		reason: "CLIENT_ORDER" | "REPLACEMENT" | "ON_FILL"
-		clientExtensions: ClientExtensions
-		orderFillTransactionID: string
-		intendedReplacesOrderID: string
-		rejectReason:
-			| "INTERNAL_SERVER_ERROR"
-			| "INSTRUMENT_PRICE_UNKNOWN"
-			| "ACCOUNT_NOT_ACTIVE"
-			| "ACCOUNT_LOCKED"
-			| "ACCOUNT_ORDER_CREATION_LOCKED"
-			| "ACCOUNT_CONFIGURATION_LOCKED"
-			| "ACCOUNT_DEPOSIT_LOCKED"
-			| "ACCOUNT_WITHDRAWAL_LOCKED"
-			| "ACCOUNT_ORDER_CANCEL_LOCKED"
-			| "INSTRUMENT_NOT_TRADEABLE"
-			| "PENDING_ORDERS_ALLOWED_EXCEEDED"
-			| "ORDER_ID_UNSPECIFIED"
-			| "ORDER_DOESNT_EXIST"
-			| "ORDER_IDENTIFIER_INCONSISTENCY"
-			| "TRADE_ID_UNSPECIFIED"
-			| "TRADE_DOESNT_EXIST"
-			| "TRADE_IDENTIFIER_INCONSISTENCY"
-			| "INSUFFICIENT_MARGIN"
-			| "INSTRUMENT_MISSING"
-			| "INSTRUMENT_UNKNOWN"
-			| "UNITS_MISSING"
-			| "UNITS_INVALID"
-			| "UNITS_PRECISION_EXCEEDED"
-			| "UNITS_LIMIT_EXCEEDED"
-			| "UNITS_MIMIMUM_NOT_MET"
-			| "PRICE_MISSING"
-			| "PRICE_INVALID"
-			| "PRICE_PRECISION_EXCEEDED"
-			| "PRICE_DISTANCE_MISSING"
-			| "PRICE_DISTANCE_INVALID"
-			| "PRICE_DISTANCE_PRECISION_EXCEEDED"
-			| "PRICE_DISTANCE_MAXIMUM_EXCEEDED"
-			| "PRICE_DISTANCE_MINIMUM_NOT_MET"
-			| "TIME_IN_FORCE_MISSING"
-			| "TIME_IN_FORCE_INVALID"
-			| "TIME_IN_FORCE_GTD_TIMESTAMP_MISSING"
-			| "TIME_IN_FORCE_GTD_TIMESTAMP_IN_PAST"
-			| "PRICE_BOUND_INVALID"
-			| "PRICE_BOUND_PRECISION_EXCEEDED"
-			| "ORDERS_ON_FILL_DUPLICATE_CLIENT_ORDER_IDS"
-			| "TRADE_ON_FILL_CLIENT_EXTENSIONS_NOT_SUPPORTED"
-			| "CLIENT_ORDER_ID_INVALID"
-			| "CLIENT_ORDER_ID_ALREADY_EXISTS"
-			| "CLIENT_ORDER_TAG_INVALID"
-			| "CLIENT_ORDER_COMMENT_INVALID"
-			| "CLIENT_TRADE_ID_INVALID"
-			| "CLIENT_TRADE_ID_ALREADY_EXISTS"
-			| "CLIENT_TRADE_TAG_INVALID"
-			| "CLIENT_TRADE_COMMENT_INVALID"
-			| "ORDER_FILL_POSITION_ACTION_MISSING"
-			| "ORDER_FILL_POSITION_ACTION_INVALID"
-			| "TRIGGER_CONDITION_MISSING"
-			| "TRIGGER_CONDITION_INVALID"
-			| "ORDER_PARTIAL_FILL_OPTION_MISSING"
-			| "ORDER_PARTIAL_FILL_OPTION_INVALID"
-			| "INVALID_REISSUE_IMMEDIATE_PARTIAL_FILL"
-			| "TAKE_PROFIT_ORDER_ALREADY_EXISTS"
-			| "TAKE_PROFIT_ON_FILL_PRICE_MISSING"
-			| "TAKE_PROFIT_ON_FILL_PRICE_INVALID"
-			| "TAKE_PROFIT_ON_FILL_PRICE_PRECISION_EXCEEDED"
-			| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_MISSING"
-			| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_INVALID"
-			| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_MISSING"
-			| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_IN_PAST"
-			| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_ID_INVALID"
-			| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_TAG_INVALID"
-			| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
-			| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_MISSING"
-			| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_INVALID"
-			| "STOP_LOSS_ORDER_ALREADY_EXISTS"
-			| "STOP_LOSS_ORDER_GUARANTEED_REQUIRED"
-			| "STOP_LOSS_ORDER_GUARANTEED_PRICE_WITHIN_SPREAD"
-			| "STOP_LOSS_ORDER_GUARANTEED_NOT_ALLOWED"
-			| "STOP_LOSS_ORDER_GUARANTEED_HALTED_CREATE_VIOLATION"
-			| "STOP_LOSS_ORDER_GUARANTEED_HALTED_TIGHTEN_VIOLATION"
-			| "STOP_LOSS_ORDER_GUARANTEED_HEDGING_NOT_ALLOWED"
-			| "STOP_LOSS_ORDER_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
-			| "STOP_LOSS_ORDER_NOT_CANCELABLE"
-			| "STOP_LOSS_ORDER_NOT_REPLACEABLE"
-			| "STOP_LOSS_ORDER_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
-			| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
-			| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_MISSING"
-			| "STOP_LOSS_ON_FILL_REQUIRED_FOR_PENDING_ORDER"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_NOT_ALLOWED"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_REQUIRED"
-			| "STOP_LOSS_ON_FILL_PRICE_MISSING"
-			| "STOP_LOSS_ON_FILL_PRICE_INVALID"
-			| "STOP_LOSS_ON_FILL_PRICE_PRECISION_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_DISTANCE_INVALID"
-			| "STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_DISTANCE_PRECISION_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
-			| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_MISSING"
-			| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
-			| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
-			| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
-			| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
-			| "STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
-			| "STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
-			| "STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
-			| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
-			| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
-			| "TRAILING_STOP_LOSS_ORDER_ALREADY_EXISTS"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_PRECISION_EXCEEDED"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MINIMUM_NOT_MET"
-			| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
-			| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
-			| "TRAILING_STOP_LOSS_ORDERS_NOT_SUPPORTED"
-			| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
-			| "CLOSE_TRADE_TYPE_MISSING"
-			| "CLOSE_TRADE_PARTIAL_UNITS_MISSING"
-			| "CLOSE_TRADE_UNITS_EXCEED_TRADE_SIZE"
-			| "CLOSEOUT_POSITION_DOESNT_EXIST"
-			| "CLOSEOUT_POSITION_INCOMPLETE_SPECIFICATION"
-			| "CLOSEOUT_POSITION_UNITS_EXCEED_POSITION_SIZE"
-			| "CLOSEOUT_POSITION_REJECT"
-			| "CLOSEOUT_POSITION_PARTIAL_UNITS_MISSING"
-			| "MARKUP_GROUP_ID_INVALID"
-			| "POSITION_AGGREGATION_MODE_INVALID"
-			| "ADMIN_CONFIGURE_DATA_MISSING"
-			| "MARGIN_RATE_INVALID"
-			| "MARGIN_RATE_WOULD_TRIGGER_CLOSEOUT"
-			| "ALIAS_INVALID"
-			| "CLIENT_CONFIGURE_DATA_MISSING"
-			| "MARGIN_RATE_WOULD_TRIGGER_MARGIN_CALL"
-			| "AMOUNT_INVALID"
-			| "INSUFFICIENT_FUNDS"
-			| "AMOUNT_MISSING"
-			| "FUNDING_REASON_MISSING"
-			| "CLIENT_EXTENSIONS_DATA_MISSING"
-			| "REPLACING_ORDER_INVALID"
-			| "REPLACING_TRADE_ID_INVALID"
-	}>
-	export type TrailingStopLossOrderReason =
-		| "CLIENT_ORDER"
-		| "REPLACEMENT"
-		| "ON_FILL"
-	export type TrailingStopLossOrderTransaction = Partial<{
-		id: string
-		time: string
-		userID: number
-		accountID: string
-		batchID: string
-		requestID: string
-		type:
-			| "CREATE"
-			| "CLOSE"
-			| "REOPEN"
-			| "CLIENT_CONFIGURE"
-			| "CLIENT_CONFIGURE_REJECT"
-			| "TRANSFER_FUNDS"
-			| "TRANSFER_FUNDS_REJECT"
-			| "MARKET_ORDER"
-			| "MARKET_ORDER_REJECT"
-			| "FIXED_PRICE_ORDER"
-			| "LIMIT_ORDER"
-			| "LIMIT_ORDER_REJECT"
-			| "STOP_ORDER"
-			| "STOP_ORDER_REJECT"
-			| "MARKET_IF_TOUCHED_ORDER"
-			| "MARKET_IF_TOUCHED_ORDER_REJECT"
-			| "TAKE_PROFIT_ORDER"
-			| "TAKE_PROFIT_ORDER_REJECT"
-			| "STOP_LOSS_ORDER"
-			| "STOP_LOSS_ORDER_REJECT"
-			| "TRAILING_STOP_LOSS_ORDER"
-			| "TRAILING_STOP_LOSS_ORDER_REJECT"
-			| "ORDER_FILL"
-			| "ORDER_CANCEL"
-			| "ORDER_CANCEL_REJECT"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "MARGIN_CALL_ENTER"
-			| "MARGIN_CALL_EXTEND"
-			| "MARGIN_CALL_EXIT"
-			| "DELAYED_TRADE_CLOSURE"
-			| "DAILY_FINANCING"
-			| "RESET_RESETTABLE_PL"
-		tradeID: string
-		clientTradeID: string
-		distance: string
-		timeInForce: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
-		gtdTime: string
-		triggerCondition: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
-		reason: "CLIENT_ORDER" | "REPLACEMENT" | "ON_FILL"
-		clientExtensions: ClientExtensions
-		orderFillTransactionID: string
-		replacesOrderID: string
-		cancellingTransactionID: string
-	}>
-	export type TrailingStopLossOrderRejectTransaction = Partial<{
-		id: string
-		time: string
-		userID: number
-		accountID: string
-		batchID: string
-		requestID: string
-		type:
-			| "CREATE"
-			| "CLOSE"
-			| "REOPEN"
-			| "CLIENT_CONFIGURE"
-			| "CLIENT_CONFIGURE_REJECT"
-			| "TRANSFER_FUNDS"
-			| "TRANSFER_FUNDS_REJECT"
-			| "MARKET_ORDER"
-			| "MARKET_ORDER_REJECT"
-			| "FIXED_PRICE_ORDER"
-			| "LIMIT_ORDER"
-			| "LIMIT_ORDER_REJECT"
-			| "STOP_ORDER"
-			| "STOP_ORDER_REJECT"
-			| "MARKET_IF_TOUCHED_ORDER"
-			| "MARKET_IF_TOUCHED_ORDER_REJECT"
-			| "TAKE_PROFIT_ORDER"
-			| "TAKE_PROFIT_ORDER_REJECT"
-			| "STOP_LOSS_ORDER"
-			| "STOP_LOSS_ORDER_REJECT"
-			| "TRAILING_STOP_LOSS_ORDER"
-			| "TRAILING_STOP_LOSS_ORDER_REJECT"
-			| "ORDER_FILL"
-			| "ORDER_CANCEL"
-			| "ORDER_CANCEL_REJECT"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "MARGIN_CALL_ENTER"
-			| "MARGIN_CALL_EXTEND"
-			| "MARGIN_CALL_EXIT"
-			| "DELAYED_TRADE_CLOSURE"
-			| "DAILY_FINANCING"
-			| "RESET_RESETTABLE_PL"
-		tradeID: string
-		clientTradeID: string
-		distance: string
-		timeInForce: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
-		gtdTime: string
-		triggerCondition: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
-		reason: "CLIENT_ORDER" | "REPLACEMENT" | "ON_FILL"
-		clientExtensions: ClientExtensions
-		orderFillTransactionID: string
-		intendedReplacesOrderID: string
-		rejectReason:
-			| "INTERNAL_SERVER_ERROR"
-			| "INSTRUMENT_PRICE_UNKNOWN"
-			| "ACCOUNT_NOT_ACTIVE"
-			| "ACCOUNT_LOCKED"
-			| "ACCOUNT_ORDER_CREATION_LOCKED"
-			| "ACCOUNT_CONFIGURATION_LOCKED"
-			| "ACCOUNT_DEPOSIT_LOCKED"
-			| "ACCOUNT_WITHDRAWAL_LOCKED"
-			| "ACCOUNT_ORDER_CANCEL_LOCKED"
-			| "INSTRUMENT_NOT_TRADEABLE"
-			| "PENDING_ORDERS_ALLOWED_EXCEEDED"
-			| "ORDER_ID_UNSPECIFIED"
-			| "ORDER_DOESNT_EXIST"
-			| "ORDER_IDENTIFIER_INCONSISTENCY"
-			| "TRADE_ID_UNSPECIFIED"
-			| "TRADE_DOESNT_EXIST"
-			| "TRADE_IDENTIFIER_INCONSISTENCY"
-			| "INSUFFICIENT_MARGIN"
-			| "INSTRUMENT_MISSING"
-			| "INSTRUMENT_UNKNOWN"
-			| "UNITS_MISSING"
-			| "UNITS_INVALID"
-			| "UNITS_PRECISION_EXCEEDED"
-			| "UNITS_LIMIT_EXCEEDED"
-			| "UNITS_MIMIMUM_NOT_MET"
-			| "PRICE_MISSING"
-			| "PRICE_INVALID"
-			| "PRICE_PRECISION_EXCEEDED"
-			| "PRICE_DISTANCE_MISSING"
-			| "PRICE_DISTANCE_INVALID"
-			| "PRICE_DISTANCE_PRECISION_EXCEEDED"
-			| "PRICE_DISTANCE_MAXIMUM_EXCEEDED"
-			| "PRICE_DISTANCE_MINIMUM_NOT_MET"
-			| "TIME_IN_FORCE_MISSING"
-			| "TIME_IN_FORCE_INVALID"
-			| "TIME_IN_FORCE_GTD_TIMESTAMP_MISSING"
-			| "TIME_IN_FORCE_GTD_TIMESTAMP_IN_PAST"
-			| "PRICE_BOUND_INVALID"
-			| "PRICE_BOUND_PRECISION_EXCEEDED"
-			| "ORDERS_ON_FILL_DUPLICATE_CLIENT_ORDER_IDS"
-			| "TRADE_ON_FILL_CLIENT_EXTENSIONS_NOT_SUPPORTED"
-			| "CLIENT_ORDER_ID_INVALID"
-			| "CLIENT_ORDER_ID_ALREADY_EXISTS"
-			| "CLIENT_ORDER_TAG_INVALID"
-			| "CLIENT_ORDER_COMMENT_INVALID"
-			| "CLIENT_TRADE_ID_INVALID"
-			| "CLIENT_TRADE_ID_ALREADY_EXISTS"
-			| "CLIENT_TRADE_TAG_INVALID"
-			| "CLIENT_TRADE_COMMENT_INVALID"
-			| "ORDER_FILL_POSITION_ACTION_MISSING"
-			| "ORDER_FILL_POSITION_ACTION_INVALID"
-			| "TRIGGER_CONDITION_MISSING"
-			| "TRIGGER_CONDITION_INVALID"
-			| "ORDER_PARTIAL_FILL_OPTION_MISSING"
-			| "ORDER_PARTIAL_FILL_OPTION_INVALID"
-			| "INVALID_REISSUE_IMMEDIATE_PARTIAL_FILL"
-			| "TAKE_PROFIT_ORDER_ALREADY_EXISTS"
-			| "TAKE_PROFIT_ON_FILL_PRICE_MISSING"
-			| "TAKE_PROFIT_ON_FILL_PRICE_INVALID"
-			| "TAKE_PROFIT_ON_FILL_PRICE_PRECISION_EXCEEDED"
-			| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_MISSING"
-			| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_INVALID"
-			| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_MISSING"
-			| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_IN_PAST"
-			| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_ID_INVALID"
-			| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_TAG_INVALID"
-			| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
-			| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_MISSING"
-			| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_INVALID"
-			| "STOP_LOSS_ORDER_ALREADY_EXISTS"
-			| "STOP_LOSS_ORDER_GUARANTEED_REQUIRED"
-			| "STOP_LOSS_ORDER_GUARANTEED_PRICE_WITHIN_SPREAD"
-			| "STOP_LOSS_ORDER_GUARANTEED_NOT_ALLOWED"
-			| "STOP_LOSS_ORDER_GUARANTEED_HALTED_CREATE_VIOLATION"
-			| "STOP_LOSS_ORDER_GUARANTEED_HALTED_TIGHTEN_VIOLATION"
-			| "STOP_LOSS_ORDER_GUARANTEED_HEDGING_NOT_ALLOWED"
-			| "STOP_LOSS_ORDER_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
-			| "STOP_LOSS_ORDER_NOT_CANCELABLE"
-			| "STOP_LOSS_ORDER_NOT_REPLACEABLE"
-			| "STOP_LOSS_ORDER_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
-			| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
-			| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_MISSING"
-			| "STOP_LOSS_ON_FILL_REQUIRED_FOR_PENDING_ORDER"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_NOT_ALLOWED"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_REQUIRED"
-			| "STOP_LOSS_ON_FILL_PRICE_MISSING"
-			| "STOP_LOSS_ON_FILL_PRICE_INVALID"
-			| "STOP_LOSS_ON_FILL_PRICE_PRECISION_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_DISTANCE_INVALID"
-			| "STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_DISTANCE_PRECISION_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
-			| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_MISSING"
-			| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
-			| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
-			| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
-			| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
-			| "STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
-			| "STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
-			| "STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
-			| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
-			| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
-			| "TRAILING_STOP_LOSS_ORDER_ALREADY_EXISTS"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_PRECISION_EXCEEDED"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MINIMUM_NOT_MET"
-			| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
-			| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
-			| "TRAILING_STOP_LOSS_ORDERS_NOT_SUPPORTED"
-			| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
-			| "CLOSE_TRADE_TYPE_MISSING"
-			| "CLOSE_TRADE_PARTIAL_UNITS_MISSING"
-			| "CLOSE_TRADE_UNITS_EXCEED_TRADE_SIZE"
-			| "CLOSEOUT_POSITION_DOESNT_EXIST"
-			| "CLOSEOUT_POSITION_INCOMPLETE_SPECIFICATION"
-			| "CLOSEOUT_POSITION_UNITS_EXCEED_POSITION_SIZE"
-			| "CLOSEOUT_POSITION_REJECT"
-			| "CLOSEOUT_POSITION_PARTIAL_UNITS_MISSING"
-			| "MARKUP_GROUP_ID_INVALID"
-			| "POSITION_AGGREGATION_MODE_INVALID"
-			| "ADMIN_CONFIGURE_DATA_MISSING"
-			| "MARGIN_RATE_INVALID"
-			| "MARGIN_RATE_WOULD_TRIGGER_CLOSEOUT"
-			| "ALIAS_INVALID"
-			| "CLIENT_CONFIGURE_DATA_MISSING"
-			| "MARGIN_RATE_WOULD_TRIGGER_MARGIN_CALL"
-			| "AMOUNT_INVALID"
-			| "INSUFFICIENT_FUNDS"
-			| "AMOUNT_MISSING"
-			| "FUNDING_REASON_MISSING"
-			| "CLIENT_EXTENSIONS_DATA_MISSING"
-			| "REPLACING_ORDER_INVALID"
-			| "REPLACING_TRADE_ID_INVALID"
-	}>
-	export type OrderFillReason =
-		| "LIMIT_ORDER"
-		| "STOP_ORDER"
-		| "MARKET_IF_TOUCHED_ORDER"
-		| "TAKE_PROFIT_ORDER"
-		| "STOP_LOSS_ORDER"
-		| "TRAILING_STOP_LOSS_ORDER"
-		| "MARKET_ORDER"
-		| "MARKET_ORDER_TRADE_CLOSE"
-		| "MARKET_ORDER_POSITION_CLOSEOUT"
-		| "MARKET_ORDER_MARGIN_CLOSEOUT"
-		| "MARKET_ORDER_DELAYED_TRADE_CLOSE"
-	export type PriceBucket = Partial<{ price: string; liquidity: number }>
-	export type QuoteHomeConversionFactors = Partial<{
-		positiveUnits: string
-		negativeUnits: string
-	}>
-	export type UnitsAvailableDetails = Partial<{ long: string; short: string }>
-	export type UnitsAvailable = Partial<{
-		default: UnitsAvailableDetails
-		reduceFirst: UnitsAvailableDetails
-		reduceOnly: UnitsAvailableDetails
-		openOnly: UnitsAvailableDetails
-	}>
-	export type ClientPrice = Partial<{
-		type: string
-		instrument: string
-		time: string
-		status: "tradeable" | "non-tradeable" | "invalid"
-		tradeable: boolean
-		bids: Array<PriceBucket>
-		asks: Array<PriceBucket>
-		closeoutBid: string
-		closeoutAsk: string
-		quoteHomeConversionFactors: QuoteHomeConversionFactors
-		unitsAvailable: UnitsAvailable
-	}>
-	export type TradeOpen = Partial<{
-		tradeID: string
-		units: string
-		price: string
-		guaranteedExecutionFee: string
-		clientExtensions: ClientExtensions
-		halfSpreadCost: string
-		initialMarginRequired: string
-	}>
-	export type TradeReduce = Partial<{
-		tradeID: string
-		units: string
-		price: string
-		realizedPL: string
-		financing: string
-		guaranteedExecutionFee: string
-		halfSpreadCost: string
-	}>
-	export type OrderFillTransaction = Partial<{
-		id: string
-		time: string
-		userID: number
-		accountID: string
-		batchID: string
-		requestID: string
-		type:
-			| "CREATE"
-			| "CLOSE"
-			| "REOPEN"
-			| "CLIENT_CONFIGURE"
-			| "CLIENT_CONFIGURE_REJECT"
-			| "TRANSFER_FUNDS"
-			| "TRANSFER_FUNDS_REJECT"
-			| "MARKET_ORDER"
-			| "MARKET_ORDER_REJECT"
-			| "FIXED_PRICE_ORDER"
-			| "LIMIT_ORDER"
-			| "LIMIT_ORDER_REJECT"
-			| "STOP_ORDER"
-			| "STOP_ORDER_REJECT"
-			| "MARKET_IF_TOUCHED_ORDER"
-			| "MARKET_IF_TOUCHED_ORDER_REJECT"
-			| "TAKE_PROFIT_ORDER"
-			| "TAKE_PROFIT_ORDER_REJECT"
-			| "STOP_LOSS_ORDER"
-			| "STOP_LOSS_ORDER_REJECT"
-			| "TRAILING_STOP_LOSS_ORDER"
-			| "TRAILING_STOP_LOSS_ORDER_REJECT"
-			| "ORDER_FILL"
-			| "ORDER_CANCEL"
-			| "ORDER_CANCEL_REJECT"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "MARGIN_CALL_ENTER"
-			| "MARGIN_CALL_EXTEND"
-			| "MARGIN_CALL_EXIT"
-			| "DELAYED_TRADE_CLOSURE"
-			| "DAILY_FINANCING"
-			| "RESET_RESETTABLE_PL"
-		orderID: string
-		clientOrderID: string
-		instrument: string
-		units: string
-		gainQuoteHomeConversionFactor: string
-		lossQuoteHomeConversionFactor: string
-		price: string
-		fullVWAP: string
-		fullPrice: ClientPrice
-		reason:
+		/**
+		 * @description The reason that the Fixed Price Order was created
+		 * @enum {string}
+		 */
+		FixedPriceOrderReason: "PLATFORM_ACCOUNT_MIGRATION"
+		/** @description A MarketOrderTransaction represents the creation of a Market Order in the user's account. A Market Order is an Order that is filled immediately at the current market price.
+		 *     Market Orders can be specialized when they are created to accomplish a specific task: to close a Trade, to closeout a Position or to particiate in in a Margin closeout. */
+		MarketOrderTransaction: {
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The Transaction's Identifier.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Transaction was created.
+			 */
+			time?: string
+			/** @description The ID of the user that initiated the creation of the Transaction. */
+			userID?: number
+			/**
+			 * Format: "-"-delimited string with format "{siteID}-{divisionID}-{userID}-{accountNumber}"
+			 * @description The ID of the Account the Transaction was created for.
+			 */
+			accountID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.
+			 */
+			batchID?: string
+			/** @description The Request ID of the request which generated the transaction. */
+			requestID?: string
+			/**
+			 * @description The Type of the Transaction. Always set to "MARKET_ORDER" in a MarketOrderTransaction.
+			 * @enum {string}
+			 */
+			type?:
+				| "CREATE"
+				| "CLOSE"
+				| "REOPEN"
+				| "CLIENT_CONFIGURE"
+				| "CLIENT_CONFIGURE_REJECT"
+				| "TRANSFER_FUNDS"
+				| "TRANSFER_FUNDS_REJECT"
+				| "MARKET_ORDER"
+				| "MARKET_ORDER_REJECT"
+				| "FIXED_PRICE_ORDER"
+				| "LIMIT_ORDER"
+				| "LIMIT_ORDER_REJECT"
+				| "STOP_ORDER"
+				| "STOP_ORDER_REJECT"
+				| "MARKET_IF_TOUCHED_ORDER"
+				| "MARKET_IF_TOUCHED_ORDER_REJECT"
+				| "TAKE_PROFIT_ORDER"
+				| "TAKE_PROFIT_ORDER_REJECT"
+				| "STOP_LOSS_ORDER"
+				| "STOP_LOSS_ORDER_REJECT"
+				| "TRAILING_STOP_LOSS_ORDER"
+				| "TRAILING_STOP_LOSS_ORDER_REJECT"
+				| "ORDER_FILL"
+				| "ORDER_CANCEL"
+				| "ORDER_CANCEL_REJECT"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "MARGIN_CALL_ENTER"
+				| "MARGIN_CALL_EXTEND"
+				| "MARGIN_CALL_EXIT"
+				| "DELAYED_TRADE_CLOSURE"
+				| "DAILY_FINANCING"
+				| "RESET_RESETTABLE_PL"
+			/**
+			 * Format: A string containing the base currency and quote currency delimited by a "_".
+			 * @description The Market Order's Instrument.
+			 */
+			instrument?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The quantity requested to be filled by the Market Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.
+			 */
+			units?: string
+			/**
+			 * @description The time-in-force requested for the Market Order. Restricted to FOK or IOC for a MarketOrder.
+			 * @enum {string}
+			 */
+			timeInForce?: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The worst price that the client is willing to have the Market Order filled at.
+			 */
+			priceBound?: string
+			/**
+			 * @description Specification of how Positions in the Account are modified when the Order is filled.
+			 * @enum {string}
+			 */
+			positionFill?: "OPEN_ONLY" | "REDUCE_FIRST" | "REDUCE_ONLY" | "DEFAULT"
+			tradeClose?: components["schemas"]["MarketOrderTradeClose"]
+			longPositionCloseout?: components["schemas"]["MarketOrderPositionCloseout"]
+			shortPositionCloseout?: components["schemas"]["MarketOrderPositionCloseout"]
+			marginCloseout?: components["schemas"]["MarketOrderMarginCloseout"]
+			delayedTradeClose?: components["schemas"]["MarketOrderDelayedTradeClose"]
+			/**
+			 * @description The reason that the Market Order was created
+			 * @enum {string}
+			 */
+			reason?:
+				| "CLIENT_ORDER"
+				| "TRADE_CLOSE"
+				| "POSITION_CLOSEOUT"
+				| "MARGIN_CLOSEOUT"
+				| "DELAYED_TRADE_CLOSE"
+			clientExtensions?: components["schemas"]["ClientExtensions"]
+			takeProfitOnFill?: components["schemas"]["TakeProfitDetails"]
+			stopLossOnFill?: components["schemas"]["StopLossDetails"]
+			trailingStopLossOnFill?: components["schemas"]["TrailingStopLossDetails"]
+			tradeClientExtensions?: components["schemas"]["ClientExtensions"]
+		}
+		/** @description A MarketOrderRejectTransaction represents the rejection of the creation of a Market Order. */
+		MarketOrderRejectTransaction: {
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The Transaction's Identifier.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Transaction was created.
+			 */
+			time?: string
+			/** @description The ID of the user that initiated the creation of the Transaction. */
+			userID?: number
+			/**
+			 * Format: "-"-delimited string with format "{siteID}-{divisionID}-{userID}-{accountNumber}"
+			 * @description The ID of the Account the Transaction was created for.
+			 */
+			accountID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.
+			 */
+			batchID?: string
+			/** @description The Request ID of the request which generated the transaction. */
+			requestID?: string
+			/**
+			 * @description The Type of the Transaction. Always set to "MARKET_ORDER_REJECT" in a MarketOrderRejectTransaction.
+			 * @enum {string}
+			 */
+			type?:
+				| "CREATE"
+				| "CLOSE"
+				| "REOPEN"
+				| "CLIENT_CONFIGURE"
+				| "CLIENT_CONFIGURE_REJECT"
+				| "TRANSFER_FUNDS"
+				| "TRANSFER_FUNDS_REJECT"
+				| "MARKET_ORDER"
+				| "MARKET_ORDER_REJECT"
+				| "FIXED_PRICE_ORDER"
+				| "LIMIT_ORDER"
+				| "LIMIT_ORDER_REJECT"
+				| "STOP_ORDER"
+				| "STOP_ORDER_REJECT"
+				| "MARKET_IF_TOUCHED_ORDER"
+				| "MARKET_IF_TOUCHED_ORDER_REJECT"
+				| "TAKE_PROFIT_ORDER"
+				| "TAKE_PROFIT_ORDER_REJECT"
+				| "STOP_LOSS_ORDER"
+				| "STOP_LOSS_ORDER_REJECT"
+				| "TRAILING_STOP_LOSS_ORDER"
+				| "TRAILING_STOP_LOSS_ORDER_REJECT"
+				| "ORDER_FILL"
+				| "ORDER_CANCEL"
+				| "ORDER_CANCEL_REJECT"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "MARGIN_CALL_ENTER"
+				| "MARGIN_CALL_EXTEND"
+				| "MARGIN_CALL_EXIT"
+				| "DELAYED_TRADE_CLOSURE"
+				| "DAILY_FINANCING"
+				| "RESET_RESETTABLE_PL"
+			/**
+			 * Format: A string containing the base currency and quote currency delimited by a "_".
+			 * @description The Market Order's Instrument.
+			 */
+			instrument?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The quantity requested to be filled by the Market Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.
+			 */
+			units?: string
+			/**
+			 * @description The time-in-force requested for the Market Order. Restricted to FOK or IOC for a MarketOrder.
+			 * @enum {string}
+			 */
+			timeInForce?: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The worst price that the client is willing to have the Market Order filled at.
+			 */
+			priceBound?: string
+			/**
+			 * @description Specification of how Positions in the Account are modified when the Order is filled.
+			 * @enum {string}
+			 */
+			positionFill?: "OPEN_ONLY" | "REDUCE_FIRST" | "REDUCE_ONLY" | "DEFAULT"
+			tradeClose?: components["schemas"]["MarketOrderTradeClose"]
+			longPositionCloseout?: components["schemas"]["MarketOrderPositionCloseout"]
+			shortPositionCloseout?: components["schemas"]["MarketOrderPositionCloseout"]
+			marginCloseout?: components["schemas"]["MarketOrderMarginCloseout"]
+			delayedTradeClose?: components["schemas"]["MarketOrderDelayedTradeClose"]
+			/**
+			 * @description The reason that the Market Order was created
+			 * @enum {string}
+			 */
+			reason?:
+				| "CLIENT_ORDER"
+				| "TRADE_CLOSE"
+				| "POSITION_CLOSEOUT"
+				| "MARGIN_CLOSEOUT"
+				| "DELAYED_TRADE_CLOSE"
+			clientExtensions?: components["schemas"]["ClientExtensions"]
+			takeProfitOnFill?: components["schemas"]["TakeProfitDetails"]
+			stopLossOnFill?: components["schemas"]["StopLossDetails"]
+			trailingStopLossOnFill?: components["schemas"]["TrailingStopLossDetails"]
+			tradeClientExtensions?: components["schemas"]["ClientExtensions"]
+			/**
+			 * @description The reason that the Reject Transaction was created
+			 * @enum {string}
+			 */
+			rejectReason?:
+				| "INTERNAL_SERVER_ERROR"
+				| "INSTRUMENT_PRICE_UNKNOWN"
+				| "ACCOUNT_NOT_ACTIVE"
+				| "ACCOUNT_LOCKED"
+				| "ACCOUNT_ORDER_CREATION_LOCKED"
+				| "ACCOUNT_CONFIGURATION_LOCKED"
+				| "ACCOUNT_DEPOSIT_LOCKED"
+				| "ACCOUNT_WITHDRAWAL_LOCKED"
+				| "ACCOUNT_ORDER_CANCEL_LOCKED"
+				| "INSTRUMENT_NOT_TRADEABLE"
+				| "PENDING_ORDERS_ALLOWED_EXCEEDED"
+				| "ORDER_ID_UNSPECIFIED"
+				| "ORDER_DOESNT_EXIST"
+				| "ORDER_IDENTIFIER_INCONSISTENCY"
+				| "TRADE_ID_UNSPECIFIED"
+				| "TRADE_DOESNT_EXIST"
+				| "TRADE_IDENTIFIER_INCONSISTENCY"
+				| "INSUFFICIENT_MARGIN"
+				| "INSTRUMENT_MISSING"
+				| "INSTRUMENT_UNKNOWN"
+				| "UNITS_MISSING"
+				| "UNITS_INVALID"
+				| "UNITS_PRECISION_EXCEEDED"
+				| "UNITS_LIMIT_EXCEEDED"
+				| "UNITS_MIMIMUM_NOT_MET"
+				| "PRICE_MISSING"
+				| "PRICE_INVALID"
+				| "PRICE_PRECISION_EXCEEDED"
+				| "PRICE_DISTANCE_MISSING"
+				| "PRICE_DISTANCE_INVALID"
+				| "PRICE_DISTANCE_PRECISION_EXCEEDED"
+				| "PRICE_DISTANCE_MAXIMUM_EXCEEDED"
+				| "PRICE_DISTANCE_MINIMUM_NOT_MET"
+				| "TIME_IN_FORCE_MISSING"
+				| "TIME_IN_FORCE_INVALID"
+				| "TIME_IN_FORCE_GTD_TIMESTAMP_MISSING"
+				| "TIME_IN_FORCE_GTD_TIMESTAMP_IN_PAST"
+				| "PRICE_BOUND_INVALID"
+				| "PRICE_BOUND_PRECISION_EXCEEDED"
+				| "ORDERS_ON_FILL_DUPLICATE_CLIENT_ORDER_IDS"
+				| "TRADE_ON_FILL_CLIENT_EXTENSIONS_NOT_SUPPORTED"
+				| "CLIENT_ORDER_ID_INVALID"
+				| "CLIENT_ORDER_ID_ALREADY_EXISTS"
+				| "CLIENT_ORDER_TAG_INVALID"
+				| "CLIENT_ORDER_COMMENT_INVALID"
+				| "CLIENT_TRADE_ID_INVALID"
+				| "CLIENT_TRADE_ID_ALREADY_EXISTS"
+				| "CLIENT_TRADE_TAG_INVALID"
+				| "CLIENT_TRADE_COMMENT_INVALID"
+				| "ORDER_FILL_POSITION_ACTION_MISSING"
+				| "ORDER_FILL_POSITION_ACTION_INVALID"
+				| "TRIGGER_CONDITION_MISSING"
+				| "TRIGGER_CONDITION_INVALID"
+				| "ORDER_PARTIAL_FILL_OPTION_MISSING"
+				| "ORDER_PARTIAL_FILL_OPTION_INVALID"
+				| "INVALID_REISSUE_IMMEDIATE_PARTIAL_FILL"
+				| "TAKE_PROFIT_ORDER_ALREADY_EXISTS"
+				| "TAKE_PROFIT_ON_FILL_PRICE_MISSING"
+				| "TAKE_PROFIT_ON_FILL_PRICE_INVALID"
+				| "TAKE_PROFIT_ON_FILL_PRICE_PRECISION_EXCEEDED"
+				| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_MISSING"
+				| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_INVALID"
+				| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_MISSING"
+				| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_IN_PAST"
+				| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_ID_INVALID"
+				| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_TAG_INVALID"
+				| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
+				| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_MISSING"
+				| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_INVALID"
+				| "STOP_LOSS_ORDER_ALREADY_EXISTS"
+				| "STOP_LOSS_ORDER_GUARANTEED_REQUIRED"
+				| "STOP_LOSS_ORDER_GUARANTEED_PRICE_WITHIN_SPREAD"
+				| "STOP_LOSS_ORDER_GUARANTEED_NOT_ALLOWED"
+				| "STOP_LOSS_ORDER_GUARANTEED_HALTED_CREATE_VIOLATION"
+				| "STOP_LOSS_ORDER_GUARANTEED_HALTED_TIGHTEN_VIOLATION"
+				| "STOP_LOSS_ORDER_GUARANTEED_HEDGING_NOT_ALLOWED"
+				| "STOP_LOSS_ORDER_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
+				| "STOP_LOSS_ORDER_NOT_CANCELABLE"
+				| "STOP_LOSS_ORDER_NOT_REPLACEABLE"
+				| "STOP_LOSS_ORDER_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
+				| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
+				| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_MISSING"
+				| "STOP_LOSS_ON_FILL_REQUIRED_FOR_PENDING_ORDER"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_NOT_ALLOWED"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_REQUIRED"
+				| "STOP_LOSS_ON_FILL_PRICE_MISSING"
+				| "STOP_LOSS_ON_FILL_PRICE_INVALID"
+				| "STOP_LOSS_ON_FILL_PRICE_PRECISION_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_DISTANCE_INVALID"
+				| "STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_DISTANCE_PRECISION_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
+				| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_MISSING"
+				| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
+				| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
+				| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
+				| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
+				| "STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
+				| "STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
+				| "STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
+				| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
+				| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
+				| "TRAILING_STOP_LOSS_ORDER_ALREADY_EXISTS"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_PRECISION_EXCEEDED"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MINIMUM_NOT_MET"
+				| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
+				| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
+				| "TRAILING_STOP_LOSS_ORDERS_NOT_SUPPORTED"
+				| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
+				| "CLOSE_TRADE_TYPE_MISSING"
+				| "CLOSE_TRADE_PARTIAL_UNITS_MISSING"
+				| "CLOSE_TRADE_UNITS_EXCEED_TRADE_SIZE"
+				| "CLOSEOUT_POSITION_DOESNT_EXIST"
+				| "CLOSEOUT_POSITION_INCOMPLETE_SPECIFICATION"
+				| "CLOSEOUT_POSITION_UNITS_EXCEED_POSITION_SIZE"
+				| "CLOSEOUT_POSITION_REJECT"
+				| "CLOSEOUT_POSITION_PARTIAL_UNITS_MISSING"
+				| "MARKUP_GROUP_ID_INVALID"
+				| "POSITION_AGGREGATION_MODE_INVALID"
+				| "ADMIN_CONFIGURE_DATA_MISSING"
+				| "MARGIN_RATE_INVALID"
+				| "MARGIN_RATE_WOULD_TRIGGER_CLOSEOUT"
+				| "ALIAS_INVALID"
+				| "CLIENT_CONFIGURE_DATA_MISSING"
+				| "MARGIN_RATE_WOULD_TRIGGER_MARGIN_CALL"
+				| "AMOUNT_INVALID"
+				| "INSUFFICIENT_FUNDS"
+				| "AMOUNT_MISSING"
+				| "FUNDING_REASON_MISSING"
+				| "CLIENT_EXTENSIONS_DATA_MISSING"
+				| "REPLACING_ORDER_INVALID"
+				| "REPLACING_TRADE_ID_INVALID"
+		}
+		/** @description A FixedPriceOrderTransaction represents the creation of a Fixed Price Order in the user's account. A Fixed Price Order is an Order that is filled immediately at a specified price. */
+		FixedPriceOrderTransaction: {
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The Transaction's Identifier.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Transaction was created.
+			 */
+			time?: string
+			/** @description The ID of the user that initiated the creation of the Transaction. */
+			userID?: number
+			/**
+			 * Format: "-"-delimited string with format "{siteID}-{divisionID}-{userID}-{accountNumber}"
+			 * @description The ID of the Account the Transaction was created for.
+			 */
+			accountID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.
+			 */
+			batchID?: string
+			/** @description The Request ID of the request which generated the transaction. */
+			requestID?: string
+			/**
+			 * @description The Type of the Transaction. Always set to "FIXED_PRICE_ORDER" in a FixedPriceOrderTransaction.
+			 * @enum {string}
+			 */
+			type?:
+				| "CREATE"
+				| "CLOSE"
+				| "REOPEN"
+				| "CLIENT_CONFIGURE"
+				| "CLIENT_CONFIGURE_REJECT"
+				| "TRANSFER_FUNDS"
+				| "TRANSFER_FUNDS_REJECT"
+				| "MARKET_ORDER"
+				| "MARKET_ORDER_REJECT"
+				| "FIXED_PRICE_ORDER"
+				| "LIMIT_ORDER"
+				| "LIMIT_ORDER_REJECT"
+				| "STOP_ORDER"
+				| "STOP_ORDER_REJECT"
+				| "MARKET_IF_TOUCHED_ORDER"
+				| "MARKET_IF_TOUCHED_ORDER_REJECT"
+				| "TAKE_PROFIT_ORDER"
+				| "TAKE_PROFIT_ORDER_REJECT"
+				| "STOP_LOSS_ORDER"
+				| "STOP_LOSS_ORDER_REJECT"
+				| "TRAILING_STOP_LOSS_ORDER"
+				| "TRAILING_STOP_LOSS_ORDER_REJECT"
+				| "ORDER_FILL"
+				| "ORDER_CANCEL"
+				| "ORDER_CANCEL_REJECT"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "MARGIN_CALL_ENTER"
+				| "MARGIN_CALL_EXTEND"
+				| "MARGIN_CALL_EXIT"
+				| "DELAYED_TRADE_CLOSURE"
+				| "DAILY_FINANCING"
+				| "RESET_RESETTABLE_PL"
+			/**
+			 * Format: A string containing the base currency and quote currency delimited by a "_".
+			 * @description The Fixed Price Order's Instrument.
+			 */
+			instrument?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The quantity requested to be filled by the Fixed Price Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.
+			 */
+			units?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The price specified for the Fixed Price Order. This price is the exact price that the Fixed Price Order will be filled at.
+			 */
+			price?: string
+			/**
+			 * @description Specification of how Positions in the Account are modified when the Order is filled.
+			 * @enum {string}
+			 */
+			positionFill?: "OPEN_ONLY" | "REDUCE_FIRST" | "REDUCE_ONLY" | "DEFAULT"
+			/** @description The state that the trade resulting from the Fixed Price Order should be set to. */
+			tradeState?: string
+			/**
+			 * @description The reason that the Fixed Price Order was created
+			 * @enum {string}
+			 */
+			reason?: "PLATFORM_ACCOUNT_MIGRATION"
+			clientExtensions?: components["schemas"]["ClientExtensions"]
+			takeProfitOnFill?: components["schemas"]["TakeProfitDetails"]
+			stopLossOnFill?: components["schemas"]["StopLossDetails"]
+			trailingStopLossOnFill?: components["schemas"]["TrailingStopLossDetails"]
+			tradeClientExtensions?: components["schemas"]["ClientExtensions"]
+		}
+		/**
+		 * @description The reason that the Limit Order was initiated
+		 * @enum {string}
+		 */
+		LimitOrderReason: "CLIENT_ORDER" | "REPLACEMENT"
+		/** @description A LimitOrderTransaction represents the creation of a Limit Order in the user's Account. */
+		LimitOrderTransaction: {
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The Transaction's Identifier.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Transaction was created.
+			 */
+			time?: string
+			/** @description The ID of the user that initiated the creation of the Transaction. */
+			userID?: number
+			/**
+			 * Format: "-"-delimited string with format "{siteID}-{divisionID}-{userID}-{accountNumber}"
+			 * @description The ID of the Account the Transaction was created for.
+			 */
+			accountID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.
+			 */
+			batchID?: string
+			/** @description The Request ID of the request which generated the transaction. */
+			requestID?: string
+			/**
+			 * @description The Type of the Transaction. Always set to "LIMIT_ORDER" in a LimitOrderTransaction.
+			 * @enum {string}
+			 */
+			type?:
+				| "CREATE"
+				| "CLOSE"
+				| "REOPEN"
+				| "CLIENT_CONFIGURE"
+				| "CLIENT_CONFIGURE_REJECT"
+				| "TRANSFER_FUNDS"
+				| "TRANSFER_FUNDS_REJECT"
+				| "MARKET_ORDER"
+				| "MARKET_ORDER_REJECT"
+				| "FIXED_PRICE_ORDER"
+				| "LIMIT_ORDER"
+				| "LIMIT_ORDER_REJECT"
+				| "STOP_ORDER"
+				| "STOP_ORDER_REJECT"
+				| "MARKET_IF_TOUCHED_ORDER"
+				| "MARKET_IF_TOUCHED_ORDER_REJECT"
+				| "TAKE_PROFIT_ORDER"
+				| "TAKE_PROFIT_ORDER_REJECT"
+				| "STOP_LOSS_ORDER"
+				| "STOP_LOSS_ORDER_REJECT"
+				| "TRAILING_STOP_LOSS_ORDER"
+				| "TRAILING_STOP_LOSS_ORDER_REJECT"
+				| "ORDER_FILL"
+				| "ORDER_CANCEL"
+				| "ORDER_CANCEL_REJECT"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "MARGIN_CALL_ENTER"
+				| "MARGIN_CALL_EXTEND"
+				| "MARGIN_CALL_EXIT"
+				| "DELAYED_TRADE_CLOSURE"
+				| "DAILY_FINANCING"
+				| "RESET_RESETTABLE_PL"
+			/**
+			 * Format: A string containing the base currency and quote currency delimited by a "_".
+			 * @description The Limit Order's Instrument.
+			 */
+			instrument?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The quantity requested to be filled by the Limit Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.
+			 */
+			units?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The price threshold specified for the Limit Order. The Limit Order will only be filled by a market price that is equal to or better than this price.
+			 */
+			price?: string
+			/**
+			 * @description The time-in-force requested for the Limit Order.
+			 * @enum {string}
+			 */
+			timeInForce?: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Limit Order will be cancelled if its timeInForce is "GTD".
+			 */
+			gtdTime?: string
+			/**
+			 * @description Specification of how Positions in the Account are modified when the Order is filled.
+			 * @enum {string}
+			 */
+			positionFill?: "OPEN_ONLY" | "REDUCE_FIRST" | "REDUCE_ONLY" | "DEFAULT"
+			/**
+			 * @description Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.
+			 *     This feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.
+			 *     A special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be "DEFAULT", or the "natural" trigger side "DEFAULT" results in. So for a Stop Loss Order for a long trade valid values are "DEFAULT" and "BID", and for short trades "DEFAULT" and "ASK" are valid.
+			 * @enum {string}
+			 */
+			triggerCondition?: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
+			/**
+			 * @description The reason that the Limit Order was initiated
+			 * @enum {string}
+			 */
+			reason?: "CLIENT_ORDER" | "REPLACEMENT"
+			clientExtensions?: components["schemas"]["ClientExtensions"]
+			takeProfitOnFill?: components["schemas"]["TakeProfitDetails"]
+			stopLossOnFill?: components["schemas"]["StopLossDetails"]
+			trailingStopLossOnFill?: components["schemas"]["TrailingStopLossDetails"]
+			tradeClientExtensions?: components["schemas"]["ClientExtensions"]
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The ID of the Order that this Order replaces (only provided if this Order replaces an existing Order).
+			 */
+			replacesOrderID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order).
+			 */
+			cancellingTransactionID?: string
+		}
+		/** @description A LimitOrderRejectTransaction represents the rejection of the creation of a Limit Order. */
+		LimitOrderRejectTransaction: {
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The Transaction's Identifier.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Transaction was created.
+			 */
+			time?: string
+			/** @description The ID of the user that initiated the creation of the Transaction. */
+			userID?: number
+			/**
+			 * Format: "-"-delimited string with format "{siteID}-{divisionID}-{userID}-{accountNumber}"
+			 * @description The ID of the Account the Transaction was created for.
+			 */
+			accountID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.
+			 */
+			batchID?: string
+			/** @description The Request ID of the request which generated the transaction. */
+			requestID?: string
+			/**
+			 * @description The Type of the Transaction. Always set to "LIMIT_ORDER_REJECT" in a LimitOrderRejectTransaction.
+			 * @enum {string}
+			 */
+			type?:
+				| "CREATE"
+				| "CLOSE"
+				| "REOPEN"
+				| "CLIENT_CONFIGURE"
+				| "CLIENT_CONFIGURE_REJECT"
+				| "TRANSFER_FUNDS"
+				| "TRANSFER_FUNDS_REJECT"
+				| "MARKET_ORDER"
+				| "MARKET_ORDER_REJECT"
+				| "FIXED_PRICE_ORDER"
+				| "LIMIT_ORDER"
+				| "LIMIT_ORDER_REJECT"
+				| "STOP_ORDER"
+				| "STOP_ORDER_REJECT"
+				| "MARKET_IF_TOUCHED_ORDER"
+				| "MARKET_IF_TOUCHED_ORDER_REJECT"
+				| "TAKE_PROFIT_ORDER"
+				| "TAKE_PROFIT_ORDER_REJECT"
+				| "STOP_LOSS_ORDER"
+				| "STOP_LOSS_ORDER_REJECT"
+				| "TRAILING_STOP_LOSS_ORDER"
+				| "TRAILING_STOP_LOSS_ORDER_REJECT"
+				| "ORDER_FILL"
+				| "ORDER_CANCEL"
+				| "ORDER_CANCEL_REJECT"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "MARGIN_CALL_ENTER"
+				| "MARGIN_CALL_EXTEND"
+				| "MARGIN_CALL_EXIT"
+				| "DELAYED_TRADE_CLOSURE"
+				| "DAILY_FINANCING"
+				| "RESET_RESETTABLE_PL"
+			/**
+			 * Format: A string containing the base currency and quote currency delimited by a "_".
+			 * @description The Limit Order's Instrument.
+			 */
+			instrument?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The quantity requested to be filled by the Limit Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.
+			 */
+			units?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The price threshold specified for the Limit Order. The Limit Order will only be filled by a market price that is equal to or better than this price.
+			 */
+			price?: string
+			/**
+			 * @description The time-in-force requested for the Limit Order.
+			 * @enum {string}
+			 */
+			timeInForce?: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Limit Order will be cancelled if its timeInForce is "GTD".
+			 */
+			gtdTime?: string
+			/**
+			 * @description Specification of how Positions in the Account are modified when the Order is filled.
+			 * @enum {string}
+			 */
+			positionFill?: "OPEN_ONLY" | "REDUCE_FIRST" | "REDUCE_ONLY" | "DEFAULT"
+			/**
+			 * @description Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.
+			 *     This feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.
+			 *     A special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be "DEFAULT", or the "natural" trigger side "DEFAULT" results in. So for a Stop Loss Order for a long trade valid values are "DEFAULT" and "BID", and for short trades "DEFAULT" and "ASK" are valid.
+			 * @enum {string}
+			 */
+			triggerCondition?: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
+			/**
+			 * @description The reason that the Limit Order was initiated
+			 * @enum {string}
+			 */
+			reason?: "CLIENT_ORDER" | "REPLACEMENT"
+			clientExtensions?: components["schemas"]["ClientExtensions"]
+			takeProfitOnFill?: components["schemas"]["TakeProfitDetails"]
+			stopLossOnFill?: components["schemas"]["StopLossDetails"]
+			trailingStopLossOnFill?: components["schemas"]["TrailingStopLossDetails"]
+			tradeClientExtensions?: components["schemas"]["ClientExtensions"]
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The ID of the Order that this Order was intended to replace (only provided if this Order was intended to replace an existing Order).
+			 */
+			intendedReplacesOrderID?: string
+			/**
+			 * @description The reason that the Reject Transaction was created
+			 * @enum {string}
+			 */
+			rejectReason?:
+				| "INTERNAL_SERVER_ERROR"
+				| "INSTRUMENT_PRICE_UNKNOWN"
+				| "ACCOUNT_NOT_ACTIVE"
+				| "ACCOUNT_LOCKED"
+				| "ACCOUNT_ORDER_CREATION_LOCKED"
+				| "ACCOUNT_CONFIGURATION_LOCKED"
+				| "ACCOUNT_DEPOSIT_LOCKED"
+				| "ACCOUNT_WITHDRAWAL_LOCKED"
+				| "ACCOUNT_ORDER_CANCEL_LOCKED"
+				| "INSTRUMENT_NOT_TRADEABLE"
+				| "PENDING_ORDERS_ALLOWED_EXCEEDED"
+				| "ORDER_ID_UNSPECIFIED"
+				| "ORDER_DOESNT_EXIST"
+				| "ORDER_IDENTIFIER_INCONSISTENCY"
+				| "TRADE_ID_UNSPECIFIED"
+				| "TRADE_DOESNT_EXIST"
+				| "TRADE_IDENTIFIER_INCONSISTENCY"
+				| "INSUFFICIENT_MARGIN"
+				| "INSTRUMENT_MISSING"
+				| "INSTRUMENT_UNKNOWN"
+				| "UNITS_MISSING"
+				| "UNITS_INVALID"
+				| "UNITS_PRECISION_EXCEEDED"
+				| "UNITS_LIMIT_EXCEEDED"
+				| "UNITS_MIMIMUM_NOT_MET"
+				| "PRICE_MISSING"
+				| "PRICE_INVALID"
+				| "PRICE_PRECISION_EXCEEDED"
+				| "PRICE_DISTANCE_MISSING"
+				| "PRICE_DISTANCE_INVALID"
+				| "PRICE_DISTANCE_PRECISION_EXCEEDED"
+				| "PRICE_DISTANCE_MAXIMUM_EXCEEDED"
+				| "PRICE_DISTANCE_MINIMUM_NOT_MET"
+				| "TIME_IN_FORCE_MISSING"
+				| "TIME_IN_FORCE_INVALID"
+				| "TIME_IN_FORCE_GTD_TIMESTAMP_MISSING"
+				| "TIME_IN_FORCE_GTD_TIMESTAMP_IN_PAST"
+				| "PRICE_BOUND_INVALID"
+				| "PRICE_BOUND_PRECISION_EXCEEDED"
+				| "ORDERS_ON_FILL_DUPLICATE_CLIENT_ORDER_IDS"
+				| "TRADE_ON_FILL_CLIENT_EXTENSIONS_NOT_SUPPORTED"
+				| "CLIENT_ORDER_ID_INVALID"
+				| "CLIENT_ORDER_ID_ALREADY_EXISTS"
+				| "CLIENT_ORDER_TAG_INVALID"
+				| "CLIENT_ORDER_COMMENT_INVALID"
+				| "CLIENT_TRADE_ID_INVALID"
+				| "CLIENT_TRADE_ID_ALREADY_EXISTS"
+				| "CLIENT_TRADE_TAG_INVALID"
+				| "CLIENT_TRADE_COMMENT_INVALID"
+				| "ORDER_FILL_POSITION_ACTION_MISSING"
+				| "ORDER_FILL_POSITION_ACTION_INVALID"
+				| "TRIGGER_CONDITION_MISSING"
+				| "TRIGGER_CONDITION_INVALID"
+				| "ORDER_PARTIAL_FILL_OPTION_MISSING"
+				| "ORDER_PARTIAL_FILL_OPTION_INVALID"
+				| "INVALID_REISSUE_IMMEDIATE_PARTIAL_FILL"
+				| "TAKE_PROFIT_ORDER_ALREADY_EXISTS"
+				| "TAKE_PROFIT_ON_FILL_PRICE_MISSING"
+				| "TAKE_PROFIT_ON_FILL_PRICE_INVALID"
+				| "TAKE_PROFIT_ON_FILL_PRICE_PRECISION_EXCEEDED"
+				| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_MISSING"
+				| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_INVALID"
+				| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_MISSING"
+				| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_IN_PAST"
+				| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_ID_INVALID"
+				| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_TAG_INVALID"
+				| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
+				| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_MISSING"
+				| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_INVALID"
+				| "STOP_LOSS_ORDER_ALREADY_EXISTS"
+				| "STOP_LOSS_ORDER_GUARANTEED_REQUIRED"
+				| "STOP_LOSS_ORDER_GUARANTEED_PRICE_WITHIN_SPREAD"
+				| "STOP_LOSS_ORDER_GUARANTEED_NOT_ALLOWED"
+				| "STOP_LOSS_ORDER_GUARANTEED_HALTED_CREATE_VIOLATION"
+				| "STOP_LOSS_ORDER_GUARANTEED_HALTED_TIGHTEN_VIOLATION"
+				| "STOP_LOSS_ORDER_GUARANTEED_HEDGING_NOT_ALLOWED"
+				| "STOP_LOSS_ORDER_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
+				| "STOP_LOSS_ORDER_NOT_CANCELABLE"
+				| "STOP_LOSS_ORDER_NOT_REPLACEABLE"
+				| "STOP_LOSS_ORDER_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
+				| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
+				| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_MISSING"
+				| "STOP_LOSS_ON_FILL_REQUIRED_FOR_PENDING_ORDER"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_NOT_ALLOWED"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_REQUIRED"
+				| "STOP_LOSS_ON_FILL_PRICE_MISSING"
+				| "STOP_LOSS_ON_FILL_PRICE_INVALID"
+				| "STOP_LOSS_ON_FILL_PRICE_PRECISION_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_DISTANCE_INVALID"
+				| "STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_DISTANCE_PRECISION_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
+				| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_MISSING"
+				| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
+				| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
+				| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
+				| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
+				| "STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
+				| "STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
+				| "STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
+				| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
+				| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
+				| "TRAILING_STOP_LOSS_ORDER_ALREADY_EXISTS"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_PRECISION_EXCEEDED"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MINIMUM_NOT_MET"
+				| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
+				| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
+				| "TRAILING_STOP_LOSS_ORDERS_NOT_SUPPORTED"
+				| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
+				| "CLOSE_TRADE_TYPE_MISSING"
+				| "CLOSE_TRADE_PARTIAL_UNITS_MISSING"
+				| "CLOSE_TRADE_UNITS_EXCEED_TRADE_SIZE"
+				| "CLOSEOUT_POSITION_DOESNT_EXIST"
+				| "CLOSEOUT_POSITION_INCOMPLETE_SPECIFICATION"
+				| "CLOSEOUT_POSITION_UNITS_EXCEED_POSITION_SIZE"
+				| "CLOSEOUT_POSITION_REJECT"
+				| "CLOSEOUT_POSITION_PARTIAL_UNITS_MISSING"
+				| "MARKUP_GROUP_ID_INVALID"
+				| "POSITION_AGGREGATION_MODE_INVALID"
+				| "ADMIN_CONFIGURE_DATA_MISSING"
+				| "MARGIN_RATE_INVALID"
+				| "MARGIN_RATE_WOULD_TRIGGER_CLOSEOUT"
+				| "ALIAS_INVALID"
+				| "CLIENT_CONFIGURE_DATA_MISSING"
+				| "MARGIN_RATE_WOULD_TRIGGER_MARGIN_CALL"
+				| "AMOUNT_INVALID"
+				| "INSUFFICIENT_FUNDS"
+				| "AMOUNT_MISSING"
+				| "FUNDING_REASON_MISSING"
+				| "CLIENT_EXTENSIONS_DATA_MISSING"
+				| "REPLACING_ORDER_INVALID"
+				| "REPLACING_TRADE_ID_INVALID"
+		}
+		/**
+		 * @description The reason that the Stop Order was initiated
+		 * @enum {string}
+		 */
+		StopOrderReason: "CLIENT_ORDER" | "REPLACEMENT"
+		/** @description A StopOrderTransaction represents the creation of a Stop Order in the user's Account. */
+		StopOrderTransaction: {
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The Transaction's Identifier.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Transaction was created.
+			 */
+			time?: string
+			/** @description The ID of the user that initiated the creation of the Transaction. */
+			userID?: number
+			/**
+			 * Format: "-"-delimited string with format "{siteID}-{divisionID}-{userID}-{accountNumber}"
+			 * @description The ID of the Account the Transaction was created for.
+			 */
+			accountID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.
+			 */
+			batchID?: string
+			/** @description The Request ID of the request which generated the transaction. */
+			requestID?: string
+			/**
+			 * @description The Type of the Transaction. Always set to "STOP_ORDER" in a StopOrderTransaction.
+			 * @enum {string}
+			 */
+			type?:
+				| "CREATE"
+				| "CLOSE"
+				| "REOPEN"
+				| "CLIENT_CONFIGURE"
+				| "CLIENT_CONFIGURE_REJECT"
+				| "TRANSFER_FUNDS"
+				| "TRANSFER_FUNDS_REJECT"
+				| "MARKET_ORDER"
+				| "MARKET_ORDER_REJECT"
+				| "FIXED_PRICE_ORDER"
+				| "LIMIT_ORDER"
+				| "LIMIT_ORDER_REJECT"
+				| "STOP_ORDER"
+				| "STOP_ORDER_REJECT"
+				| "MARKET_IF_TOUCHED_ORDER"
+				| "MARKET_IF_TOUCHED_ORDER_REJECT"
+				| "TAKE_PROFIT_ORDER"
+				| "TAKE_PROFIT_ORDER_REJECT"
+				| "STOP_LOSS_ORDER"
+				| "STOP_LOSS_ORDER_REJECT"
+				| "TRAILING_STOP_LOSS_ORDER"
+				| "TRAILING_STOP_LOSS_ORDER_REJECT"
+				| "ORDER_FILL"
+				| "ORDER_CANCEL"
+				| "ORDER_CANCEL_REJECT"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "MARGIN_CALL_ENTER"
+				| "MARGIN_CALL_EXTEND"
+				| "MARGIN_CALL_EXIT"
+				| "DELAYED_TRADE_CLOSURE"
+				| "DAILY_FINANCING"
+				| "RESET_RESETTABLE_PL"
+			/**
+			 * Format: A string containing the base currency and quote currency delimited by a "_".
+			 * @description The Stop Order's Instrument.
+			 */
+			instrument?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The quantity requested to be filled by the Stop Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.
+			 */
+			units?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The price threshold specified for the Stop Order. The Stop Order will only be filled by a market price that is equal to or worse than this price.
+			 */
+			price?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The worst market price that may be used to fill this Stop Order. If the market gaps and crosses through both the price and the priceBound, the Stop Order will be cancelled instead of being filled.
+			 */
+			priceBound?: string
+			/**
+			 * @description The time-in-force requested for the Stop Order.
+			 * @enum {string}
+			 */
+			timeInForce?: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Stop Order will be cancelled if its timeInForce is "GTD".
+			 */
+			gtdTime?: string
+			/**
+			 * @description Specification of how Positions in the Account are modified when the Order is filled.
+			 * @enum {string}
+			 */
+			positionFill?: "OPEN_ONLY" | "REDUCE_FIRST" | "REDUCE_ONLY" | "DEFAULT"
+			/**
+			 * @description Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.
+			 *     This feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.
+			 *     A special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be "DEFAULT", or the "natural" trigger side "DEFAULT" results in. So for a Stop Loss Order for a long trade valid values are "DEFAULT" and "BID", and for short trades "DEFAULT" and "ASK" are valid.
+			 * @enum {string}
+			 */
+			triggerCondition?: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
+			/**
+			 * @description The reason that the Stop Order was initiated
+			 * @enum {string}
+			 */
+			reason?: "CLIENT_ORDER" | "REPLACEMENT"
+			clientExtensions?: components["schemas"]["ClientExtensions"]
+			takeProfitOnFill?: components["schemas"]["TakeProfitDetails"]
+			stopLossOnFill?: components["schemas"]["StopLossDetails"]
+			trailingStopLossOnFill?: components["schemas"]["TrailingStopLossDetails"]
+			tradeClientExtensions?: components["schemas"]["ClientExtensions"]
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The ID of the Order that this Order replaces (only provided if this Order replaces an existing Order).
+			 */
+			replacesOrderID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order).
+			 */
+			cancellingTransactionID?: string
+		}
+		/** @description A StopOrderRejectTransaction represents the rejection of the creation of a Stop Order. */
+		StopOrderRejectTransaction: {
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The Transaction's Identifier.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Transaction was created.
+			 */
+			time?: string
+			/** @description The ID of the user that initiated the creation of the Transaction. */
+			userID?: number
+			/**
+			 * Format: "-"-delimited string with format "{siteID}-{divisionID}-{userID}-{accountNumber}"
+			 * @description The ID of the Account the Transaction was created for.
+			 */
+			accountID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.
+			 */
+			batchID?: string
+			/** @description The Request ID of the request which generated the transaction. */
+			requestID?: string
+			/**
+			 * @description The Type of the Transaction. Always set to "STOP_ORDER_REJECT" in a StopOrderRejectTransaction.
+			 * @enum {string}
+			 */
+			type?:
+				| "CREATE"
+				| "CLOSE"
+				| "REOPEN"
+				| "CLIENT_CONFIGURE"
+				| "CLIENT_CONFIGURE_REJECT"
+				| "TRANSFER_FUNDS"
+				| "TRANSFER_FUNDS_REJECT"
+				| "MARKET_ORDER"
+				| "MARKET_ORDER_REJECT"
+				| "FIXED_PRICE_ORDER"
+				| "LIMIT_ORDER"
+				| "LIMIT_ORDER_REJECT"
+				| "STOP_ORDER"
+				| "STOP_ORDER_REJECT"
+				| "MARKET_IF_TOUCHED_ORDER"
+				| "MARKET_IF_TOUCHED_ORDER_REJECT"
+				| "TAKE_PROFIT_ORDER"
+				| "TAKE_PROFIT_ORDER_REJECT"
+				| "STOP_LOSS_ORDER"
+				| "STOP_LOSS_ORDER_REJECT"
+				| "TRAILING_STOP_LOSS_ORDER"
+				| "TRAILING_STOP_LOSS_ORDER_REJECT"
+				| "ORDER_FILL"
+				| "ORDER_CANCEL"
+				| "ORDER_CANCEL_REJECT"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "MARGIN_CALL_ENTER"
+				| "MARGIN_CALL_EXTEND"
+				| "MARGIN_CALL_EXIT"
+				| "DELAYED_TRADE_CLOSURE"
+				| "DAILY_FINANCING"
+				| "RESET_RESETTABLE_PL"
+			/**
+			 * Format: A string containing the base currency and quote currency delimited by a "_".
+			 * @description The Stop Order's Instrument.
+			 */
+			instrument?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The quantity requested to be filled by the Stop Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.
+			 */
+			units?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The price threshold specified for the Stop Order. The Stop Order will only be filled by a market price that is equal to or worse than this price.
+			 */
+			price?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The worst market price that may be used to fill this Stop Order. If the market gaps and crosses through both the price and the priceBound, the Stop Order will be cancelled instead of being filled.
+			 */
+			priceBound?: string
+			/**
+			 * @description The time-in-force requested for the Stop Order.
+			 * @enum {string}
+			 */
+			timeInForce?: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Stop Order will be cancelled if its timeInForce is "GTD".
+			 */
+			gtdTime?: string
+			/**
+			 * @description Specification of how Positions in the Account are modified when the Order is filled.
+			 * @enum {string}
+			 */
+			positionFill?: "OPEN_ONLY" | "REDUCE_FIRST" | "REDUCE_ONLY" | "DEFAULT"
+			/**
+			 * @description Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.
+			 *     This feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.
+			 *     A special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be "DEFAULT", or the "natural" trigger side "DEFAULT" results in. So for a Stop Loss Order for a long trade valid values are "DEFAULT" and "BID", and for short trades "DEFAULT" and "ASK" are valid.
+			 * @enum {string}
+			 */
+			triggerCondition?: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
+			/**
+			 * @description The reason that the Stop Order was initiated
+			 * @enum {string}
+			 */
+			reason?: "CLIENT_ORDER" | "REPLACEMENT"
+			clientExtensions?: components["schemas"]["ClientExtensions"]
+			takeProfitOnFill?: components["schemas"]["TakeProfitDetails"]
+			stopLossOnFill?: components["schemas"]["StopLossDetails"]
+			trailingStopLossOnFill?: components["schemas"]["TrailingStopLossDetails"]
+			tradeClientExtensions?: components["schemas"]["ClientExtensions"]
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The ID of the Order that this Order was intended to replace (only provided if this Order was intended to replace an existing Order).
+			 */
+			intendedReplacesOrderID?: string
+			/**
+			 * @description The reason that the Reject Transaction was created
+			 * @enum {string}
+			 */
+			rejectReason?:
+				| "INTERNAL_SERVER_ERROR"
+				| "INSTRUMENT_PRICE_UNKNOWN"
+				| "ACCOUNT_NOT_ACTIVE"
+				| "ACCOUNT_LOCKED"
+				| "ACCOUNT_ORDER_CREATION_LOCKED"
+				| "ACCOUNT_CONFIGURATION_LOCKED"
+				| "ACCOUNT_DEPOSIT_LOCKED"
+				| "ACCOUNT_WITHDRAWAL_LOCKED"
+				| "ACCOUNT_ORDER_CANCEL_LOCKED"
+				| "INSTRUMENT_NOT_TRADEABLE"
+				| "PENDING_ORDERS_ALLOWED_EXCEEDED"
+				| "ORDER_ID_UNSPECIFIED"
+				| "ORDER_DOESNT_EXIST"
+				| "ORDER_IDENTIFIER_INCONSISTENCY"
+				| "TRADE_ID_UNSPECIFIED"
+				| "TRADE_DOESNT_EXIST"
+				| "TRADE_IDENTIFIER_INCONSISTENCY"
+				| "INSUFFICIENT_MARGIN"
+				| "INSTRUMENT_MISSING"
+				| "INSTRUMENT_UNKNOWN"
+				| "UNITS_MISSING"
+				| "UNITS_INVALID"
+				| "UNITS_PRECISION_EXCEEDED"
+				| "UNITS_LIMIT_EXCEEDED"
+				| "UNITS_MIMIMUM_NOT_MET"
+				| "PRICE_MISSING"
+				| "PRICE_INVALID"
+				| "PRICE_PRECISION_EXCEEDED"
+				| "PRICE_DISTANCE_MISSING"
+				| "PRICE_DISTANCE_INVALID"
+				| "PRICE_DISTANCE_PRECISION_EXCEEDED"
+				| "PRICE_DISTANCE_MAXIMUM_EXCEEDED"
+				| "PRICE_DISTANCE_MINIMUM_NOT_MET"
+				| "TIME_IN_FORCE_MISSING"
+				| "TIME_IN_FORCE_INVALID"
+				| "TIME_IN_FORCE_GTD_TIMESTAMP_MISSING"
+				| "TIME_IN_FORCE_GTD_TIMESTAMP_IN_PAST"
+				| "PRICE_BOUND_INVALID"
+				| "PRICE_BOUND_PRECISION_EXCEEDED"
+				| "ORDERS_ON_FILL_DUPLICATE_CLIENT_ORDER_IDS"
+				| "TRADE_ON_FILL_CLIENT_EXTENSIONS_NOT_SUPPORTED"
+				| "CLIENT_ORDER_ID_INVALID"
+				| "CLIENT_ORDER_ID_ALREADY_EXISTS"
+				| "CLIENT_ORDER_TAG_INVALID"
+				| "CLIENT_ORDER_COMMENT_INVALID"
+				| "CLIENT_TRADE_ID_INVALID"
+				| "CLIENT_TRADE_ID_ALREADY_EXISTS"
+				| "CLIENT_TRADE_TAG_INVALID"
+				| "CLIENT_TRADE_COMMENT_INVALID"
+				| "ORDER_FILL_POSITION_ACTION_MISSING"
+				| "ORDER_FILL_POSITION_ACTION_INVALID"
+				| "TRIGGER_CONDITION_MISSING"
+				| "TRIGGER_CONDITION_INVALID"
+				| "ORDER_PARTIAL_FILL_OPTION_MISSING"
+				| "ORDER_PARTIAL_FILL_OPTION_INVALID"
+				| "INVALID_REISSUE_IMMEDIATE_PARTIAL_FILL"
+				| "TAKE_PROFIT_ORDER_ALREADY_EXISTS"
+				| "TAKE_PROFIT_ON_FILL_PRICE_MISSING"
+				| "TAKE_PROFIT_ON_FILL_PRICE_INVALID"
+				| "TAKE_PROFIT_ON_FILL_PRICE_PRECISION_EXCEEDED"
+				| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_MISSING"
+				| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_INVALID"
+				| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_MISSING"
+				| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_IN_PAST"
+				| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_ID_INVALID"
+				| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_TAG_INVALID"
+				| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
+				| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_MISSING"
+				| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_INVALID"
+				| "STOP_LOSS_ORDER_ALREADY_EXISTS"
+				| "STOP_LOSS_ORDER_GUARANTEED_REQUIRED"
+				| "STOP_LOSS_ORDER_GUARANTEED_PRICE_WITHIN_SPREAD"
+				| "STOP_LOSS_ORDER_GUARANTEED_NOT_ALLOWED"
+				| "STOP_LOSS_ORDER_GUARANTEED_HALTED_CREATE_VIOLATION"
+				| "STOP_LOSS_ORDER_GUARANTEED_HALTED_TIGHTEN_VIOLATION"
+				| "STOP_LOSS_ORDER_GUARANTEED_HEDGING_NOT_ALLOWED"
+				| "STOP_LOSS_ORDER_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
+				| "STOP_LOSS_ORDER_NOT_CANCELABLE"
+				| "STOP_LOSS_ORDER_NOT_REPLACEABLE"
+				| "STOP_LOSS_ORDER_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
+				| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
+				| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_MISSING"
+				| "STOP_LOSS_ON_FILL_REQUIRED_FOR_PENDING_ORDER"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_NOT_ALLOWED"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_REQUIRED"
+				| "STOP_LOSS_ON_FILL_PRICE_MISSING"
+				| "STOP_LOSS_ON_FILL_PRICE_INVALID"
+				| "STOP_LOSS_ON_FILL_PRICE_PRECISION_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_DISTANCE_INVALID"
+				| "STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_DISTANCE_PRECISION_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
+				| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_MISSING"
+				| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
+				| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
+				| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
+				| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
+				| "STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
+				| "STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
+				| "STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
+				| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
+				| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
+				| "TRAILING_STOP_LOSS_ORDER_ALREADY_EXISTS"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_PRECISION_EXCEEDED"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MINIMUM_NOT_MET"
+				| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
+				| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
+				| "TRAILING_STOP_LOSS_ORDERS_NOT_SUPPORTED"
+				| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
+				| "CLOSE_TRADE_TYPE_MISSING"
+				| "CLOSE_TRADE_PARTIAL_UNITS_MISSING"
+				| "CLOSE_TRADE_UNITS_EXCEED_TRADE_SIZE"
+				| "CLOSEOUT_POSITION_DOESNT_EXIST"
+				| "CLOSEOUT_POSITION_INCOMPLETE_SPECIFICATION"
+				| "CLOSEOUT_POSITION_UNITS_EXCEED_POSITION_SIZE"
+				| "CLOSEOUT_POSITION_REJECT"
+				| "CLOSEOUT_POSITION_PARTIAL_UNITS_MISSING"
+				| "MARKUP_GROUP_ID_INVALID"
+				| "POSITION_AGGREGATION_MODE_INVALID"
+				| "ADMIN_CONFIGURE_DATA_MISSING"
+				| "MARGIN_RATE_INVALID"
+				| "MARGIN_RATE_WOULD_TRIGGER_CLOSEOUT"
+				| "ALIAS_INVALID"
+				| "CLIENT_CONFIGURE_DATA_MISSING"
+				| "MARGIN_RATE_WOULD_TRIGGER_MARGIN_CALL"
+				| "AMOUNT_INVALID"
+				| "INSUFFICIENT_FUNDS"
+				| "AMOUNT_MISSING"
+				| "FUNDING_REASON_MISSING"
+				| "CLIENT_EXTENSIONS_DATA_MISSING"
+				| "REPLACING_ORDER_INVALID"
+				| "REPLACING_TRADE_ID_INVALID"
+		}
+		/**
+		 * @description The reason that the Market-if-touched Order was initiated
+		 * @enum {string}
+		 */
+		MarketIfTouchedOrderReason: "CLIENT_ORDER" | "REPLACEMENT"
+		/** @description A MarketIfTouchedOrderTransaction represents the creation of a MarketIfTouched Order in the user's Account. */
+		MarketIfTouchedOrderTransaction: {
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The Transaction's Identifier.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Transaction was created.
+			 */
+			time?: string
+			/** @description The ID of the user that initiated the creation of the Transaction. */
+			userID?: number
+			/**
+			 * Format: "-"-delimited string with format "{siteID}-{divisionID}-{userID}-{accountNumber}"
+			 * @description The ID of the Account the Transaction was created for.
+			 */
+			accountID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.
+			 */
+			batchID?: string
+			/** @description The Request ID of the request which generated the transaction. */
+			requestID?: string
+			/**
+			 * @description The Type of the Transaction. Always set to "MARKET_IF_TOUCHED_ORDER" in a MarketIfTouchedOrderTransaction.
+			 * @enum {string}
+			 */
+			type?:
+				| "CREATE"
+				| "CLOSE"
+				| "REOPEN"
+				| "CLIENT_CONFIGURE"
+				| "CLIENT_CONFIGURE_REJECT"
+				| "TRANSFER_FUNDS"
+				| "TRANSFER_FUNDS_REJECT"
+				| "MARKET_ORDER"
+				| "MARKET_ORDER_REJECT"
+				| "FIXED_PRICE_ORDER"
+				| "LIMIT_ORDER"
+				| "LIMIT_ORDER_REJECT"
+				| "STOP_ORDER"
+				| "STOP_ORDER_REJECT"
+				| "MARKET_IF_TOUCHED_ORDER"
+				| "MARKET_IF_TOUCHED_ORDER_REJECT"
+				| "TAKE_PROFIT_ORDER"
+				| "TAKE_PROFIT_ORDER_REJECT"
+				| "STOP_LOSS_ORDER"
+				| "STOP_LOSS_ORDER_REJECT"
+				| "TRAILING_STOP_LOSS_ORDER"
+				| "TRAILING_STOP_LOSS_ORDER_REJECT"
+				| "ORDER_FILL"
+				| "ORDER_CANCEL"
+				| "ORDER_CANCEL_REJECT"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "MARGIN_CALL_ENTER"
+				| "MARGIN_CALL_EXTEND"
+				| "MARGIN_CALL_EXIT"
+				| "DELAYED_TRADE_CLOSURE"
+				| "DAILY_FINANCING"
+				| "RESET_RESETTABLE_PL"
+			/**
+			 * Format: A string containing the base currency and quote currency delimited by a "_".
+			 * @description The MarketIfTouched Order's Instrument.
+			 */
+			instrument?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The quantity requested to be filled by the MarketIfTouched Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.
+			 */
+			units?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The price threshold specified for the MarketIfTouched Order. The MarketIfTouched Order will only be filled by a market price that crosses this price from the direction of the market price at the time when the Order was created (the initialMarketPrice). Depending on the value of the Order's price and initialMarketPrice, the MarketIfTouchedOrder will behave like a Limit or a Stop Order.
+			 */
+			price?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The worst market price that may be used to fill this MarketIfTouched Order.
+			 */
+			priceBound?: string
+			/**
+			 * @description The time-in-force requested for the MarketIfTouched Order. Restricted to "GTC", "GFD" and "GTD" for MarketIfTouched Orders.
+			 * @enum {string}
+			 */
+			timeInForce?: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the MarketIfTouched Order will be cancelled if its timeInForce is "GTD".
+			 */
+			gtdTime?: string
+			/**
+			 * @description Specification of how Positions in the Account are modified when the Order is filled.
+			 * @enum {string}
+			 */
+			positionFill?: "OPEN_ONLY" | "REDUCE_FIRST" | "REDUCE_ONLY" | "DEFAULT"
+			/**
+			 * @description Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.
+			 *     This feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.
+			 *     A special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be "DEFAULT", or the "natural" trigger side "DEFAULT" results in. So for a Stop Loss Order for a long trade valid values are "DEFAULT" and "BID", and for short trades "DEFAULT" and "ASK" are valid.
+			 * @enum {string}
+			 */
+			triggerCondition?: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
+			/**
+			 * @description The reason that the Market-if-touched Order was initiated
+			 * @enum {string}
+			 */
+			reason?: "CLIENT_ORDER" | "REPLACEMENT"
+			clientExtensions?: components["schemas"]["ClientExtensions"]
+			takeProfitOnFill?: components["schemas"]["TakeProfitDetails"]
+			stopLossOnFill?: components["schemas"]["StopLossDetails"]
+			trailingStopLossOnFill?: components["schemas"]["TrailingStopLossDetails"]
+			tradeClientExtensions?: components["schemas"]["ClientExtensions"]
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The ID of the Order that this Order replaces (only provided if this Order replaces an existing Order).
+			 */
+			replacesOrderID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order).
+			 */
+			cancellingTransactionID?: string
+		}
+		/** @description A MarketIfTouchedOrderRejectTransaction represents the rejection of the creation of a MarketIfTouched Order. */
+		MarketIfTouchedOrderRejectTransaction: {
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The Transaction's Identifier.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Transaction was created.
+			 */
+			time?: string
+			/** @description The ID of the user that initiated the creation of the Transaction. */
+			userID?: number
+			/**
+			 * Format: "-"-delimited string with format "{siteID}-{divisionID}-{userID}-{accountNumber}"
+			 * @description The ID of the Account the Transaction was created for.
+			 */
+			accountID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.
+			 */
+			batchID?: string
+			/** @description The Request ID of the request which generated the transaction. */
+			requestID?: string
+			/**
+			 * @description The Type of the Transaction. Always set to "MARKET_IF_TOUCHED_ORDER_REJECT" in a MarketIfTouchedOrderRejectTransaction.
+			 * @enum {string}
+			 */
+			type?:
+				| "CREATE"
+				| "CLOSE"
+				| "REOPEN"
+				| "CLIENT_CONFIGURE"
+				| "CLIENT_CONFIGURE_REJECT"
+				| "TRANSFER_FUNDS"
+				| "TRANSFER_FUNDS_REJECT"
+				| "MARKET_ORDER"
+				| "MARKET_ORDER_REJECT"
+				| "FIXED_PRICE_ORDER"
+				| "LIMIT_ORDER"
+				| "LIMIT_ORDER_REJECT"
+				| "STOP_ORDER"
+				| "STOP_ORDER_REJECT"
+				| "MARKET_IF_TOUCHED_ORDER"
+				| "MARKET_IF_TOUCHED_ORDER_REJECT"
+				| "TAKE_PROFIT_ORDER"
+				| "TAKE_PROFIT_ORDER_REJECT"
+				| "STOP_LOSS_ORDER"
+				| "STOP_LOSS_ORDER_REJECT"
+				| "TRAILING_STOP_LOSS_ORDER"
+				| "TRAILING_STOP_LOSS_ORDER_REJECT"
+				| "ORDER_FILL"
+				| "ORDER_CANCEL"
+				| "ORDER_CANCEL_REJECT"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "MARGIN_CALL_ENTER"
+				| "MARGIN_CALL_EXTEND"
+				| "MARGIN_CALL_EXIT"
+				| "DELAYED_TRADE_CLOSURE"
+				| "DAILY_FINANCING"
+				| "RESET_RESETTABLE_PL"
+			/**
+			 * Format: A string containing the base currency and quote currency delimited by a "_".
+			 * @description The MarketIfTouched Order's Instrument.
+			 */
+			instrument?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The quantity requested to be filled by the MarketIfTouched Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.
+			 */
+			units?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The price threshold specified for the MarketIfTouched Order. The MarketIfTouched Order will only be filled by a market price that crosses this price from the direction of the market price at the time when the Order was created (the initialMarketPrice). Depending on the value of the Order's price and initialMarketPrice, the MarketIfTouchedOrder will behave like a Limit or a Stop Order.
+			 */
+			price?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The worst market price that may be used to fill this MarketIfTouched Order.
+			 */
+			priceBound?: string
+			/**
+			 * @description The time-in-force requested for the MarketIfTouched Order. Restricted to "GTC", "GFD" and "GTD" for MarketIfTouched Orders.
+			 * @enum {string}
+			 */
+			timeInForce?: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the MarketIfTouched Order will be cancelled if its timeInForce is "GTD".
+			 */
+			gtdTime?: string
+			/**
+			 * @description Specification of how Positions in the Account are modified when the Order is filled.
+			 * @enum {string}
+			 */
+			positionFill?: "OPEN_ONLY" | "REDUCE_FIRST" | "REDUCE_ONLY" | "DEFAULT"
+			/**
+			 * @description Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.
+			 *     This feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.
+			 *     A special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be "DEFAULT", or the "natural" trigger side "DEFAULT" results in. So for a Stop Loss Order for a long trade valid values are "DEFAULT" and "BID", and for short trades "DEFAULT" and "ASK" are valid.
+			 * @enum {string}
+			 */
+			triggerCondition?: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
+			/**
+			 * @description The reason that the Market-if-touched Order was initiated
+			 * @enum {string}
+			 */
+			reason?: "CLIENT_ORDER" | "REPLACEMENT"
+			clientExtensions?: components["schemas"]["ClientExtensions"]
+			takeProfitOnFill?: components["schemas"]["TakeProfitDetails"]
+			stopLossOnFill?: components["schemas"]["StopLossDetails"]
+			trailingStopLossOnFill?: components["schemas"]["TrailingStopLossDetails"]
+			tradeClientExtensions?: components["schemas"]["ClientExtensions"]
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The ID of the Order that this Order was intended to replace (only provided if this Order was intended to replace an existing Order).
+			 */
+			intendedReplacesOrderID?: string
+			/**
+			 * @description The reason that the Reject Transaction was created
+			 * @enum {string}
+			 */
+			rejectReason?:
+				| "INTERNAL_SERVER_ERROR"
+				| "INSTRUMENT_PRICE_UNKNOWN"
+				| "ACCOUNT_NOT_ACTIVE"
+				| "ACCOUNT_LOCKED"
+				| "ACCOUNT_ORDER_CREATION_LOCKED"
+				| "ACCOUNT_CONFIGURATION_LOCKED"
+				| "ACCOUNT_DEPOSIT_LOCKED"
+				| "ACCOUNT_WITHDRAWAL_LOCKED"
+				| "ACCOUNT_ORDER_CANCEL_LOCKED"
+				| "INSTRUMENT_NOT_TRADEABLE"
+				| "PENDING_ORDERS_ALLOWED_EXCEEDED"
+				| "ORDER_ID_UNSPECIFIED"
+				| "ORDER_DOESNT_EXIST"
+				| "ORDER_IDENTIFIER_INCONSISTENCY"
+				| "TRADE_ID_UNSPECIFIED"
+				| "TRADE_DOESNT_EXIST"
+				| "TRADE_IDENTIFIER_INCONSISTENCY"
+				| "INSUFFICIENT_MARGIN"
+				| "INSTRUMENT_MISSING"
+				| "INSTRUMENT_UNKNOWN"
+				| "UNITS_MISSING"
+				| "UNITS_INVALID"
+				| "UNITS_PRECISION_EXCEEDED"
+				| "UNITS_LIMIT_EXCEEDED"
+				| "UNITS_MIMIMUM_NOT_MET"
+				| "PRICE_MISSING"
+				| "PRICE_INVALID"
+				| "PRICE_PRECISION_EXCEEDED"
+				| "PRICE_DISTANCE_MISSING"
+				| "PRICE_DISTANCE_INVALID"
+				| "PRICE_DISTANCE_PRECISION_EXCEEDED"
+				| "PRICE_DISTANCE_MAXIMUM_EXCEEDED"
+				| "PRICE_DISTANCE_MINIMUM_NOT_MET"
+				| "TIME_IN_FORCE_MISSING"
+				| "TIME_IN_FORCE_INVALID"
+				| "TIME_IN_FORCE_GTD_TIMESTAMP_MISSING"
+				| "TIME_IN_FORCE_GTD_TIMESTAMP_IN_PAST"
+				| "PRICE_BOUND_INVALID"
+				| "PRICE_BOUND_PRECISION_EXCEEDED"
+				| "ORDERS_ON_FILL_DUPLICATE_CLIENT_ORDER_IDS"
+				| "TRADE_ON_FILL_CLIENT_EXTENSIONS_NOT_SUPPORTED"
+				| "CLIENT_ORDER_ID_INVALID"
+				| "CLIENT_ORDER_ID_ALREADY_EXISTS"
+				| "CLIENT_ORDER_TAG_INVALID"
+				| "CLIENT_ORDER_COMMENT_INVALID"
+				| "CLIENT_TRADE_ID_INVALID"
+				| "CLIENT_TRADE_ID_ALREADY_EXISTS"
+				| "CLIENT_TRADE_TAG_INVALID"
+				| "CLIENT_TRADE_COMMENT_INVALID"
+				| "ORDER_FILL_POSITION_ACTION_MISSING"
+				| "ORDER_FILL_POSITION_ACTION_INVALID"
+				| "TRIGGER_CONDITION_MISSING"
+				| "TRIGGER_CONDITION_INVALID"
+				| "ORDER_PARTIAL_FILL_OPTION_MISSING"
+				| "ORDER_PARTIAL_FILL_OPTION_INVALID"
+				| "INVALID_REISSUE_IMMEDIATE_PARTIAL_FILL"
+				| "TAKE_PROFIT_ORDER_ALREADY_EXISTS"
+				| "TAKE_PROFIT_ON_FILL_PRICE_MISSING"
+				| "TAKE_PROFIT_ON_FILL_PRICE_INVALID"
+				| "TAKE_PROFIT_ON_FILL_PRICE_PRECISION_EXCEEDED"
+				| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_MISSING"
+				| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_INVALID"
+				| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_MISSING"
+				| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_IN_PAST"
+				| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_ID_INVALID"
+				| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_TAG_INVALID"
+				| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
+				| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_MISSING"
+				| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_INVALID"
+				| "STOP_LOSS_ORDER_ALREADY_EXISTS"
+				| "STOP_LOSS_ORDER_GUARANTEED_REQUIRED"
+				| "STOP_LOSS_ORDER_GUARANTEED_PRICE_WITHIN_SPREAD"
+				| "STOP_LOSS_ORDER_GUARANTEED_NOT_ALLOWED"
+				| "STOP_LOSS_ORDER_GUARANTEED_HALTED_CREATE_VIOLATION"
+				| "STOP_LOSS_ORDER_GUARANTEED_HALTED_TIGHTEN_VIOLATION"
+				| "STOP_LOSS_ORDER_GUARANTEED_HEDGING_NOT_ALLOWED"
+				| "STOP_LOSS_ORDER_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
+				| "STOP_LOSS_ORDER_NOT_CANCELABLE"
+				| "STOP_LOSS_ORDER_NOT_REPLACEABLE"
+				| "STOP_LOSS_ORDER_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
+				| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
+				| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_MISSING"
+				| "STOP_LOSS_ON_FILL_REQUIRED_FOR_PENDING_ORDER"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_NOT_ALLOWED"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_REQUIRED"
+				| "STOP_LOSS_ON_FILL_PRICE_MISSING"
+				| "STOP_LOSS_ON_FILL_PRICE_INVALID"
+				| "STOP_LOSS_ON_FILL_PRICE_PRECISION_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_DISTANCE_INVALID"
+				| "STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_DISTANCE_PRECISION_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
+				| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_MISSING"
+				| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
+				| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
+				| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
+				| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
+				| "STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
+				| "STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
+				| "STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
+				| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
+				| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
+				| "TRAILING_STOP_LOSS_ORDER_ALREADY_EXISTS"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_PRECISION_EXCEEDED"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MINIMUM_NOT_MET"
+				| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
+				| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
+				| "TRAILING_STOP_LOSS_ORDERS_NOT_SUPPORTED"
+				| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
+				| "CLOSE_TRADE_TYPE_MISSING"
+				| "CLOSE_TRADE_PARTIAL_UNITS_MISSING"
+				| "CLOSE_TRADE_UNITS_EXCEED_TRADE_SIZE"
+				| "CLOSEOUT_POSITION_DOESNT_EXIST"
+				| "CLOSEOUT_POSITION_INCOMPLETE_SPECIFICATION"
+				| "CLOSEOUT_POSITION_UNITS_EXCEED_POSITION_SIZE"
+				| "CLOSEOUT_POSITION_REJECT"
+				| "CLOSEOUT_POSITION_PARTIAL_UNITS_MISSING"
+				| "MARKUP_GROUP_ID_INVALID"
+				| "POSITION_AGGREGATION_MODE_INVALID"
+				| "ADMIN_CONFIGURE_DATA_MISSING"
+				| "MARGIN_RATE_INVALID"
+				| "MARGIN_RATE_WOULD_TRIGGER_CLOSEOUT"
+				| "ALIAS_INVALID"
+				| "CLIENT_CONFIGURE_DATA_MISSING"
+				| "MARGIN_RATE_WOULD_TRIGGER_MARGIN_CALL"
+				| "AMOUNT_INVALID"
+				| "INSUFFICIENT_FUNDS"
+				| "AMOUNT_MISSING"
+				| "FUNDING_REASON_MISSING"
+				| "CLIENT_EXTENSIONS_DATA_MISSING"
+				| "REPLACING_ORDER_INVALID"
+				| "REPLACING_TRADE_ID_INVALID"
+		}
+		/**
+		 * @description The reason that the Take Profit Order was initiated
+		 * @enum {string}
+		 */
+		TakeProfitOrderReason: "CLIENT_ORDER" | "REPLACEMENT" | "ON_FILL"
+		/** @description A TakeProfitOrderTransaction represents the creation of a TakeProfit Order in the user's Account. */
+		TakeProfitOrderTransaction: {
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The Transaction's Identifier.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Transaction was created.
+			 */
+			time?: string
+			/** @description The ID of the user that initiated the creation of the Transaction. */
+			userID?: number
+			/**
+			 * Format: "-"-delimited string with format "{siteID}-{divisionID}-{userID}-{accountNumber}"
+			 * @description The ID of the Account the Transaction was created for.
+			 */
+			accountID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.
+			 */
+			batchID?: string
+			/** @description The Request ID of the request which generated the transaction. */
+			requestID?: string
+			/**
+			 * @description The Type of the Transaction. Always set to "TAKE_PROFIT_ORDER" in a TakeProfitOrderTransaction.
+			 * @enum {string}
+			 */
+			type?:
+				| "CREATE"
+				| "CLOSE"
+				| "REOPEN"
+				| "CLIENT_CONFIGURE"
+				| "CLIENT_CONFIGURE_REJECT"
+				| "TRANSFER_FUNDS"
+				| "TRANSFER_FUNDS_REJECT"
+				| "MARKET_ORDER"
+				| "MARKET_ORDER_REJECT"
+				| "FIXED_PRICE_ORDER"
+				| "LIMIT_ORDER"
+				| "LIMIT_ORDER_REJECT"
+				| "STOP_ORDER"
+				| "STOP_ORDER_REJECT"
+				| "MARKET_IF_TOUCHED_ORDER"
+				| "MARKET_IF_TOUCHED_ORDER_REJECT"
+				| "TAKE_PROFIT_ORDER"
+				| "TAKE_PROFIT_ORDER_REJECT"
+				| "STOP_LOSS_ORDER"
+				| "STOP_LOSS_ORDER_REJECT"
+				| "TRAILING_STOP_LOSS_ORDER"
+				| "TRAILING_STOP_LOSS_ORDER_REJECT"
+				| "ORDER_FILL"
+				| "ORDER_CANCEL"
+				| "ORDER_CANCEL_REJECT"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "MARGIN_CALL_ENTER"
+				| "MARGIN_CALL_EXTEND"
+				| "MARGIN_CALL_EXIT"
+				| "DELAYED_TRADE_CLOSURE"
+				| "DAILY_FINANCING"
+				| "RESET_RESETTABLE_PL"
+			/**
+			 * Format: The string representation of the OANDA-assigned TradeID. OANDA-assigned TradeIDs are positive integers, and are derived from the TransactionID of the Transaction that opened the Trade.
+			 * @description The ID of the Trade to close when the price threshold is breached.
+			 */
+			tradeID?: string
+			/** @description The client ID of the Trade to be closed when the price threshold is breached. */
+			clientTradeID?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The price threshold specified for the TakeProfit Order. The associated Trade will be closed by a market price that is equal to or better than this threshold.
+			 */
+			price?: string
+			/**
+			 * @description The time-in-force requested for the TakeProfit Order. Restricted to "GTC", "GFD" and "GTD" for TakeProfit Orders.
+			 * @enum {string}
+			 */
+			timeInForce?: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the TakeProfit Order will be cancelled if its timeInForce is "GTD".
+			 */
+			gtdTime?: string
+			/**
+			 * @description Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.
+			 *     This feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.
+			 *     A special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be "DEFAULT", or the "natural" trigger side "DEFAULT" results in. So for a Stop Loss Order for a long trade valid values are "DEFAULT" and "BID", and for short trades "DEFAULT" and "ASK" are valid.
+			 * @enum {string}
+			 */
+			triggerCondition?: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
+			/**
+			 * @description The reason that the Take Profit Order was initiated
+			 * @enum {string}
+			 */
+			reason?: "CLIENT_ORDER" | "REPLACEMENT" | "ON_FILL"
+			clientExtensions?: components["schemas"]["ClientExtensions"]
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the OrderFill Transaction that caused this Order to be created (only provided if this Order was created automatically when another Order was filled).
+			 */
+			orderFillTransactionID?: string
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The ID of the Order that this Order replaces (only provided if this Order replaces an existing Order).
+			 */
+			replacesOrderID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order).
+			 */
+			cancellingTransactionID?: string
+		}
+		/** @description A TakeProfitOrderRejectTransaction represents the rejection of the creation of a TakeProfit Order. */
+		TakeProfitOrderRejectTransaction: {
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The Transaction's Identifier.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Transaction was created.
+			 */
+			time?: string
+			/** @description The ID of the user that initiated the creation of the Transaction. */
+			userID?: number
+			/**
+			 * Format: "-"-delimited string with format "{siteID}-{divisionID}-{userID}-{accountNumber}"
+			 * @description The ID of the Account the Transaction was created for.
+			 */
+			accountID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.
+			 */
+			batchID?: string
+			/** @description The Request ID of the request which generated the transaction. */
+			requestID?: string
+			/**
+			 * @description The Type of the Transaction. Always set to "TAKE_PROFIT_ORDER_REJECT" in a TakeProfitOrderRejectTransaction.
+			 * @enum {string}
+			 */
+			type?:
+				| "CREATE"
+				| "CLOSE"
+				| "REOPEN"
+				| "CLIENT_CONFIGURE"
+				| "CLIENT_CONFIGURE_REJECT"
+				| "TRANSFER_FUNDS"
+				| "TRANSFER_FUNDS_REJECT"
+				| "MARKET_ORDER"
+				| "MARKET_ORDER_REJECT"
+				| "FIXED_PRICE_ORDER"
+				| "LIMIT_ORDER"
+				| "LIMIT_ORDER_REJECT"
+				| "STOP_ORDER"
+				| "STOP_ORDER_REJECT"
+				| "MARKET_IF_TOUCHED_ORDER"
+				| "MARKET_IF_TOUCHED_ORDER_REJECT"
+				| "TAKE_PROFIT_ORDER"
+				| "TAKE_PROFIT_ORDER_REJECT"
+				| "STOP_LOSS_ORDER"
+				| "STOP_LOSS_ORDER_REJECT"
+				| "TRAILING_STOP_LOSS_ORDER"
+				| "TRAILING_STOP_LOSS_ORDER_REJECT"
+				| "ORDER_FILL"
+				| "ORDER_CANCEL"
+				| "ORDER_CANCEL_REJECT"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "MARGIN_CALL_ENTER"
+				| "MARGIN_CALL_EXTEND"
+				| "MARGIN_CALL_EXIT"
+				| "DELAYED_TRADE_CLOSURE"
+				| "DAILY_FINANCING"
+				| "RESET_RESETTABLE_PL"
+			/**
+			 * Format: The string representation of the OANDA-assigned TradeID. OANDA-assigned TradeIDs are positive integers, and are derived from the TransactionID of the Transaction that opened the Trade.
+			 * @description The ID of the Trade to close when the price threshold is breached.
+			 */
+			tradeID?: string
+			/** @description The client ID of the Trade to be closed when the price threshold is breached. */
+			clientTradeID?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The price threshold specified for the TakeProfit Order. The associated Trade will be closed by a market price that is equal to or better than this threshold.
+			 */
+			price?: string
+			/**
+			 * @description The time-in-force requested for the TakeProfit Order. Restricted to "GTC", "GFD" and "GTD" for TakeProfit Orders.
+			 * @enum {string}
+			 */
+			timeInForce?: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the TakeProfit Order will be cancelled if its timeInForce is "GTD".
+			 */
+			gtdTime?: string
+			/**
+			 * @description Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.
+			 *     This feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.
+			 *     A special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be "DEFAULT", or the "natural" trigger side "DEFAULT" results in. So for a Stop Loss Order for a long trade valid values are "DEFAULT" and "BID", and for short trades "DEFAULT" and "ASK" are valid.
+			 * @enum {string}
+			 */
+			triggerCondition?: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
+			/**
+			 * @description The reason that the Take Profit Order was initiated
+			 * @enum {string}
+			 */
+			reason?: "CLIENT_ORDER" | "REPLACEMENT" | "ON_FILL"
+			clientExtensions?: components["schemas"]["ClientExtensions"]
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the OrderFill Transaction that caused this Order to be created (only provided if this Order was created automatically when another Order was filled).
+			 */
+			orderFillTransactionID?: string
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The ID of the Order that this Order was intended to replace (only provided if this Order was intended to replace an existing Order).
+			 */
+			intendedReplacesOrderID?: string
+			/**
+			 * @description The reason that the Reject Transaction was created
+			 * @enum {string}
+			 */
+			rejectReason?:
+				| "INTERNAL_SERVER_ERROR"
+				| "INSTRUMENT_PRICE_UNKNOWN"
+				| "ACCOUNT_NOT_ACTIVE"
+				| "ACCOUNT_LOCKED"
+				| "ACCOUNT_ORDER_CREATION_LOCKED"
+				| "ACCOUNT_CONFIGURATION_LOCKED"
+				| "ACCOUNT_DEPOSIT_LOCKED"
+				| "ACCOUNT_WITHDRAWAL_LOCKED"
+				| "ACCOUNT_ORDER_CANCEL_LOCKED"
+				| "INSTRUMENT_NOT_TRADEABLE"
+				| "PENDING_ORDERS_ALLOWED_EXCEEDED"
+				| "ORDER_ID_UNSPECIFIED"
+				| "ORDER_DOESNT_EXIST"
+				| "ORDER_IDENTIFIER_INCONSISTENCY"
+				| "TRADE_ID_UNSPECIFIED"
+				| "TRADE_DOESNT_EXIST"
+				| "TRADE_IDENTIFIER_INCONSISTENCY"
+				| "INSUFFICIENT_MARGIN"
+				| "INSTRUMENT_MISSING"
+				| "INSTRUMENT_UNKNOWN"
+				| "UNITS_MISSING"
+				| "UNITS_INVALID"
+				| "UNITS_PRECISION_EXCEEDED"
+				| "UNITS_LIMIT_EXCEEDED"
+				| "UNITS_MIMIMUM_NOT_MET"
+				| "PRICE_MISSING"
+				| "PRICE_INVALID"
+				| "PRICE_PRECISION_EXCEEDED"
+				| "PRICE_DISTANCE_MISSING"
+				| "PRICE_DISTANCE_INVALID"
+				| "PRICE_DISTANCE_PRECISION_EXCEEDED"
+				| "PRICE_DISTANCE_MAXIMUM_EXCEEDED"
+				| "PRICE_DISTANCE_MINIMUM_NOT_MET"
+				| "TIME_IN_FORCE_MISSING"
+				| "TIME_IN_FORCE_INVALID"
+				| "TIME_IN_FORCE_GTD_TIMESTAMP_MISSING"
+				| "TIME_IN_FORCE_GTD_TIMESTAMP_IN_PAST"
+				| "PRICE_BOUND_INVALID"
+				| "PRICE_BOUND_PRECISION_EXCEEDED"
+				| "ORDERS_ON_FILL_DUPLICATE_CLIENT_ORDER_IDS"
+				| "TRADE_ON_FILL_CLIENT_EXTENSIONS_NOT_SUPPORTED"
+				| "CLIENT_ORDER_ID_INVALID"
+				| "CLIENT_ORDER_ID_ALREADY_EXISTS"
+				| "CLIENT_ORDER_TAG_INVALID"
+				| "CLIENT_ORDER_COMMENT_INVALID"
+				| "CLIENT_TRADE_ID_INVALID"
+				| "CLIENT_TRADE_ID_ALREADY_EXISTS"
+				| "CLIENT_TRADE_TAG_INVALID"
+				| "CLIENT_TRADE_COMMENT_INVALID"
+				| "ORDER_FILL_POSITION_ACTION_MISSING"
+				| "ORDER_FILL_POSITION_ACTION_INVALID"
+				| "TRIGGER_CONDITION_MISSING"
+				| "TRIGGER_CONDITION_INVALID"
+				| "ORDER_PARTIAL_FILL_OPTION_MISSING"
+				| "ORDER_PARTIAL_FILL_OPTION_INVALID"
+				| "INVALID_REISSUE_IMMEDIATE_PARTIAL_FILL"
+				| "TAKE_PROFIT_ORDER_ALREADY_EXISTS"
+				| "TAKE_PROFIT_ON_FILL_PRICE_MISSING"
+				| "TAKE_PROFIT_ON_FILL_PRICE_INVALID"
+				| "TAKE_PROFIT_ON_FILL_PRICE_PRECISION_EXCEEDED"
+				| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_MISSING"
+				| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_INVALID"
+				| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_MISSING"
+				| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_IN_PAST"
+				| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_ID_INVALID"
+				| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_TAG_INVALID"
+				| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
+				| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_MISSING"
+				| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_INVALID"
+				| "STOP_LOSS_ORDER_ALREADY_EXISTS"
+				| "STOP_LOSS_ORDER_GUARANTEED_REQUIRED"
+				| "STOP_LOSS_ORDER_GUARANTEED_PRICE_WITHIN_SPREAD"
+				| "STOP_LOSS_ORDER_GUARANTEED_NOT_ALLOWED"
+				| "STOP_LOSS_ORDER_GUARANTEED_HALTED_CREATE_VIOLATION"
+				| "STOP_LOSS_ORDER_GUARANTEED_HALTED_TIGHTEN_VIOLATION"
+				| "STOP_LOSS_ORDER_GUARANTEED_HEDGING_NOT_ALLOWED"
+				| "STOP_LOSS_ORDER_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
+				| "STOP_LOSS_ORDER_NOT_CANCELABLE"
+				| "STOP_LOSS_ORDER_NOT_REPLACEABLE"
+				| "STOP_LOSS_ORDER_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
+				| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
+				| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_MISSING"
+				| "STOP_LOSS_ON_FILL_REQUIRED_FOR_PENDING_ORDER"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_NOT_ALLOWED"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_REQUIRED"
+				| "STOP_LOSS_ON_FILL_PRICE_MISSING"
+				| "STOP_LOSS_ON_FILL_PRICE_INVALID"
+				| "STOP_LOSS_ON_FILL_PRICE_PRECISION_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_DISTANCE_INVALID"
+				| "STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_DISTANCE_PRECISION_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
+				| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_MISSING"
+				| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
+				| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
+				| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
+				| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
+				| "STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
+				| "STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
+				| "STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
+				| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
+				| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
+				| "TRAILING_STOP_LOSS_ORDER_ALREADY_EXISTS"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_PRECISION_EXCEEDED"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MINIMUM_NOT_MET"
+				| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
+				| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
+				| "TRAILING_STOP_LOSS_ORDERS_NOT_SUPPORTED"
+				| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
+				| "CLOSE_TRADE_TYPE_MISSING"
+				| "CLOSE_TRADE_PARTIAL_UNITS_MISSING"
+				| "CLOSE_TRADE_UNITS_EXCEED_TRADE_SIZE"
+				| "CLOSEOUT_POSITION_DOESNT_EXIST"
+				| "CLOSEOUT_POSITION_INCOMPLETE_SPECIFICATION"
+				| "CLOSEOUT_POSITION_UNITS_EXCEED_POSITION_SIZE"
+				| "CLOSEOUT_POSITION_REJECT"
+				| "CLOSEOUT_POSITION_PARTIAL_UNITS_MISSING"
+				| "MARKUP_GROUP_ID_INVALID"
+				| "POSITION_AGGREGATION_MODE_INVALID"
+				| "ADMIN_CONFIGURE_DATA_MISSING"
+				| "MARGIN_RATE_INVALID"
+				| "MARGIN_RATE_WOULD_TRIGGER_CLOSEOUT"
+				| "ALIAS_INVALID"
+				| "CLIENT_CONFIGURE_DATA_MISSING"
+				| "MARGIN_RATE_WOULD_TRIGGER_MARGIN_CALL"
+				| "AMOUNT_INVALID"
+				| "INSUFFICIENT_FUNDS"
+				| "AMOUNT_MISSING"
+				| "FUNDING_REASON_MISSING"
+				| "CLIENT_EXTENSIONS_DATA_MISSING"
+				| "REPLACING_ORDER_INVALID"
+				| "REPLACING_TRADE_ID_INVALID"
+		}
+		/**
+		 * @description The reason that the Stop Loss Order was initiated
+		 * @enum {string}
+		 */
+		StopLossOrderReason: "CLIENT_ORDER" | "REPLACEMENT" | "ON_FILL"
+		/** @description A StopLossOrderTransaction represents the creation of a StopLoss Order in the user's Account. */
+		StopLossOrderTransaction: {
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The Transaction's Identifier.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Transaction was created.
+			 */
+			time?: string
+			/** @description The ID of the user that initiated the creation of the Transaction. */
+			userID?: number
+			/**
+			 * Format: "-"-delimited string with format "{siteID}-{divisionID}-{userID}-{accountNumber}"
+			 * @description The ID of the Account the Transaction was created for.
+			 */
+			accountID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.
+			 */
+			batchID?: string
+			/** @description The Request ID of the request which generated the transaction. */
+			requestID?: string
+			/**
+			 * @description The Type of the Transaction. Always set to "STOP_LOSS_ORDER" in a StopLossOrderTransaction.
+			 * @enum {string}
+			 */
+			type?:
+				| "CREATE"
+				| "CLOSE"
+				| "REOPEN"
+				| "CLIENT_CONFIGURE"
+				| "CLIENT_CONFIGURE_REJECT"
+				| "TRANSFER_FUNDS"
+				| "TRANSFER_FUNDS_REJECT"
+				| "MARKET_ORDER"
+				| "MARKET_ORDER_REJECT"
+				| "FIXED_PRICE_ORDER"
+				| "LIMIT_ORDER"
+				| "LIMIT_ORDER_REJECT"
+				| "STOP_ORDER"
+				| "STOP_ORDER_REJECT"
+				| "MARKET_IF_TOUCHED_ORDER"
+				| "MARKET_IF_TOUCHED_ORDER_REJECT"
+				| "TAKE_PROFIT_ORDER"
+				| "TAKE_PROFIT_ORDER_REJECT"
+				| "STOP_LOSS_ORDER"
+				| "STOP_LOSS_ORDER_REJECT"
+				| "TRAILING_STOP_LOSS_ORDER"
+				| "TRAILING_STOP_LOSS_ORDER_REJECT"
+				| "ORDER_FILL"
+				| "ORDER_CANCEL"
+				| "ORDER_CANCEL_REJECT"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "MARGIN_CALL_ENTER"
+				| "MARGIN_CALL_EXTEND"
+				| "MARGIN_CALL_EXIT"
+				| "DELAYED_TRADE_CLOSURE"
+				| "DAILY_FINANCING"
+				| "RESET_RESETTABLE_PL"
+			/**
+			 * Format: The string representation of the OANDA-assigned TradeID. OANDA-assigned TradeIDs are positive integers, and are derived from the TransactionID of the Transaction that opened the Trade.
+			 * @description The ID of the Trade to close when the price threshold is breached.
+			 */
+			tradeID?: string
+			/** @description The client ID of the Trade to be closed when the price threshold is breached. */
+			clientTradeID?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The price threshold specified for the Stop Loss Order. If the guaranteed flag is false, the associated Trade will be closed by a market price that is equal to or worse than this threshold. If the flag is true the associated Trade will be closed at this price.
+			 */
+			price?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description Specifies the distance (in price units) from the Account's current price to use as the Stop Loss Order price. If the Trade is short the Instrument's bid price is used, and for long Trades the ask is used.
+			 */
+			distance?: string
+			/**
+			 * @description The time-in-force requested for the StopLoss Order. Restricted to "GTC", "GFD" and "GTD" for StopLoss Orders.
+			 * @enum {string}
+			 */
+			timeInForce?: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the StopLoss Order will be cancelled if its timeInForce is "GTD".
+			 */
+			gtdTime?: string
+			/**
+			 * @description Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.
+			 *     This feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.
+			 *     A special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be "DEFAULT", or the "natural" trigger side "DEFAULT" results in. So for a Stop Loss Order for a long trade valid values are "DEFAULT" and "BID", and for short trades "DEFAULT" and "ASK" are valid.
+			 * @enum {string}
+			 */
+			triggerCondition?: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
+			/** @description Flag indicating that the Stop Loss Order is guaranteed. The default value depends on the GuaranteedStopLossOrderMode of the account, if it is REQUIRED, the default will be true, for DISABLED or ENABLED the default is false. */
+			guaranteed?: boolean
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The fee that will be charged if the Stop Loss Order is guaranteed and the Order is filled at the guaranteed price. The value is determined at Order creation time. It is in price units and is charged for each unit of the Trade.
+			 */
+			guaranteedExecutionPremium?: string
+			/**
+			 * @description The reason that the Stop Loss Order was initiated
+			 * @enum {string}
+			 */
+			reason?: "CLIENT_ORDER" | "REPLACEMENT" | "ON_FILL"
+			clientExtensions?: components["schemas"]["ClientExtensions"]
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the OrderFill Transaction that caused this Order to be created (only provided if this Order was created automatically when another Order was filled).
+			 */
+			orderFillTransactionID?: string
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The ID of the Order that this Order replaces (only provided if this Order replaces an existing Order).
+			 */
+			replacesOrderID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order).
+			 */
+			cancellingTransactionID?: string
+		}
+		/** @description A StopLossOrderRejectTransaction represents the rejection of the creation of a StopLoss Order. */
+		StopLossOrderRejectTransaction: {
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The Transaction's Identifier.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Transaction was created.
+			 */
+			time?: string
+			/** @description The ID of the user that initiated the creation of the Transaction. */
+			userID?: number
+			/**
+			 * Format: "-"-delimited string with format "{siteID}-{divisionID}-{userID}-{accountNumber}"
+			 * @description The ID of the Account the Transaction was created for.
+			 */
+			accountID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.
+			 */
+			batchID?: string
+			/** @description The Request ID of the request which generated the transaction. */
+			requestID?: string
+			/**
+			 * @description The Type of the Transaction. Always set to "STOP_LOSS_ORDER_REJECT" in a StopLossOrderRejectTransaction.
+			 * @enum {string}
+			 */
+			type?:
+				| "CREATE"
+				| "CLOSE"
+				| "REOPEN"
+				| "CLIENT_CONFIGURE"
+				| "CLIENT_CONFIGURE_REJECT"
+				| "TRANSFER_FUNDS"
+				| "TRANSFER_FUNDS_REJECT"
+				| "MARKET_ORDER"
+				| "MARKET_ORDER_REJECT"
+				| "FIXED_PRICE_ORDER"
+				| "LIMIT_ORDER"
+				| "LIMIT_ORDER_REJECT"
+				| "STOP_ORDER"
+				| "STOP_ORDER_REJECT"
+				| "MARKET_IF_TOUCHED_ORDER"
+				| "MARKET_IF_TOUCHED_ORDER_REJECT"
+				| "TAKE_PROFIT_ORDER"
+				| "TAKE_PROFIT_ORDER_REJECT"
+				| "STOP_LOSS_ORDER"
+				| "STOP_LOSS_ORDER_REJECT"
+				| "TRAILING_STOP_LOSS_ORDER"
+				| "TRAILING_STOP_LOSS_ORDER_REJECT"
+				| "ORDER_FILL"
+				| "ORDER_CANCEL"
+				| "ORDER_CANCEL_REJECT"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "MARGIN_CALL_ENTER"
+				| "MARGIN_CALL_EXTEND"
+				| "MARGIN_CALL_EXIT"
+				| "DELAYED_TRADE_CLOSURE"
+				| "DAILY_FINANCING"
+				| "RESET_RESETTABLE_PL"
+			/**
+			 * Format: The string representation of the OANDA-assigned TradeID. OANDA-assigned TradeIDs are positive integers, and are derived from the TransactionID of the Transaction that opened the Trade.
+			 * @description The ID of the Trade to close when the price threshold is breached.
+			 */
+			tradeID?: string
+			/** @description The client ID of the Trade to be closed when the price threshold is breached. */
+			clientTradeID?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The price threshold specified for the Stop Loss Order. If the guaranteed flag is false, the associated Trade will be closed by a market price that is equal to or worse than this threshold. If the flag is true the associated Trade will be closed at this price.
+			 */
+			price?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description Specifies the distance (in price units) from the Account's current price to use as the Stop Loss Order price. If the Trade is short the Instrument's bid price is used, and for long Trades the ask is used.
+			 */
+			distance?: string
+			/**
+			 * @description The time-in-force requested for the StopLoss Order. Restricted to "GTC", "GFD" and "GTD" for StopLoss Orders.
+			 * @enum {string}
+			 */
+			timeInForce?: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the StopLoss Order will be cancelled if its timeInForce is "GTD".
+			 */
+			gtdTime?: string
+			/**
+			 * @description Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.
+			 *     This feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.
+			 *     A special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be "DEFAULT", or the "natural" trigger side "DEFAULT" results in. So for a Stop Loss Order for a long trade valid values are "DEFAULT" and "BID", and for short trades "DEFAULT" and "ASK" are valid.
+			 * @enum {string}
+			 */
+			triggerCondition?: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
+			/** @description Flag indicating that the Stop Loss Order is guaranteed. The default value depends on the GuaranteedStopLossOrderMode of the account, if it is REQUIRED, the default will be true, for DISABLED or ENABLED the default is false. */
+			guaranteed?: boolean
+			/**
+			 * @description The reason that the Stop Loss Order was initiated
+			 * @enum {string}
+			 */
+			reason?: "CLIENT_ORDER" | "REPLACEMENT" | "ON_FILL"
+			clientExtensions?: components["schemas"]["ClientExtensions"]
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the OrderFill Transaction that caused this Order to be created (only provided if this Order was created automatically when another Order was filled).
+			 */
+			orderFillTransactionID?: string
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The ID of the Order that this Order was intended to replace (only provided if this Order was intended to replace an existing Order).
+			 */
+			intendedReplacesOrderID?: string
+			/**
+			 * @description The reason that the Reject Transaction was created
+			 * @enum {string}
+			 */
+			rejectReason?:
+				| "INTERNAL_SERVER_ERROR"
+				| "INSTRUMENT_PRICE_UNKNOWN"
+				| "ACCOUNT_NOT_ACTIVE"
+				| "ACCOUNT_LOCKED"
+				| "ACCOUNT_ORDER_CREATION_LOCKED"
+				| "ACCOUNT_CONFIGURATION_LOCKED"
+				| "ACCOUNT_DEPOSIT_LOCKED"
+				| "ACCOUNT_WITHDRAWAL_LOCKED"
+				| "ACCOUNT_ORDER_CANCEL_LOCKED"
+				| "INSTRUMENT_NOT_TRADEABLE"
+				| "PENDING_ORDERS_ALLOWED_EXCEEDED"
+				| "ORDER_ID_UNSPECIFIED"
+				| "ORDER_DOESNT_EXIST"
+				| "ORDER_IDENTIFIER_INCONSISTENCY"
+				| "TRADE_ID_UNSPECIFIED"
+				| "TRADE_DOESNT_EXIST"
+				| "TRADE_IDENTIFIER_INCONSISTENCY"
+				| "INSUFFICIENT_MARGIN"
+				| "INSTRUMENT_MISSING"
+				| "INSTRUMENT_UNKNOWN"
+				| "UNITS_MISSING"
+				| "UNITS_INVALID"
+				| "UNITS_PRECISION_EXCEEDED"
+				| "UNITS_LIMIT_EXCEEDED"
+				| "UNITS_MIMIMUM_NOT_MET"
+				| "PRICE_MISSING"
+				| "PRICE_INVALID"
+				| "PRICE_PRECISION_EXCEEDED"
+				| "PRICE_DISTANCE_MISSING"
+				| "PRICE_DISTANCE_INVALID"
+				| "PRICE_DISTANCE_PRECISION_EXCEEDED"
+				| "PRICE_DISTANCE_MAXIMUM_EXCEEDED"
+				| "PRICE_DISTANCE_MINIMUM_NOT_MET"
+				| "TIME_IN_FORCE_MISSING"
+				| "TIME_IN_FORCE_INVALID"
+				| "TIME_IN_FORCE_GTD_TIMESTAMP_MISSING"
+				| "TIME_IN_FORCE_GTD_TIMESTAMP_IN_PAST"
+				| "PRICE_BOUND_INVALID"
+				| "PRICE_BOUND_PRECISION_EXCEEDED"
+				| "ORDERS_ON_FILL_DUPLICATE_CLIENT_ORDER_IDS"
+				| "TRADE_ON_FILL_CLIENT_EXTENSIONS_NOT_SUPPORTED"
+				| "CLIENT_ORDER_ID_INVALID"
+				| "CLIENT_ORDER_ID_ALREADY_EXISTS"
+				| "CLIENT_ORDER_TAG_INVALID"
+				| "CLIENT_ORDER_COMMENT_INVALID"
+				| "CLIENT_TRADE_ID_INVALID"
+				| "CLIENT_TRADE_ID_ALREADY_EXISTS"
+				| "CLIENT_TRADE_TAG_INVALID"
+				| "CLIENT_TRADE_COMMENT_INVALID"
+				| "ORDER_FILL_POSITION_ACTION_MISSING"
+				| "ORDER_FILL_POSITION_ACTION_INVALID"
+				| "TRIGGER_CONDITION_MISSING"
+				| "TRIGGER_CONDITION_INVALID"
+				| "ORDER_PARTIAL_FILL_OPTION_MISSING"
+				| "ORDER_PARTIAL_FILL_OPTION_INVALID"
+				| "INVALID_REISSUE_IMMEDIATE_PARTIAL_FILL"
+				| "TAKE_PROFIT_ORDER_ALREADY_EXISTS"
+				| "TAKE_PROFIT_ON_FILL_PRICE_MISSING"
+				| "TAKE_PROFIT_ON_FILL_PRICE_INVALID"
+				| "TAKE_PROFIT_ON_FILL_PRICE_PRECISION_EXCEEDED"
+				| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_MISSING"
+				| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_INVALID"
+				| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_MISSING"
+				| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_IN_PAST"
+				| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_ID_INVALID"
+				| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_TAG_INVALID"
+				| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
+				| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_MISSING"
+				| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_INVALID"
+				| "STOP_LOSS_ORDER_ALREADY_EXISTS"
+				| "STOP_LOSS_ORDER_GUARANTEED_REQUIRED"
+				| "STOP_LOSS_ORDER_GUARANTEED_PRICE_WITHIN_SPREAD"
+				| "STOP_LOSS_ORDER_GUARANTEED_NOT_ALLOWED"
+				| "STOP_LOSS_ORDER_GUARANTEED_HALTED_CREATE_VIOLATION"
+				| "STOP_LOSS_ORDER_GUARANTEED_HALTED_TIGHTEN_VIOLATION"
+				| "STOP_LOSS_ORDER_GUARANTEED_HEDGING_NOT_ALLOWED"
+				| "STOP_LOSS_ORDER_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
+				| "STOP_LOSS_ORDER_NOT_CANCELABLE"
+				| "STOP_LOSS_ORDER_NOT_REPLACEABLE"
+				| "STOP_LOSS_ORDER_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
+				| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
+				| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_MISSING"
+				| "STOP_LOSS_ON_FILL_REQUIRED_FOR_PENDING_ORDER"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_NOT_ALLOWED"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_REQUIRED"
+				| "STOP_LOSS_ON_FILL_PRICE_MISSING"
+				| "STOP_LOSS_ON_FILL_PRICE_INVALID"
+				| "STOP_LOSS_ON_FILL_PRICE_PRECISION_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_DISTANCE_INVALID"
+				| "STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_DISTANCE_PRECISION_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
+				| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_MISSING"
+				| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
+				| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
+				| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
+				| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
+				| "STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
+				| "STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
+				| "STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
+				| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
+				| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
+				| "TRAILING_STOP_LOSS_ORDER_ALREADY_EXISTS"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_PRECISION_EXCEEDED"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MINIMUM_NOT_MET"
+				| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
+				| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
+				| "TRAILING_STOP_LOSS_ORDERS_NOT_SUPPORTED"
+				| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
+				| "CLOSE_TRADE_TYPE_MISSING"
+				| "CLOSE_TRADE_PARTIAL_UNITS_MISSING"
+				| "CLOSE_TRADE_UNITS_EXCEED_TRADE_SIZE"
+				| "CLOSEOUT_POSITION_DOESNT_EXIST"
+				| "CLOSEOUT_POSITION_INCOMPLETE_SPECIFICATION"
+				| "CLOSEOUT_POSITION_UNITS_EXCEED_POSITION_SIZE"
+				| "CLOSEOUT_POSITION_REJECT"
+				| "CLOSEOUT_POSITION_PARTIAL_UNITS_MISSING"
+				| "MARKUP_GROUP_ID_INVALID"
+				| "POSITION_AGGREGATION_MODE_INVALID"
+				| "ADMIN_CONFIGURE_DATA_MISSING"
+				| "MARGIN_RATE_INVALID"
+				| "MARGIN_RATE_WOULD_TRIGGER_CLOSEOUT"
+				| "ALIAS_INVALID"
+				| "CLIENT_CONFIGURE_DATA_MISSING"
+				| "MARGIN_RATE_WOULD_TRIGGER_MARGIN_CALL"
+				| "AMOUNT_INVALID"
+				| "INSUFFICIENT_FUNDS"
+				| "AMOUNT_MISSING"
+				| "FUNDING_REASON_MISSING"
+				| "CLIENT_EXTENSIONS_DATA_MISSING"
+				| "REPLACING_ORDER_INVALID"
+				| "REPLACING_TRADE_ID_INVALID"
+		}
+		/**
+		 * @description The reason that the Trailing Stop Loss Order was initiated
+		 * @enum {string}
+		 */
+		TrailingStopLossOrderReason: "CLIENT_ORDER" | "REPLACEMENT" | "ON_FILL"
+		/** @description A TrailingStopLossOrderTransaction represents the creation of a TrailingStopLoss Order in the user's Account. */
+		TrailingStopLossOrderTransaction: {
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The Transaction's Identifier.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Transaction was created.
+			 */
+			time?: string
+			/** @description The ID of the user that initiated the creation of the Transaction. */
+			userID?: number
+			/**
+			 * Format: "-"-delimited string with format "{siteID}-{divisionID}-{userID}-{accountNumber}"
+			 * @description The ID of the Account the Transaction was created for.
+			 */
+			accountID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.
+			 */
+			batchID?: string
+			/** @description The Request ID of the request which generated the transaction. */
+			requestID?: string
+			/**
+			 * @description The Type of the Transaction. Always set to "TRAILING_STOP_LOSS_ORDER" in a TrailingStopLossOrderTransaction.
+			 * @enum {string}
+			 */
+			type?:
+				| "CREATE"
+				| "CLOSE"
+				| "REOPEN"
+				| "CLIENT_CONFIGURE"
+				| "CLIENT_CONFIGURE_REJECT"
+				| "TRANSFER_FUNDS"
+				| "TRANSFER_FUNDS_REJECT"
+				| "MARKET_ORDER"
+				| "MARKET_ORDER_REJECT"
+				| "FIXED_PRICE_ORDER"
+				| "LIMIT_ORDER"
+				| "LIMIT_ORDER_REJECT"
+				| "STOP_ORDER"
+				| "STOP_ORDER_REJECT"
+				| "MARKET_IF_TOUCHED_ORDER"
+				| "MARKET_IF_TOUCHED_ORDER_REJECT"
+				| "TAKE_PROFIT_ORDER"
+				| "TAKE_PROFIT_ORDER_REJECT"
+				| "STOP_LOSS_ORDER"
+				| "STOP_LOSS_ORDER_REJECT"
+				| "TRAILING_STOP_LOSS_ORDER"
+				| "TRAILING_STOP_LOSS_ORDER_REJECT"
+				| "ORDER_FILL"
+				| "ORDER_CANCEL"
+				| "ORDER_CANCEL_REJECT"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "MARGIN_CALL_ENTER"
+				| "MARGIN_CALL_EXTEND"
+				| "MARGIN_CALL_EXIT"
+				| "DELAYED_TRADE_CLOSURE"
+				| "DAILY_FINANCING"
+				| "RESET_RESETTABLE_PL"
+			/**
+			 * Format: The string representation of the OANDA-assigned TradeID. OANDA-assigned TradeIDs are positive integers, and are derived from the TransactionID of the Transaction that opened the Trade.
+			 * @description The ID of the Trade to close when the price threshold is breached.
+			 */
+			tradeID?: string
+			/** @description The client ID of the Trade to be closed when the price threshold is breached. */
+			clientTradeID?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The price distance (in price units) specified for the TrailingStopLoss Order.
+			 */
+			distance?: string
+			/**
+			 * @description The time-in-force requested for the TrailingStopLoss Order. Restricted to "GTC", "GFD" and "GTD" for TrailingStopLoss Orders.
+			 * @enum {string}
+			 */
+			timeInForce?: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the StopLoss Order will be cancelled if its timeInForce is "GTD".
+			 */
+			gtdTime?: string
+			/**
+			 * @description Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.
+			 *     This feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.
+			 *     A special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be "DEFAULT", or the "natural" trigger side "DEFAULT" results in. So for a Stop Loss Order for a long trade valid values are "DEFAULT" and "BID", and for short trades "DEFAULT" and "ASK" are valid.
+			 * @enum {string}
+			 */
+			triggerCondition?: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
+			/**
+			 * @description The reason that the Trailing Stop Loss Order was initiated
+			 * @enum {string}
+			 */
+			reason?: "CLIENT_ORDER" | "REPLACEMENT" | "ON_FILL"
+			clientExtensions?: components["schemas"]["ClientExtensions"]
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the OrderFill Transaction that caused this Order to be created (only provided if this Order was created automatically when another Order was filled).
+			 */
+			orderFillTransactionID?: string
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The ID of the Order that this Order replaces (only provided if this Order replaces an existing Order).
+			 */
+			replacesOrderID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order).
+			 */
+			cancellingTransactionID?: string
+		}
+		/** @description A TrailingStopLossOrderRejectTransaction represents the rejection of the creation of a TrailingStopLoss Order. */
+		TrailingStopLossOrderRejectTransaction: {
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The Transaction's Identifier.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Transaction was created.
+			 */
+			time?: string
+			/** @description The ID of the user that initiated the creation of the Transaction. */
+			userID?: number
+			/**
+			 * Format: "-"-delimited string with format "{siteID}-{divisionID}-{userID}-{accountNumber}"
+			 * @description The ID of the Account the Transaction was created for.
+			 */
+			accountID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.
+			 */
+			batchID?: string
+			/** @description The Request ID of the request which generated the transaction. */
+			requestID?: string
+			/**
+			 * @description The Type of the Transaction. Always set to "TRAILING_STOP_LOSS_ORDER_REJECT" in a TrailingStopLossOrderRejectTransaction.
+			 * @enum {string}
+			 */
+			type?:
+				| "CREATE"
+				| "CLOSE"
+				| "REOPEN"
+				| "CLIENT_CONFIGURE"
+				| "CLIENT_CONFIGURE_REJECT"
+				| "TRANSFER_FUNDS"
+				| "TRANSFER_FUNDS_REJECT"
+				| "MARKET_ORDER"
+				| "MARKET_ORDER_REJECT"
+				| "FIXED_PRICE_ORDER"
+				| "LIMIT_ORDER"
+				| "LIMIT_ORDER_REJECT"
+				| "STOP_ORDER"
+				| "STOP_ORDER_REJECT"
+				| "MARKET_IF_TOUCHED_ORDER"
+				| "MARKET_IF_TOUCHED_ORDER_REJECT"
+				| "TAKE_PROFIT_ORDER"
+				| "TAKE_PROFIT_ORDER_REJECT"
+				| "STOP_LOSS_ORDER"
+				| "STOP_LOSS_ORDER_REJECT"
+				| "TRAILING_STOP_LOSS_ORDER"
+				| "TRAILING_STOP_LOSS_ORDER_REJECT"
+				| "ORDER_FILL"
+				| "ORDER_CANCEL"
+				| "ORDER_CANCEL_REJECT"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "MARGIN_CALL_ENTER"
+				| "MARGIN_CALL_EXTEND"
+				| "MARGIN_CALL_EXIT"
+				| "DELAYED_TRADE_CLOSURE"
+				| "DAILY_FINANCING"
+				| "RESET_RESETTABLE_PL"
+			/**
+			 * Format: The string representation of the OANDA-assigned TradeID. OANDA-assigned TradeIDs are positive integers, and are derived from the TransactionID of the Transaction that opened the Trade.
+			 * @description The ID of the Trade to close when the price threshold is breached.
+			 */
+			tradeID?: string
+			/** @description The client ID of the Trade to be closed when the price threshold is breached. */
+			clientTradeID?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The price distance (in price units) specified for the TrailingStopLoss Order.
+			 */
+			distance?: string
+			/**
+			 * @description The time-in-force requested for the TrailingStopLoss Order. Restricted to "GTC", "GFD" and "GTD" for TrailingStopLoss Orders.
+			 * @enum {string}
+			 */
+			timeInForce?: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the StopLoss Order will be cancelled if its timeInForce is "GTD".
+			 */
+			gtdTime?: string
+			/**
+			 * @description Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.
+			 *     This feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.
+			 *     A special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be "DEFAULT", or the "natural" trigger side "DEFAULT" results in. So for a Stop Loss Order for a long trade valid values are "DEFAULT" and "BID", and for short trades "DEFAULT" and "ASK" are valid.
+			 * @enum {string}
+			 */
+			triggerCondition?: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
+			/**
+			 * @description The reason that the Trailing Stop Loss Order was initiated
+			 * @enum {string}
+			 */
+			reason?: "CLIENT_ORDER" | "REPLACEMENT" | "ON_FILL"
+			clientExtensions?: components["schemas"]["ClientExtensions"]
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the OrderFill Transaction that caused this Order to be created (only provided if this Order was created automatically when another Order was filled).
+			 */
+			orderFillTransactionID?: string
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The ID of the Order that this Order was intended to replace (only provided if this Order was intended to replace an existing Order).
+			 */
+			intendedReplacesOrderID?: string
+			/**
+			 * @description The reason that the Reject Transaction was created
+			 * @enum {string}
+			 */
+			rejectReason?:
+				| "INTERNAL_SERVER_ERROR"
+				| "INSTRUMENT_PRICE_UNKNOWN"
+				| "ACCOUNT_NOT_ACTIVE"
+				| "ACCOUNT_LOCKED"
+				| "ACCOUNT_ORDER_CREATION_LOCKED"
+				| "ACCOUNT_CONFIGURATION_LOCKED"
+				| "ACCOUNT_DEPOSIT_LOCKED"
+				| "ACCOUNT_WITHDRAWAL_LOCKED"
+				| "ACCOUNT_ORDER_CANCEL_LOCKED"
+				| "INSTRUMENT_NOT_TRADEABLE"
+				| "PENDING_ORDERS_ALLOWED_EXCEEDED"
+				| "ORDER_ID_UNSPECIFIED"
+				| "ORDER_DOESNT_EXIST"
+				| "ORDER_IDENTIFIER_INCONSISTENCY"
+				| "TRADE_ID_UNSPECIFIED"
+				| "TRADE_DOESNT_EXIST"
+				| "TRADE_IDENTIFIER_INCONSISTENCY"
+				| "INSUFFICIENT_MARGIN"
+				| "INSTRUMENT_MISSING"
+				| "INSTRUMENT_UNKNOWN"
+				| "UNITS_MISSING"
+				| "UNITS_INVALID"
+				| "UNITS_PRECISION_EXCEEDED"
+				| "UNITS_LIMIT_EXCEEDED"
+				| "UNITS_MIMIMUM_NOT_MET"
+				| "PRICE_MISSING"
+				| "PRICE_INVALID"
+				| "PRICE_PRECISION_EXCEEDED"
+				| "PRICE_DISTANCE_MISSING"
+				| "PRICE_DISTANCE_INVALID"
+				| "PRICE_DISTANCE_PRECISION_EXCEEDED"
+				| "PRICE_DISTANCE_MAXIMUM_EXCEEDED"
+				| "PRICE_DISTANCE_MINIMUM_NOT_MET"
+				| "TIME_IN_FORCE_MISSING"
+				| "TIME_IN_FORCE_INVALID"
+				| "TIME_IN_FORCE_GTD_TIMESTAMP_MISSING"
+				| "TIME_IN_FORCE_GTD_TIMESTAMP_IN_PAST"
+				| "PRICE_BOUND_INVALID"
+				| "PRICE_BOUND_PRECISION_EXCEEDED"
+				| "ORDERS_ON_FILL_DUPLICATE_CLIENT_ORDER_IDS"
+				| "TRADE_ON_FILL_CLIENT_EXTENSIONS_NOT_SUPPORTED"
+				| "CLIENT_ORDER_ID_INVALID"
+				| "CLIENT_ORDER_ID_ALREADY_EXISTS"
+				| "CLIENT_ORDER_TAG_INVALID"
+				| "CLIENT_ORDER_COMMENT_INVALID"
+				| "CLIENT_TRADE_ID_INVALID"
+				| "CLIENT_TRADE_ID_ALREADY_EXISTS"
+				| "CLIENT_TRADE_TAG_INVALID"
+				| "CLIENT_TRADE_COMMENT_INVALID"
+				| "ORDER_FILL_POSITION_ACTION_MISSING"
+				| "ORDER_FILL_POSITION_ACTION_INVALID"
+				| "TRIGGER_CONDITION_MISSING"
+				| "TRIGGER_CONDITION_INVALID"
+				| "ORDER_PARTIAL_FILL_OPTION_MISSING"
+				| "ORDER_PARTIAL_FILL_OPTION_INVALID"
+				| "INVALID_REISSUE_IMMEDIATE_PARTIAL_FILL"
+				| "TAKE_PROFIT_ORDER_ALREADY_EXISTS"
+				| "TAKE_PROFIT_ON_FILL_PRICE_MISSING"
+				| "TAKE_PROFIT_ON_FILL_PRICE_INVALID"
+				| "TAKE_PROFIT_ON_FILL_PRICE_PRECISION_EXCEEDED"
+				| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_MISSING"
+				| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_INVALID"
+				| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_MISSING"
+				| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_IN_PAST"
+				| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_ID_INVALID"
+				| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_TAG_INVALID"
+				| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
+				| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_MISSING"
+				| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_INVALID"
+				| "STOP_LOSS_ORDER_ALREADY_EXISTS"
+				| "STOP_LOSS_ORDER_GUARANTEED_REQUIRED"
+				| "STOP_LOSS_ORDER_GUARANTEED_PRICE_WITHIN_SPREAD"
+				| "STOP_LOSS_ORDER_GUARANTEED_NOT_ALLOWED"
+				| "STOP_LOSS_ORDER_GUARANTEED_HALTED_CREATE_VIOLATION"
+				| "STOP_LOSS_ORDER_GUARANTEED_HALTED_TIGHTEN_VIOLATION"
+				| "STOP_LOSS_ORDER_GUARANTEED_HEDGING_NOT_ALLOWED"
+				| "STOP_LOSS_ORDER_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
+				| "STOP_LOSS_ORDER_NOT_CANCELABLE"
+				| "STOP_LOSS_ORDER_NOT_REPLACEABLE"
+				| "STOP_LOSS_ORDER_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
+				| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
+				| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_MISSING"
+				| "STOP_LOSS_ON_FILL_REQUIRED_FOR_PENDING_ORDER"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_NOT_ALLOWED"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_REQUIRED"
+				| "STOP_LOSS_ON_FILL_PRICE_MISSING"
+				| "STOP_LOSS_ON_FILL_PRICE_INVALID"
+				| "STOP_LOSS_ON_FILL_PRICE_PRECISION_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_DISTANCE_INVALID"
+				| "STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_DISTANCE_PRECISION_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
+				| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_MISSING"
+				| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
+				| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
+				| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
+				| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
+				| "STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
+				| "STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
+				| "STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
+				| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
+				| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
+				| "TRAILING_STOP_LOSS_ORDER_ALREADY_EXISTS"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_PRECISION_EXCEEDED"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MINIMUM_NOT_MET"
+				| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
+				| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
+				| "TRAILING_STOP_LOSS_ORDERS_NOT_SUPPORTED"
+				| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
+				| "CLOSE_TRADE_TYPE_MISSING"
+				| "CLOSE_TRADE_PARTIAL_UNITS_MISSING"
+				| "CLOSE_TRADE_UNITS_EXCEED_TRADE_SIZE"
+				| "CLOSEOUT_POSITION_DOESNT_EXIST"
+				| "CLOSEOUT_POSITION_INCOMPLETE_SPECIFICATION"
+				| "CLOSEOUT_POSITION_UNITS_EXCEED_POSITION_SIZE"
+				| "CLOSEOUT_POSITION_REJECT"
+				| "CLOSEOUT_POSITION_PARTIAL_UNITS_MISSING"
+				| "MARKUP_GROUP_ID_INVALID"
+				| "POSITION_AGGREGATION_MODE_INVALID"
+				| "ADMIN_CONFIGURE_DATA_MISSING"
+				| "MARGIN_RATE_INVALID"
+				| "MARGIN_RATE_WOULD_TRIGGER_CLOSEOUT"
+				| "ALIAS_INVALID"
+				| "CLIENT_CONFIGURE_DATA_MISSING"
+				| "MARGIN_RATE_WOULD_TRIGGER_MARGIN_CALL"
+				| "AMOUNT_INVALID"
+				| "INSUFFICIENT_FUNDS"
+				| "AMOUNT_MISSING"
+				| "FUNDING_REASON_MISSING"
+				| "CLIENT_EXTENSIONS_DATA_MISSING"
+				| "REPLACING_ORDER_INVALID"
+				| "REPLACING_TRADE_ID_INVALID"
+		}
+		/**
+		 * @description The reason that an Order was filled
+		 * @enum {string}
+		 */
+		OrderFillReason:
 			| "LIMIT_ORDER"
 			| "STOP_ORDER"
 			| "MARKET_IF_TOUCHED_ORDER"
@@ -3164,110 +5800,166 @@ export namespace Schemas {
 			| "MARKET_ORDER_POSITION_CLOSEOUT"
 			| "MARKET_ORDER_MARGIN_CLOSEOUT"
 			| "MARKET_ORDER_DELAYED_TRADE_CLOSE"
-		pl: string
-		financing: string
-		commission: string
-		guaranteedExecutionFee: string
-		accountBalance: string
-		tradeOpened: TradeOpen
-		tradesClosed: Array<TradeReduce>
-		tradeReduced: TradeReduce
-		halfSpreadCost: string
-	}>
-	export type OrderCancelReason =
-		| "INTERNAL_SERVER_ERROR"
-		| "ACCOUNT_LOCKED"
-		| "ACCOUNT_NEW_POSITIONS_LOCKED"
-		| "ACCOUNT_ORDER_CREATION_LOCKED"
-		| "ACCOUNT_ORDER_FILL_LOCKED"
-		| "CLIENT_REQUEST"
-		| "MIGRATION"
-		| "MARKET_HALTED"
-		| "LINKED_TRADE_CLOSED"
-		| "TIME_IN_FORCE_EXPIRED"
-		| "INSUFFICIENT_MARGIN"
-		| "FIFO_VIOLATION"
-		| "BOUNDS_VIOLATION"
-		| "CLIENT_REQUEST_REPLACED"
-		| "INSUFFICIENT_LIQUIDITY"
-		| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_IN_PAST"
-		| "TAKE_PROFIT_ON_FILL_LOSS"
-		| "LOSING_TAKE_PROFIT"
-		| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
-		| "STOP_LOSS_ON_FILL_LOSS"
-		| "STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
-		| "STOP_LOSS_ON_FILL_REQUIRED"
-		| "STOP_LOSS_ON_FILL_GUARANTEED_REQUIRED"
-		| "STOP_LOSS_ON_FILL_GUARANTEED_NOT_ALLOWED"
-		| "STOP_LOSS_ON_FILL_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
-		| "STOP_LOSS_ON_FILL_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
-		| "STOP_LOSS_ON_FILL_GUARANTEED_HEDGING_NOT_ALLOWED"
-		| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
-		| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
-		| "TAKE_PROFIT_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
-		| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
-		| "CLIENT_TRADE_ID_ALREADY_EXISTS"
-		| "POSITION_CLOSEOUT_FAILED"
-		| "OPEN_TRADES_ALLOWED_EXCEEDED"
-		| "PENDING_ORDERS_ALLOWED_EXCEEDED"
-		| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_ID_ALREADY_EXISTS"
-		| "STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_ALREADY_EXISTS"
-		| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_ALREADY_EXISTS"
-		| "POSITION_SIZE_EXCEEDED"
-		| "HEDGING_GSLO_VIOLATION"
-		| "ACCOUNT_POSITION_VALUE_LIMIT_EXCEEDED"
-		| "INSTRUMENT_BID_REDUCE_ONLY"
-		| "INSTRUMENT_ASK_REDUCE_ONLY"
-		| "INSTRUMENT_BID_HALTED"
-		| "INSTRUMENT_ASK_HALTED"
-		| "STOP_LOSS_ON_FILL_GUARANTEED_BID_HALTED"
-		| "STOP_LOSS_ON_FILL_GUARANTEED_ASK_HALTED"
-	export type OrderCancelTransaction = Partial<{
-		id: string
-		time: string
-		userID: number
-		accountID: string
-		batchID: string
-		requestID: string
-		type:
-			| "CREATE"
-			| "CLOSE"
-			| "REOPEN"
-			| "CLIENT_CONFIGURE"
-			| "CLIENT_CONFIGURE_REJECT"
-			| "TRANSFER_FUNDS"
-			| "TRANSFER_FUNDS_REJECT"
-			| "MARKET_ORDER"
-			| "MARKET_ORDER_REJECT"
-			| "FIXED_PRICE_ORDER"
-			| "LIMIT_ORDER"
-			| "LIMIT_ORDER_REJECT"
-			| "STOP_ORDER"
-			| "STOP_ORDER_REJECT"
-			| "MARKET_IF_TOUCHED_ORDER"
-			| "MARKET_IF_TOUCHED_ORDER_REJECT"
-			| "TAKE_PROFIT_ORDER"
-			| "TAKE_PROFIT_ORDER_REJECT"
-			| "STOP_LOSS_ORDER"
-			| "STOP_LOSS_ORDER_REJECT"
-			| "TRAILING_STOP_LOSS_ORDER"
-			| "TRAILING_STOP_LOSS_ORDER_REJECT"
-			| "ORDER_FILL"
-			| "ORDER_CANCEL"
-			| "ORDER_CANCEL_REJECT"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "MARGIN_CALL_ENTER"
-			| "MARGIN_CALL_EXTEND"
-			| "MARGIN_CALL_EXIT"
-			| "DELAYED_TRADE_CLOSURE"
-			| "DAILY_FINANCING"
-			| "RESET_RESETTABLE_PL"
-		orderID: string
-		clientOrderID: string
-		reason:
+		/** @description An OrderFillTransaction represents the filling of an Order in the client's Account. */
+		OrderFillTransaction: {
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The Transaction's Identifier.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Transaction was created.
+			 */
+			time?: string
+			/** @description The ID of the user that initiated the creation of the Transaction. */
+			userID?: number
+			/**
+			 * Format: "-"-delimited string with format "{siteID}-{divisionID}-{userID}-{accountNumber}"
+			 * @description The ID of the Account the Transaction was created for.
+			 */
+			accountID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.
+			 */
+			batchID?: string
+			/** @description The Request ID of the request which generated the transaction. */
+			requestID?: string
+			/**
+			 * @description The Type of the Transaction. Always set to "ORDER_FILL" for an OrderFillTransaction.
+			 * @enum {string}
+			 */
+			type?:
+				| "CREATE"
+				| "CLOSE"
+				| "REOPEN"
+				| "CLIENT_CONFIGURE"
+				| "CLIENT_CONFIGURE_REJECT"
+				| "TRANSFER_FUNDS"
+				| "TRANSFER_FUNDS_REJECT"
+				| "MARKET_ORDER"
+				| "MARKET_ORDER_REJECT"
+				| "FIXED_PRICE_ORDER"
+				| "LIMIT_ORDER"
+				| "LIMIT_ORDER_REJECT"
+				| "STOP_ORDER"
+				| "STOP_ORDER_REJECT"
+				| "MARKET_IF_TOUCHED_ORDER"
+				| "MARKET_IF_TOUCHED_ORDER_REJECT"
+				| "TAKE_PROFIT_ORDER"
+				| "TAKE_PROFIT_ORDER_REJECT"
+				| "STOP_LOSS_ORDER"
+				| "STOP_LOSS_ORDER_REJECT"
+				| "TRAILING_STOP_LOSS_ORDER"
+				| "TRAILING_STOP_LOSS_ORDER_REJECT"
+				| "ORDER_FILL"
+				| "ORDER_CANCEL"
+				| "ORDER_CANCEL_REJECT"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "MARGIN_CALL_ENTER"
+				| "MARGIN_CALL_EXTEND"
+				| "MARGIN_CALL_EXIT"
+				| "DELAYED_TRADE_CLOSURE"
+				| "DAILY_FINANCING"
+				| "RESET_RESETTABLE_PL"
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The ID of the Order filled.
+			 */
+			orderID?: string
+			/** @description The client Order ID of the Order filled (only provided if the client has assigned one). */
+			clientOrderID?: string
+			/**
+			 * Format: A string containing the base currency and quote currency delimited by a "_".
+			 * @description The name of the filled Order's instrument.
+			 */
+			instrument?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The number of units filled by the OrderFill.
+			 */
+			units?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description This is the conversion factor in effect for the Account at the time of the OrderFill for converting any gains realized in Instrument quote units into units of the Account's home currency.
+			 */
+			gainQuoteHomeConversionFactor?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description This is the conversion factor in effect for the Account at the time of the OrderFill for converting any losses realized in Instrument quote units into units of the Account's home currency.
+			 */
+			lossQuoteHomeConversionFactor?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description This field is now deprecated and should no longer be used. The individual tradesClosed, tradeReduced and tradeOpened fields contain the exact/official price each unit was filled at.
+			 */
+			price?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The price that all of the units of the OrderFill should have been filled at, in the absence of guaranteed price execution. This factors in the Account's current ClientPrice, used liquidity and the units of the OrderFill only. If no Trades were closed with their price clamped for guaranteed stop loss enforcement, then this value will match the price fields of each Trade opened, closed, and reduced, and they will all be the exact same.
+			 */
+			fullVWAP?: string
+			fullPrice?: components["schemas"]["ClientPrice"]
+			/**
+			 * @description The reason that an Order was filled
+			 * @enum {string}
+			 */
+			reason?:
+				| "LIMIT_ORDER"
+				| "STOP_ORDER"
+				| "MARKET_IF_TOUCHED_ORDER"
+				| "TAKE_PROFIT_ORDER"
+				| "STOP_LOSS_ORDER"
+				| "TRAILING_STOP_LOSS_ORDER"
+				| "MARKET_ORDER"
+				| "MARKET_ORDER_TRADE_CLOSE"
+				| "MARKET_ORDER_POSITION_CLOSEOUT"
+				| "MARKET_ORDER_MARGIN_CLOSEOUT"
+				| "MARKET_ORDER_DELAYED_TRADE_CLOSE"
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The profit or loss incurred when the Order was filled.
+			 */
+			pl?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The financing paid or collected when the Order was filled.
+			 */
+			financing?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The commission charged in the Account's home currency as a result of filling the Order. The commission is always represented as a positive quantity of the Account's home currency, however it reduces the balance in the Account.
+			 */
+			commission?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The total guaranteed execution fees charged for all Trades opened, closed or reduced with guaranteed Stop Loss Orders.
+			 */
+			guaranteedExecutionFee?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The Account's balance after the Order was filled.
+			 */
+			accountBalance?: string
+			tradeOpened?: components["schemas"]["TradeOpen"]
+			/** @description The Trades that were closed when the Order was filled (only provided if filling the Order resulted in a closing open Trades). */
+			tradesClosed?: components["schemas"]["TradeReduce"][]
+			tradeReduced?: components["schemas"]["TradeReduce"]
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The half spread cost for the OrderFill, which is the sum of the halfSpreadCost values in the tradeOpened, tradesClosed and tradeReduced fields. This can be a positive or negative value and is represented in the home currency of the Account.
+			 */
+			halfSpreadCost?: string
+		}
+		/**
+		 * @description The reason that an Order was cancelled.
+		 * @enum {string}
+		 */
+		OrderCancelReason:
 			| "INTERNAL_SERVER_ERROR"
 			| "ACCOUNT_LOCKED"
 			| "ACCOUNT_NEW_POSITIONS_LOCKED"
@@ -3315,1980 +6007,37 @@ export namespace Schemas {
 			| "INSTRUMENT_ASK_HALTED"
 			| "STOP_LOSS_ON_FILL_GUARANTEED_BID_HALTED"
 			| "STOP_LOSS_ON_FILL_GUARANTEED_ASK_HALTED"
-		replacedByOrderID: string
-	}>
-	export type OrderCancelRejectTransaction = Partial<{
-		id: string
-		time: string
-		userID: number
-		accountID: string
-		batchID: string
-		requestID: string
-		type:
-			| "CREATE"
-			| "CLOSE"
-			| "REOPEN"
-			| "CLIENT_CONFIGURE"
-			| "CLIENT_CONFIGURE_REJECT"
-			| "TRANSFER_FUNDS"
-			| "TRANSFER_FUNDS_REJECT"
-			| "MARKET_ORDER"
-			| "MARKET_ORDER_REJECT"
-			| "FIXED_PRICE_ORDER"
-			| "LIMIT_ORDER"
-			| "LIMIT_ORDER_REJECT"
-			| "STOP_ORDER"
-			| "STOP_ORDER_REJECT"
-			| "MARKET_IF_TOUCHED_ORDER"
-			| "MARKET_IF_TOUCHED_ORDER_REJECT"
-			| "TAKE_PROFIT_ORDER"
-			| "TAKE_PROFIT_ORDER_REJECT"
-			| "STOP_LOSS_ORDER"
-			| "STOP_LOSS_ORDER_REJECT"
-			| "TRAILING_STOP_LOSS_ORDER"
-			| "TRAILING_STOP_LOSS_ORDER_REJECT"
-			| "ORDER_FILL"
-			| "ORDER_CANCEL"
-			| "ORDER_CANCEL_REJECT"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "MARGIN_CALL_ENTER"
-			| "MARGIN_CALL_EXTEND"
-			| "MARGIN_CALL_EXIT"
-			| "DELAYED_TRADE_CLOSURE"
-			| "DAILY_FINANCING"
-			| "RESET_RESETTABLE_PL"
-		orderID: string
-		clientOrderID: string
-		rejectReason:
-			| "INTERNAL_SERVER_ERROR"
-			| "INSTRUMENT_PRICE_UNKNOWN"
-			| "ACCOUNT_NOT_ACTIVE"
-			| "ACCOUNT_LOCKED"
-			| "ACCOUNT_ORDER_CREATION_LOCKED"
-			| "ACCOUNT_CONFIGURATION_LOCKED"
-			| "ACCOUNT_DEPOSIT_LOCKED"
-			| "ACCOUNT_WITHDRAWAL_LOCKED"
-			| "ACCOUNT_ORDER_CANCEL_LOCKED"
-			| "INSTRUMENT_NOT_TRADEABLE"
-			| "PENDING_ORDERS_ALLOWED_EXCEEDED"
-			| "ORDER_ID_UNSPECIFIED"
-			| "ORDER_DOESNT_EXIST"
-			| "ORDER_IDENTIFIER_INCONSISTENCY"
-			| "TRADE_ID_UNSPECIFIED"
-			| "TRADE_DOESNT_EXIST"
-			| "TRADE_IDENTIFIER_INCONSISTENCY"
-			| "INSUFFICIENT_MARGIN"
-			| "INSTRUMENT_MISSING"
-			| "INSTRUMENT_UNKNOWN"
-			| "UNITS_MISSING"
-			| "UNITS_INVALID"
-			| "UNITS_PRECISION_EXCEEDED"
-			| "UNITS_LIMIT_EXCEEDED"
-			| "UNITS_MIMIMUM_NOT_MET"
-			| "PRICE_MISSING"
-			| "PRICE_INVALID"
-			| "PRICE_PRECISION_EXCEEDED"
-			| "PRICE_DISTANCE_MISSING"
-			| "PRICE_DISTANCE_INVALID"
-			| "PRICE_DISTANCE_PRECISION_EXCEEDED"
-			| "PRICE_DISTANCE_MAXIMUM_EXCEEDED"
-			| "PRICE_DISTANCE_MINIMUM_NOT_MET"
-			| "TIME_IN_FORCE_MISSING"
-			| "TIME_IN_FORCE_INVALID"
-			| "TIME_IN_FORCE_GTD_TIMESTAMP_MISSING"
-			| "TIME_IN_FORCE_GTD_TIMESTAMP_IN_PAST"
-			| "PRICE_BOUND_INVALID"
-			| "PRICE_BOUND_PRECISION_EXCEEDED"
-			| "ORDERS_ON_FILL_DUPLICATE_CLIENT_ORDER_IDS"
-			| "TRADE_ON_FILL_CLIENT_EXTENSIONS_NOT_SUPPORTED"
-			| "CLIENT_ORDER_ID_INVALID"
-			| "CLIENT_ORDER_ID_ALREADY_EXISTS"
-			| "CLIENT_ORDER_TAG_INVALID"
-			| "CLIENT_ORDER_COMMENT_INVALID"
-			| "CLIENT_TRADE_ID_INVALID"
-			| "CLIENT_TRADE_ID_ALREADY_EXISTS"
-			| "CLIENT_TRADE_TAG_INVALID"
-			| "CLIENT_TRADE_COMMENT_INVALID"
-			| "ORDER_FILL_POSITION_ACTION_MISSING"
-			| "ORDER_FILL_POSITION_ACTION_INVALID"
-			| "TRIGGER_CONDITION_MISSING"
-			| "TRIGGER_CONDITION_INVALID"
-			| "ORDER_PARTIAL_FILL_OPTION_MISSING"
-			| "ORDER_PARTIAL_FILL_OPTION_INVALID"
-			| "INVALID_REISSUE_IMMEDIATE_PARTIAL_FILL"
-			| "TAKE_PROFIT_ORDER_ALREADY_EXISTS"
-			| "TAKE_PROFIT_ON_FILL_PRICE_MISSING"
-			| "TAKE_PROFIT_ON_FILL_PRICE_INVALID"
-			| "TAKE_PROFIT_ON_FILL_PRICE_PRECISION_EXCEEDED"
-			| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_MISSING"
-			| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_INVALID"
-			| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_MISSING"
-			| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_IN_PAST"
-			| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_ID_INVALID"
-			| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_TAG_INVALID"
-			| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
-			| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_MISSING"
-			| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_INVALID"
-			| "STOP_LOSS_ORDER_ALREADY_EXISTS"
-			| "STOP_LOSS_ORDER_GUARANTEED_REQUIRED"
-			| "STOP_LOSS_ORDER_GUARANTEED_PRICE_WITHIN_SPREAD"
-			| "STOP_LOSS_ORDER_GUARANTEED_NOT_ALLOWED"
-			| "STOP_LOSS_ORDER_GUARANTEED_HALTED_CREATE_VIOLATION"
-			| "STOP_LOSS_ORDER_GUARANTEED_HALTED_TIGHTEN_VIOLATION"
-			| "STOP_LOSS_ORDER_GUARANTEED_HEDGING_NOT_ALLOWED"
-			| "STOP_LOSS_ORDER_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
-			| "STOP_LOSS_ORDER_NOT_CANCELABLE"
-			| "STOP_LOSS_ORDER_NOT_REPLACEABLE"
-			| "STOP_LOSS_ORDER_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
-			| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
-			| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_MISSING"
-			| "STOP_LOSS_ON_FILL_REQUIRED_FOR_PENDING_ORDER"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_NOT_ALLOWED"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_REQUIRED"
-			| "STOP_LOSS_ON_FILL_PRICE_MISSING"
-			| "STOP_LOSS_ON_FILL_PRICE_INVALID"
-			| "STOP_LOSS_ON_FILL_PRICE_PRECISION_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_DISTANCE_INVALID"
-			| "STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_DISTANCE_PRECISION_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
-			| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_MISSING"
-			| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
-			| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
-			| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
-			| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
-			| "STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
-			| "STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
-			| "STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
-			| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
-			| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
-			| "TRAILING_STOP_LOSS_ORDER_ALREADY_EXISTS"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_PRECISION_EXCEEDED"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MINIMUM_NOT_MET"
-			| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
-			| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
-			| "TRAILING_STOP_LOSS_ORDERS_NOT_SUPPORTED"
-			| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
-			| "CLOSE_TRADE_TYPE_MISSING"
-			| "CLOSE_TRADE_PARTIAL_UNITS_MISSING"
-			| "CLOSE_TRADE_UNITS_EXCEED_TRADE_SIZE"
-			| "CLOSEOUT_POSITION_DOESNT_EXIST"
-			| "CLOSEOUT_POSITION_INCOMPLETE_SPECIFICATION"
-			| "CLOSEOUT_POSITION_UNITS_EXCEED_POSITION_SIZE"
-			| "CLOSEOUT_POSITION_REJECT"
-			| "CLOSEOUT_POSITION_PARTIAL_UNITS_MISSING"
-			| "MARKUP_GROUP_ID_INVALID"
-			| "POSITION_AGGREGATION_MODE_INVALID"
-			| "ADMIN_CONFIGURE_DATA_MISSING"
-			| "MARGIN_RATE_INVALID"
-			| "MARGIN_RATE_WOULD_TRIGGER_CLOSEOUT"
-			| "ALIAS_INVALID"
-			| "CLIENT_CONFIGURE_DATA_MISSING"
-			| "MARGIN_RATE_WOULD_TRIGGER_MARGIN_CALL"
-			| "AMOUNT_INVALID"
-			| "INSUFFICIENT_FUNDS"
-			| "AMOUNT_MISSING"
-			| "FUNDING_REASON_MISSING"
-			| "CLIENT_EXTENSIONS_DATA_MISSING"
-			| "REPLACING_ORDER_INVALID"
-			| "REPLACING_TRADE_ID_INVALID"
-	}>
-	export type OrderClientExtensionsModifyTransaction = Partial<{
-		id: string
-		time: string
-		userID: number
-		accountID: string
-		batchID: string
-		requestID: string
-		type:
-			| "CREATE"
-			| "CLOSE"
-			| "REOPEN"
-			| "CLIENT_CONFIGURE"
-			| "CLIENT_CONFIGURE_REJECT"
-			| "TRANSFER_FUNDS"
-			| "TRANSFER_FUNDS_REJECT"
-			| "MARKET_ORDER"
-			| "MARKET_ORDER_REJECT"
-			| "FIXED_PRICE_ORDER"
-			| "LIMIT_ORDER"
-			| "LIMIT_ORDER_REJECT"
-			| "STOP_ORDER"
-			| "STOP_ORDER_REJECT"
-			| "MARKET_IF_TOUCHED_ORDER"
-			| "MARKET_IF_TOUCHED_ORDER_REJECT"
-			| "TAKE_PROFIT_ORDER"
-			| "TAKE_PROFIT_ORDER_REJECT"
-			| "STOP_LOSS_ORDER"
-			| "STOP_LOSS_ORDER_REJECT"
-			| "TRAILING_STOP_LOSS_ORDER"
-			| "TRAILING_STOP_LOSS_ORDER_REJECT"
-			| "ORDER_FILL"
-			| "ORDER_CANCEL"
-			| "ORDER_CANCEL_REJECT"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "MARGIN_CALL_ENTER"
-			| "MARGIN_CALL_EXTEND"
-			| "MARGIN_CALL_EXIT"
-			| "DELAYED_TRADE_CLOSURE"
-			| "DAILY_FINANCING"
-			| "RESET_RESETTABLE_PL"
-		orderID: string
-		clientOrderID: string
-		clientExtensionsModify: ClientExtensions
-		tradeClientExtensionsModify: ClientExtensions
-	}>
-	export type OrderClientExtensionsModifyRejectTransaction = Partial<{
-		id: string
-		time: string
-		userID: number
-		accountID: string
-		batchID: string
-		requestID: string
-		type:
-			| "CREATE"
-			| "CLOSE"
-			| "REOPEN"
-			| "CLIENT_CONFIGURE"
-			| "CLIENT_CONFIGURE_REJECT"
-			| "TRANSFER_FUNDS"
-			| "TRANSFER_FUNDS_REJECT"
-			| "MARKET_ORDER"
-			| "MARKET_ORDER_REJECT"
-			| "FIXED_PRICE_ORDER"
-			| "LIMIT_ORDER"
-			| "LIMIT_ORDER_REJECT"
-			| "STOP_ORDER"
-			| "STOP_ORDER_REJECT"
-			| "MARKET_IF_TOUCHED_ORDER"
-			| "MARKET_IF_TOUCHED_ORDER_REJECT"
-			| "TAKE_PROFIT_ORDER"
-			| "TAKE_PROFIT_ORDER_REJECT"
-			| "STOP_LOSS_ORDER"
-			| "STOP_LOSS_ORDER_REJECT"
-			| "TRAILING_STOP_LOSS_ORDER"
-			| "TRAILING_STOP_LOSS_ORDER_REJECT"
-			| "ORDER_FILL"
-			| "ORDER_CANCEL"
-			| "ORDER_CANCEL_REJECT"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "MARGIN_CALL_ENTER"
-			| "MARGIN_CALL_EXTEND"
-			| "MARGIN_CALL_EXIT"
-			| "DELAYED_TRADE_CLOSURE"
-			| "DAILY_FINANCING"
-			| "RESET_RESETTABLE_PL"
-		orderID: string
-		clientOrderID: string
-		clientExtensionsModify: ClientExtensions
-		tradeClientExtensionsModify: ClientExtensions
-		rejectReason:
-			| "INTERNAL_SERVER_ERROR"
-			| "INSTRUMENT_PRICE_UNKNOWN"
-			| "ACCOUNT_NOT_ACTIVE"
-			| "ACCOUNT_LOCKED"
-			| "ACCOUNT_ORDER_CREATION_LOCKED"
-			| "ACCOUNT_CONFIGURATION_LOCKED"
-			| "ACCOUNT_DEPOSIT_LOCKED"
-			| "ACCOUNT_WITHDRAWAL_LOCKED"
-			| "ACCOUNT_ORDER_CANCEL_LOCKED"
-			| "INSTRUMENT_NOT_TRADEABLE"
-			| "PENDING_ORDERS_ALLOWED_EXCEEDED"
-			| "ORDER_ID_UNSPECIFIED"
-			| "ORDER_DOESNT_EXIST"
-			| "ORDER_IDENTIFIER_INCONSISTENCY"
-			| "TRADE_ID_UNSPECIFIED"
-			| "TRADE_DOESNT_EXIST"
-			| "TRADE_IDENTIFIER_INCONSISTENCY"
-			| "INSUFFICIENT_MARGIN"
-			| "INSTRUMENT_MISSING"
-			| "INSTRUMENT_UNKNOWN"
-			| "UNITS_MISSING"
-			| "UNITS_INVALID"
-			| "UNITS_PRECISION_EXCEEDED"
-			| "UNITS_LIMIT_EXCEEDED"
-			| "UNITS_MIMIMUM_NOT_MET"
-			| "PRICE_MISSING"
-			| "PRICE_INVALID"
-			| "PRICE_PRECISION_EXCEEDED"
-			| "PRICE_DISTANCE_MISSING"
-			| "PRICE_DISTANCE_INVALID"
-			| "PRICE_DISTANCE_PRECISION_EXCEEDED"
-			| "PRICE_DISTANCE_MAXIMUM_EXCEEDED"
-			| "PRICE_DISTANCE_MINIMUM_NOT_MET"
-			| "TIME_IN_FORCE_MISSING"
-			| "TIME_IN_FORCE_INVALID"
-			| "TIME_IN_FORCE_GTD_TIMESTAMP_MISSING"
-			| "TIME_IN_FORCE_GTD_TIMESTAMP_IN_PAST"
-			| "PRICE_BOUND_INVALID"
-			| "PRICE_BOUND_PRECISION_EXCEEDED"
-			| "ORDERS_ON_FILL_DUPLICATE_CLIENT_ORDER_IDS"
-			| "TRADE_ON_FILL_CLIENT_EXTENSIONS_NOT_SUPPORTED"
-			| "CLIENT_ORDER_ID_INVALID"
-			| "CLIENT_ORDER_ID_ALREADY_EXISTS"
-			| "CLIENT_ORDER_TAG_INVALID"
-			| "CLIENT_ORDER_COMMENT_INVALID"
-			| "CLIENT_TRADE_ID_INVALID"
-			| "CLIENT_TRADE_ID_ALREADY_EXISTS"
-			| "CLIENT_TRADE_TAG_INVALID"
-			| "CLIENT_TRADE_COMMENT_INVALID"
-			| "ORDER_FILL_POSITION_ACTION_MISSING"
-			| "ORDER_FILL_POSITION_ACTION_INVALID"
-			| "TRIGGER_CONDITION_MISSING"
-			| "TRIGGER_CONDITION_INVALID"
-			| "ORDER_PARTIAL_FILL_OPTION_MISSING"
-			| "ORDER_PARTIAL_FILL_OPTION_INVALID"
-			| "INVALID_REISSUE_IMMEDIATE_PARTIAL_FILL"
-			| "TAKE_PROFIT_ORDER_ALREADY_EXISTS"
-			| "TAKE_PROFIT_ON_FILL_PRICE_MISSING"
-			| "TAKE_PROFIT_ON_FILL_PRICE_INVALID"
-			| "TAKE_PROFIT_ON_FILL_PRICE_PRECISION_EXCEEDED"
-			| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_MISSING"
-			| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_INVALID"
-			| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_MISSING"
-			| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_IN_PAST"
-			| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_ID_INVALID"
-			| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_TAG_INVALID"
-			| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
-			| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_MISSING"
-			| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_INVALID"
-			| "STOP_LOSS_ORDER_ALREADY_EXISTS"
-			| "STOP_LOSS_ORDER_GUARANTEED_REQUIRED"
-			| "STOP_LOSS_ORDER_GUARANTEED_PRICE_WITHIN_SPREAD"
-			| "STOP_LOSS_ORDER_GUARANTEED_NOT_ALLOWED"
-			| "STOP_LOSS_ORDER_GUARANTEED_HALTED_CREATE_VIOLATION"
-			| "STOP_LOSS_ORDER_GUARANTEED_HALTED_TIGHTEN_VIOLATION"
-			| "STOP_LOSS_ORDER_GUARANTEED_HEDGING_NOT_ALLOWED"
-			| "STOP_LOSS_ORDER_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
-			| "STOP_LOSS_ORDER_NOT_CANCELABLE"
-			| "STOP_LOSS_ORDER_NOT_REPLACEABLE"
-			| "STOP_LOSS_ORDER_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
-			| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
-			| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_MISSING"
-			| "STOP_LOSS_ON_FILL_REQUIRED_FOR_PENDING_ORDER"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_NOT_ALLOWED"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_REQUIRED"
-			| "STOP_LOSS_ON_FILL_PRICE_MISSING"
-			| "STOP_LOSS_ON_FILL_PRICE_INVALID"
-			| "STOP_LOSS_ON_FILL_PRICE_PRECISION_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_DISTANCE_INVALID"
-			| "STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_DISTANCE_PRECISION_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
-			| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_MISSING"
-			| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
-			| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
-			| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
-			| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
-			| "STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
-			| "STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
-			| "STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
-			| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
-			| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
-			| "TRAILING_STOP_LOSS_ORDER_ALREADY_EXISTS"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_PRECISION_EXCEEDED"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MINIMUM_NOT_MET"
-			| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
-			| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
-			| "TRAILING_STOP_LOSS_ORDERS_NOT_SUPPORTED"
-			| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
-			| "CLOSE_TRADE_TYPE_MISSING"
-			| "CLOSE_TRADE_PARTIAL_UNITS_MISSING"
-			| "CLOSE_TRADE_UNITS_EXCEED_TRADE_SIZE"
-			| "CLOSEOUT_POSITION_DOESNT_EXIST"
-			| "CLOSEOUT_POSITION_INCOMPLETE_SPECIFICATION"
-			| "CLOSEOUT_POSITION_UNITS_EXCEED_POSITION_SIZE"
-			| "CLOSEOUT_POSITION_REJECT"
-			| "CLOSEOUT_POSITION_PARTIAL_UNITS_MISSING"
-			| "MARKUP_GROUP_ID_INVALID"
-			| "POSITION_AGGREGATION_MODE_INVALID"
-			| "ADMIN_CONFIGURE_DATA_MISSING"
-			| "MARGIN_RATE_INVALID"
-			| "MARGIN_RATE_WOULD_TRIGGER_CLOSEOUT"
-			| "ALIAS_INVALID"
-			| "CLIENT_CONFIGURE_DATA_MISSING"
-			| "MARGIN_RATE_WOULD_TRIGGER_MARGIN_CALL"
-			| "AMOUNT_INVALID"
-			| "INSUFFICIENT_FUNDS"
-			| "AMOUNT_MISSING"
-			| "FUNDING_REASON_MISSING"
-			| "CLIENT_EXTENSIONS_DATA_MISSING"
-			| "REPLACING_ORDER_INVALID"
-			| "REPLACING_TRADE_ID_INVALID"
-	}>
-	export type TradeClientExtensionsModifyTransaction = Partial<{
-		id: string
-		time: string
-		userID: number
-		accountID: string
-		batchID: string
-		requestID: string
-		type:
-			| "CREATE"
-			| "CLOSE"
-			| "REOPEN"
-			| "CLIENT_CONFIGURE"
-			| "CLIENT_CONFIGURE_REJECT"
-			| "TRANSFER_FUNDS"
-			| "TRANSFER_FUNDS_REJECT"
-			| "MARKET_ORDER"
-			| "MARKET_ORDER_REJECT"
-			| "FIXED_PRICE_ORDER"
-			| "LIMIT_ORDER"
-			| "LIMIT_ORDER_REJECT"
-			| "STOP_ORDER"
-			| "STOP_ORDER_REJECT"
-			| "MARKET_IF_TOUCHED_ORDER"
-			| "MARKET_IF_TOUCHED_ORDER_REJECT"
-			| "TAKE_PROFIT_ORDER"
-			| "TAKE_PROFIT_ORDER_REJECT"
-			| "STOP_LOSS_ORDER"
-			| "STOP_LOSS_ORDER_REJECT"
-			| "TRAILING_STOP_LOSS_ORDER"
-			| "TRAILING_STOP_LOSS_ORDER_REJECT"
-			| "ORDER_FILL"
-			| "ORDER_CANCEL"
-			| "ORDER_CANCEL_REJECT"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "MARGIN_CALL_ENTER"
-			| "MARGIN_CALL_EXTEND"
-			| "MARGIN_CALL_EXIT"
-			| "DELAYED_TRADE_CLOSURE"
-			| "DAILY_FINANCING"
-			| "RESET_RESETTABLE_PL"
-		tradeID: string
-		clientTradeID: string
-		tradeClientExtensionsModify: ClientExtensions
-	}>
-	export type TradeClientExtensionsModifyRejectTransaction = Partial<{
-		id: string
-		time: string
-		userID: number
-		accountID: string
-		batchID: string
-		requestID: string
-		type:
-			| "CREATE"
-			| "CLOSE"
-			| "REOPEN"
-			| "CLIENT_CONFIGURE"
-			| "CLIENT_CONFIGURE_REJECT"
-			| "TRANSFER_FUNDS"
-			| "TRANSFER_FUNDS_REJECT"
-			| "MARKET_ORDER"
-			| "MARKET_ORDER_REJECT"
-			| "FIXED_PRICE_ORDER"
-			| "LIMIT_ORDER"
-			| "LIMIT_ORDER_REJECT"
-			| "STOP_ORDER"
-			| "STOP_ORDER_REJECT"
-			| "MARKET_IF_TOUCHED_ORDER"
-			| "MARKET_IF_TOUCHED_ORDER_REJECT"
-			| "TAKE_PROFIT_ORDER"
-			| "TAKE_PROFIT_ORDER_REJECT"
-			| "STOP_LOSS_ORDER"
-			| "STOP_LOSS_ORDER_REJECT"
-			| "TRAILING_STOP_LOSS_ORDER"
-			| "TRAILING_STOP_LOSS_ORDER_REJECT"
-			| "ORDER_FILL"
-			| "ORDER_CANCEL"
-			| "ORDER_CANCEL_REJECT"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "MARGIN_CALL_ENTER"
-			| "MARGIN_CALL_EXTEND"
-			| "MARGIN_CALL_EXIT"
-			| "DELAYED_TRADE_CLOSURE"
-			| "DAILY_FINANCING"
-			| "RESET_RESETTABLE_PL"
-		tradeID: string
-		clientTradeID: string
-		tradeClientExtensionsModify: ClientExtensions
-		rejectReason:
-			| "INTERNAL_SERVER_ERROR"
-			| "INSTRUMENT_PRICE_UNKNOWN"
-			| "ACCOUNT_NOT_ACTIVE"
-			| "ACCOUNT_LOCKED"
-			| "ACCOUNT_ORDER_CREATION_LOCKED"
-			| "ACCOUNT_CONFIGURATION_LOCKED"
-			| "ACCOUNT_DEPOSIT_LOCKED"
-			| "ACCOUNT_WITHDRAWAL_LOCKED"
-			| "ACCOUNT_ORDER_CANCEL_LOCKED"
-			| "INSTRUMENT_NOT_TRADEABLE"
-			| "PENDING_ORDERS_ALLOWED_EXCEEDED"
-			| "ORDER_ID_UNSPECIFIED"
-			| "ORDER_DOESNT_EXIST"
-			| "ORDER_IDENTIFIER_INCONSISTENCY"
-			| "TRADE_ID_UNSPECIFIED"
-			| "TRADE_DOESNT_EXIST"
-			| "TRADE_IDENTIFIER_INCONSISTENCY"
-			| "INSUFFICIENT_MARGIN"
-			| "INSTRUMENT_MISSING"
-			| "INSTRUMENT_UNKNOWN"
-			| "UNITS_MISSING"
-			| "UNITS_INVALID"
-			| "UNITS_PRECISION_EXCEEDED"
-			| "UNITS_LIMIT_EXCEEDED"
-			| "UNITS_MIMIMUM_NOT_MET"
-			| "PRICE_MISSING"
-			| "PRICE_INVALID"
-			| "PRICE_PRECISION_EXCEEDED"
-			| "PRICE_DISTANCE_MISSING"
-			| "PRICE_DISTANCE_INVALID"
-			| "PRICE_DISTANCE_PRECISION_EXCEEDED"
-			| "PRICE_DISTANCE_MAXIMUM_EXCEEDED"
-			| "PRICE_DISTANCE_MINIMUM_NOT_MET"
-			| "TIME_IN_FORCE_MISSING"
-			| "TIME_IN_FORCE_INVALID"
-			| "TIME_IN_FORCE_GTD_TIMESTAMP_MISSING"
-			| "TIME_IN_FORCE_GTD_TIMESTAMP_IN_PAST"
-			| "PRICE_BOUND_INVALID"
-			| "PRICE_BOUND_PRECISION_EXCEEDED"
-			| "ORDERS_ON_FILL_DUPLICATE_CLIENT_ORDER_IDS"
-			| "TRADE_ON_FILL_CLIENT_EXTENSIONS_NOT_SUPPORTED"
-			| "CLIENT_ORDER_ID_INVALID"
-			| "CLIENT_ORDER_ID_ALREADY_EXISTS"
-			| "CLIENT_ORDER_TAG_INVALID"
-			| "CLIENT_ORDER_COMMENT_INVALID"
-			| "CLIENT_TRADE_ID_INVALID"
-			| "CLIENT_TRADE_ID_ALREADY_EXISTS"
-			| "CLIENT_TRADE_TAG_INVALID"
-			| "CLIENT_TRADE_COMMENT_INVALID"
-			| "ORDER_FILL_POSITION_ACTION_MISSING"
-			| "ORDER_FILL_POSITION_ACTION_INVALID"
-			| "TRIGGER_CONDITION_MISSING"
-			| "TRIGGER_CONDITION_INVALID"
-			| "ORDER_PARTIAL_FILL_OPTION_MISSING"
-			| "ORDER_PARTIAL_FILL_OPTION_INVALID"
-			| "INVALID_REISSUE_IMMEDIATE_PARTIAL_FILL"
-			| "TAKE_PROFIT_ORDER_ALREADY_EXISTS"
-			| "TAKE_PROFIT_ON_FILL_PRICE_MISSING"
-			| "TAKE_PROFIT_ON_FILL_PRICE_INVALID"
-			| "TAKE_PROFIT_ON_FILL_PRICE_PRECISION_EXCEEDED"
-			| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_MISSING"
-			| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_INVALID"
-			| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_MISSING"
-			| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_IN_PAST"
-			| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_ID_INVALID"
-			| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_TAG_INVALID"
-			| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
-			| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_MISSING"
-			| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_INVALID"
-			| "STOP_LOSS_ORDER_ALREADY_EXISTS"
-			| "STOP_LOSS_ORDER_GUARANTEED_REQUIRED"
-			| "STOP_LOSS_ORDER_GUARANTEED_PRICE_WITHIN_SPREAD"
-			| "STOP_LOSS_ORDER_GUARANTEED_NOT_ALLOWED"
-			| "STOP_LOSS_ORDER_GUARANTEED_HALTED_CREATE_VIOLATION"
-			| "STOP_LOSS_ORDER_GUARANTEED_HALTED_TIGHTEN_VIOLATION"
-			| "STOP_LOSS_ORDER_GUARANTEED_HEDGING_NOT_ALLOWED"
-			| "STOP_LOSS_ORDER_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
-			| "STOP_LOSS_ORDER_NOT_CANCELABLE"
-			| "STOP_LOSS_ORDER_NOT_REPLACEABLE"
-			| "STOP_LOSS_ORDER_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
-			| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
-			| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_MISSING"
-			| "STOP_LOSS_ON_FILL_REQUIRED_FOR_PENDING_ORDER"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_NOT_ALLOWED"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_REQUIRED"
-			| "STOP_LOSS_ON_FILL_PRICE_MISSING"
-			| "STOP_LOSS_ON_FILL_PRICE_INVALID"
-			| "STOP_LOSS_ON_FILL_PRICE_PRECISION_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
-			| "STOP_LOSS_ON_FILL_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_DISTANCE_INVALID"
-			| "STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_DISTANCE_PRECISION_EXCEEDED"
-			| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
-			| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_MISSING"
-			| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
-			| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
-			| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
-			| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
-			| "STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
-			| "STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
-			| "STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
-			| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
-			| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
-			| "TRAILING_STOP_LOSS_ORDER_ALREADY_EXISTS"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_PRECISION_EXCEEDED"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
-			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MINIMUM_NOT_MET"
-			| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
-			| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
-			| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
-			| "TRAILING_STOP_LOSS_ORDERS_NOT_SUPPORTED"
-			| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
-			| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
-			| "CLOSE_TRADE_TYPE_MISSING"
-			| "CLOSE_TRADE_PARTIAL_UNITS_MISSING"
-			| "CLOSE_TRADE_UNITS_EXCEED_TRADE_SIZE"
-			| "CLOSEOUT_POSITION_DOESNT_EXIST"
-			| "CLOSEOUT_POSITION_INCOMPLETE_SPECIFICATION"
-			| "CLOSEOUT_POSITION_UNITS_EXCEED_POSITION_SIZE"
-			| "CLOSEOUT_POSITION_REJECT"
-			| "CLOSEOUT_POSITION_PARTIAL_UNITS_MISSING"
-			| "MARKUP_GROUP_ID_INVALID"
-			| "POSITION_AGGREGATION_MODE_INVALID"
-			| "ADMIN_CONFIGURE_DATA_MISSING"
-			| "MARGIN_RATE_INVALID"
-			| "MARGIN_RATE_WOULD_TRIGGER_CLOSEOUT"
-			| "ALIAS_INVALID"
-			| "CLIENT_CONFIGURE_DATA_MISSING"
-			| "MARGIN_RATE_WOULD_TRIGGER_MARGIN_CALL"
-			| "AMOUNT_INVALID"
-			| "INSUFFICIENT_FUNDS"
-			| "AMOUNT_MISSING"
-			| "FUNDING_REASON_MISSING"
-			| "CLIENT_EXTENSIONS_DATA_MISSING"
-			| "REPLACING_ORDER_INVALID"
-			| "REPLACING_TRADE_ID_INVALID"
-	}>
-	export type MarginCallEnterTransaction = Partial<{
-		id: string
-		time: string
-		userID: number
-		accountID: string
-		batchID: string
-		requestID: string
-		type:
-			| "CREATE"
-			| "CLOSE"
-			| "REOPEN"
-			| "CLIENT_CONFIGURE"
-			| "CLIENT_CONFIGURE_REJECT"
-			| "TRANSFER_FUNDS"
-			| "TRANSFER_FUNDS_REJECT"
-			| "MARKET_ORDER"
-			| "MARKET_ORDER_REJECT"
-			| "FIXED_PRICE_ORDER"
-			| "LIMIT_ORDER"
-			| "LIMIT_ORDER_REJECT"
-			| "STOP_ORDER"
-			| "STOP_ORDER_REJECT"
-			| "MARKET_IF_TOUCHED_ORDER"
-			| "MARKET_IF_TOUCHED_ORDER_REJECT"
-			| "TAKE_PROFIT_ORDER"
-			| "TAKE_PROFIT_ORDER_REJECT"
-			| "STOP_LOSS_ORDER"
-			| "STOP_LOSS_ORDER_REJECT"
-			| "TRAILING_STOP_LOSS_ORDER"
-			| "TRAILING_STOP_LOSS_ORDER_REJECT"
-			| "ORDER_FILL"
-			| "ORDER_CANCEL"
-			| "ORDER_CANCEL_REJECT"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "MARGIN_CALL_ENTER"
-			| "MARGIN_CALL_EXTEND"
-			| "MARGIN_CALL_EXIT"
-			| "DELAYED_TRADE_CLOSURE"
-			| "DAILY_FINANCING"
-			| "RESET_RESETTABLE_PL"
-	}>
-	export type MarginCallExtendTransaction = Partial<{
-		id: string
-		time: string
-		userID: number
-		accountID: string
-		batchID: string
-		requestID: string
-		type:
-			| "CREATE"
-			| "CLOSE"
-			| "REOPEN"
-			| "CLIENT_CONFIGURE"
-			| "CLIENT_CONFIGURE_REJECT"
-			| "TRANSFER_FUNDS"
-			| "TRANSFER_FUNDS_REJECT"
-			| "MARKET_ORDER"
-			| "MARKET_ORDER_REJECT"
-			| "FIXED_PRICE_ORDER"
-			| "LIMIT_ORDER"
-			| "LIMIT_ORDER_REJECT"
-			| "STOP_ORDER"
-			| "STOP_ORDER_REJECT"
-			| "MARKET_IF_TOUCHED_ORDER"
-			| "MARKET_IF_TOUCHED_ORDER_REJECT"
-			| "TAKE_PROFIT_ORDER"
-			| "TAKE_PROFIT_ORDER_REJECT"
-			| "STOP_LOSS_ORDER"
-			| "STOP_LOSS_ORDER_REJECT"
-			| "TRAILING_STOP_LOSS_ORDER"
-			| "TRAILING_STOP_LOSS_ORDER_REJECT"
-			| "ORDER_FILL"
-			| "ORDER_CANCEL"
-			| "ORDER_CANCEL_REJECT"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "MARGIN_CALL_ENTER"
-			| "MARGIN_CALL_EXTEND"
-			| "MARGIN_CALL_EXIT"
-			| "DELAYED_TRADE_CLOSURE"
-			| "DAILY_FINANCING"
-			| "RESET_RESETTABLE_PL"
-		extensionNumber: number
-	}>
-	export type MarginCallExitTransaction = Partial<{
-		id: string
-		time: string
-		userID: number
-		accountID: string
-		batchID: string
-		requestID: string
-		type:
-			| "CREATE"
-			| "CLOSE"
-			| "REOPEN"
-			| "CLIENT_CONFIGURE"
-			| "CLIENT_CONFIGURE_REJECT"
-			| "TRANSFER_FUNDS"
-			| "TRANSFER_FUNDS_REJECT"
-			| "MARKET_ORDER"
-			| "MARKET_ORDER_REJECT"
-			| "FIXED_PRICE_ORDER"
-			| "LIMIT_ORDER"
-			| "LIMIT_ORDER_REJECT"
-			| "STOP_ORDER"
-			| "STOP_ORDER_REJECT"
-			| "MARKET_IF_TOUCHED_ORDER"
-			| "MARKET_IF_TOUCHED_ORDER_REJECT"
-			| "TAKE_PROFIT_ORDER"
-			| "TAKE_PROFIT_ORDER_REJECT"
-			| "STOP_LOSS_ORDER"
-			| "STOP_LOSS_ORDER_REJECT"
-			| "TRAILING_STOP_LOSS_ORDER"
-			| "TRAILING_STOP_LOSS_ORDER_REJECT"
-			| "ORDER_FILL"
-			| "ORDER_CANCEL"
-			| "ORDER_CANCEL_REJECT"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "MARGIN_CALL_ENTER"
-			| "MARGIN_CALL_EXTEND"
-			| "MARGIN_CALL_EXIT"
-			| "DELAYED_TRADE_CLOSURE"
-			| "DAILY_FINANCING"
-			| "RESET_RESETTABLE_PL"
-	}>
-	export type DelayedTradeClosureTransaction = Partial<{
-		id: string
-		time: string
-		userID: number
-		accountID: string
-		batchID: string
-		requestID: string
-		type:
-			| "CREATE"
-			| "CLOSE"
-			| "REOPEN"
-			| "CLIENT_CONFIGURE"
-			| "CLIENT_CONFIGURE_REJECT"
-			| "TRANSFER_FUNDS"
-			| "TRANSFER_FUNDS_REJECT"
-			| "MARKET_ORDER"
-			| "MARKET_ORDER_REJECT"
-			| "FIXED_PRICE_ORDER"
-			| "LIMIT_ORDER"
-			| "LIMIT_ORDER_REJECT"
-			| "STOP_ORDER"
-			| "STOP_ORDER_REJECT"
-			| "MARKET_IF_TOUCHED_ORDER"
-			| "MARKET_IF_TOUCHED_ORDER_REJECT"
-			| "TAKE_PROFIT_ORDER"
-			| "TAKE_PROFIT_ORDER_REJECT"
-			| "STOP_LOSS_ORDER"
-			| "STOP_LOSS_ORDER_REJECT"
-			| "TRAILING_STOP_LOSS_ORDER"
-			| "TRAILING_STOP_LOSS_ORDER_REJECT"
-			| "ORDER_FILL"
-			| "ORDER_CANCEL"
-			| "ORDER_CANCEL_REJECT"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "MARGIN_CALL_ENTER"
-			| "MARGIN_CALL_EXTEND"
-			| "MARGIN_CALL_EXIT"
-			| "DELAYED_TRADE_CLOSURE"
-			| "DAILY_FINANCING"
-			| "RESET_RESETTABLE_PL"
-		reason:
-			| "CLIENT_ORDER"
-			| "TRADE_CLOSE"
-			| "POSITION_CLOSEOUT"
-			| "MARGIN_CLOSEOUT"
-			| "DELAYED_TRADE_CLOSE"
-		tradeIDs: string
-	}>
-	export type OpenTradeFinancing = Partial<{
-		tradeID: string
-		financing: string
-	}>
-	export type PositionFinancing = Partial<{
-		instrument: string
-		financing: string
-		openTradeFinancings: Array<OpenTradeFinancing>
-	}>
-	export type DailyFinancingTransaction = Partial<{
-		id: string
-		time: string
-		userID: number
-		accountID: string
-		batchID: string
-		requestID: string
-		type:
-			| "CREATE"
-			| "CLOSE"
-			| "REOPEN"
-			| "CLIENT_CONFIGURE"
-			| "CLIENT_CONFIGURE_REJECT"
-			| "TRANSFER_FUNDS"
-			| "TRANSFER_FUNDS_REJECT"
-			| "MARKET_ORDER"
-			| "MARKET_ORDER_REJECT"
-			| "FIXED_PRICE_ORDER"
-			| "LIMIT_ORDER"
-			| "LIMIT_ORDER_REJECT"
-			| "STOP_ORDER"
-			| "STOP_ORDER_REJECT"
-			| "MARKET_IF_TOUCHED_ORDER"
-			| "MARKET_IF_TOUCHED_ORDER_REJECT"
-			| "TAKE_PROFIT_ORDER"
-			| "TAKE_PROFIT_ORDER_REJECT"
-			| "STOP_LOSS_ORDER"
-			| "STOP_LOSS_ORDER_REJECT"
-			| "TRAILING_STOP_LOSS_ORDER"
-			| "TRAILING_STOP_LOSS_ORDER_REJECT"
-			| "ORDER_FILL"
-			| "ORDER_CANCEL"
-			| "ORDER_CANCEL_REJECT"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "MARGIN_CALL_ENTER"
-			| "MARGIN_CALL_EXTEND"
-			| "MARGIN_CALL_EXIT"
-			| "DELAYED_TRADE_CLOSURE"
-			| "DAILY_FINANCING"
-			| "RESET_RESETTABLE_PL"
-		financing: string
-		accountBalance: string
-		accountFinancingMode: "NO_FINANCING" | "SECOND_BY_SECOND" | "DAILY"
-		positionFinancings: Array<PositionFinancing>
-	}>
-	export type ResetResettablePLTransaction = Partial<{
-		id: string
-		time: string
-		userID: number
-		accountID: string
-		batchID: string
-		requestID: string
-		type:
-			| "CREATE"
-			| "CLOSE"
-			| "REOPEN"
-			| "CLIENT_CONFIGURE"
-			| "CLIENT_CONFIGURE_REJECT"
-			| "TRANSFER_FUNDS"
-			| "TRANSFER_FUNDS_REJECT"
-			| "MARKET_ORDER"
-			| "MARKET_ORDER_REJECT"
-			| "FIXED_PRICE_ORDER"
-			| "LIMIT_ORDER"
-			| "LIMIT_ORDER_REJECT"
-			| "STOP_ORDER"
-			| "STOP_ORDER_REJECT"
-			| "MARKET_IF_TOUCHED_ORDER"
-			| "MARKET_IF_TOUCHED_ORDER_REJECT"
-			| "TAKE_PROFIT_ORDER"
-			| "TAKE_PROFIT_ORDER_REJECT"
-			| "STOP_LOSS_ORDER"
-			| "STOP_LOSS_ORDER_REJECT"
-			| "TRAILING_STOP_LOSS_ORDER"
-			| "TRAILING_STOP_LOSS_ORDER_REJECT"
-			| "ORDER_FILL"
-			| "ORDER_CANCEL"
-			| "ORDER_CANCEL_REJECT"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY"
-			| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY"
-			| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
-			| "MARGIN_CALL_ENTER"
-			| "MARGIN_CALL_EXTEND"
-			| "MARGIN_CALL_EXIT"
-			| "DELAYED_TRADE_CLOSURE"
-			| "DAILY_FINANCING"
-			| "RESET_RESETTABLE_PL"
-	}>
-	export type ClientID = string
-	export type ClientTag = string
-	export type ClientComment = string
-	export type MarketOrderMarginCloseoutReason =
-		| "MARGIN_CHECK_VIOLATION"
-		| "REGULATORY_MARGIN_CALL_VIOLATION"
-		| "REGULATORY_MARGIN_CHECK_VIOLATION"
-	export type LiquidityRegenerationScheduleStep = Partial<{
-		timestamp: string
-		bidLiquidityUsed: string
-		askLiquidityUsed: string
-	}>
-	export type LiquidityRegenerationSchedule = Partial<{
-		steps: Array<LiquidityRegenerationScheduleStep>
-	}>
-	export type RequestID = string
-	export type ClientRequestID = string
-	export type TransactionRejectReason =
-		| "INTERNAL_SERVER_ERROR"
-		| "INSTRUMENT_PRICE_UNKNOWN"
-		| "ACCOUNT_NOT_ACTIVE"
-		| "ACCOUNT_LOCKED"
-		| "ACCOUNT_ORDER_CREATION_LOCKED"
-		| "ACCOUNT_CONFIGURATION_LOCKED"
-		| "ACCOUNT_DEPOSIT_LOCKED"
-		| "ACCOUNT_WITHDRAWAL_LOCKED"
-		| "ACCOUNT_ORDER_CANCEL_LOCKED"
-		| "INSTRUMENT_NOT_TRADEABLE"
-		| "PENDING_ORDERS_ALLOWED_EXCEEDED"
-		| "ORDER_ID_UNSPECIFIED"
-		| "ORDER_DOESNT_EXIST"
-		| "ORDER_IDENTIFIER_INCONSISTENCY"
-		| "TRADE_ID_UNSPECIFIED"
-		| "TRADE_DOESNT_EXIST"
-		| "TRADE_IDENTIFIER_INCONSISTENCY"
-		| "INSUFFICIENT_MARGIN"
-		| "INSTRUMENT_MISSING"
-		| "INSTRUMENT_UNKNOWN"
-		| "UNITS_MISSING"
-		| "UNITS_INVALID"
-		| "UNITS_PRECISION_EXCEEDED"
-		| "UNITS_LIMIT_EXCEEDED"
-		| "UNITS_MIMIMUM_NOT_MET"
-		| "PRICE_MISSING"
-		| "PRICE_INVALID"
-		| "PRICE_PRECISION_EXCEEDED"
-		| "PRICE_DISTANCE_MISSING"
-		| "PRICE_DISTANCE_INVALID"
-		| "PRICE_DISTANCE_PRECISION_EXCEEDED"
-		| "PRICE_DISTANCE_MAXIMUM_EXCEEDED"
-		| "PRICE_DISTANCE_MINIMUM_NOT_MET"
-		| "TIME_IN_FORCE_MISSING"
-		| "TIME_IN_FORCE_INVALID"
-		| "TIME_IN_FORCE_GTD_TIMESTAMP_MISSING"
-		| "TIME_IN_FORCE_GTD_TIMESTAMP_IN_PAST"
-		| "PRICE_BOUND_INVALID"
-		| "PRICE_BOUND_PRECISION_EXCEEDED"
-		| "ORDERS_ON_FILL_DUPLICATE_CLIENT_ORDER_IDS"
-		| "TRADE_ON_FILL_CLIENT_EXTENSIONS_NOT_SUPPORTED"
-		| "CLIENT_ORDER_ID_INVALID"
-		| "CLIENT_ORDER_ID_ALREADY_EXISTS"
-		| "CLIENT_ORDER_TAG_INVALID"
-		| "CLIENT_ORDER_COMMENT_INVALID"
-		| "CLIENT_TRADE_ID_INVALID"
-		| "CLIENT_TRADE_ID_ALREADY_EXISTS"
-		| "CLIENT_TRADE_TAG_INVALID"
-		| "CLIENT_TRADE_COMMENT_INVALID"
-		| "ORDER_FILL_POSITION_ACTION_MISSING"
-		| "ORDER_FILL_POSITION_ACTION_INVALID"
-		| "TRIGGER_CONDITION_MISSING"
-		| "TRIGGER_CONDITION_INVALID"
-		| "ORDER_PARTIAL_FILL_OPTION_MISSING"
-		| "ORDER_PARTIAL_FILL_OPTION_INVALID"
-		| "INVALID_REISSUE_IMMEDIATE_PARTIAL_FILL"
-		| "TAKE_PROFIT_ORDER_ALREADY_EXISTS"
-		| "TAKE_PROFIT_ON_FILL_PRICE_MISSING"
-		| "TAKE_PROFIT_ON_FILL_PRICE_INVALID"
-		| "TAKE_PROFIT_ON_FILL_PRICE_PRECISION_EXCEEDED"
-		| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_MISSING"
-		| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_INVALID"
-		| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_MISSING"
-		| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_IN_PAST"
-		| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_ID_INVALID"
-		| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_TAG_INVALID"
-		| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
-		| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_MISSING"
-		| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_INVALID"
-		| "STOP_LOSS_ORDER_ALREADY_EXISTS"
-		| "STOP_LOSS_ORDER_GUARANTEED_REQUIRED"
-		| "STOP_LOSS_ORDER_GUARANTEED_PRICE_WITHIN_SPREAD"
-		| "STOP_LOSS_ORDER_GUARANTEED_NOT_ALLOWED"
-		| "STOP_LOSS_ORDER_GUARANTEED_HALTED_CREATE_VIOLATION"
-		| "STOP_LOSS_ORDER_GUARANTEED_HALTED_TIGHTEN_VIOLATION"
-		| "STOP_LOSS_ORDER_GUARANTEED_HEDGING_NOT_ALLOWED"
-		| "STOP_LOSS_ORDER_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
-		| "STOP_LOSS_ORDER_NOT_CANCELABLE"
-		| "STOP_LOSS_ORDER_NOT_REPLACEABLE"
-		| "STOP_LOSS_ORDER_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
-		| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
-		| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_MISSING"
-		| "STOP_LOSS_ON_FILL_REQUIRED_FOR_PENDING_ORDER"
-		| "STOP_LOSS_ON_FILL_GUARANTEED_NOT_ALLOWED"
-		| "STOP_LOSS_ON_FILL_GUARANTEED_REQUIRED"
-		| "STOP_LOSS_ON_FILL_PRICE_MISSING"
-		| "STOP_LOSS_ON_FILL_PRICE_INVALID"
-		| "STOP_LOSS_ON_FILL_PRICE_PRECISION_EXCEEDED"
-		| "STOP_LOSS_ON_FILL_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
-		| "STOP_LOSS_ON_FILL_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
-		| "STOP_LOSS_ON_FILL_DISTANCE_INVALID"
-		| "STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
-		| "STOP_LOSS_ON_FILL_DISTANCE_PRECISION_EXCEEDED"
-		| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
-		| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_MISSING"
-		| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
-		| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
-		| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
-		| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
-		| "STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
-		| "STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
-		| "STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
-		| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
-		| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
-		| "TRAILING_STOP_LOSS_ORDER_ALREADY_EXISTS"
-		| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MISSING"
-		| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_INVALID"
-		| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_PRECISION_EXCEEDED"
-		| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
-		| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MINIMUM_NOT_MET"
-		| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
-		| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
-		| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
-		| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
-		| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
-		| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
-		| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
-		| "TRAILING_STOP_LOSS_ORDERS_NOT_SUPPORTED"
-		| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
-		| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
-		| "CLOSE_TRADE_TYPE_MISSING"
-		| "CLOSE_TRADE_PARTIAL_UNITS_MISSING"
-		| "CLOSE_TRADE_UNITS_EXCEED_TRADE_SIZE"
-		| "CLOSEOUT_POSITION_DOESNT_EXIST"
-		| "CLOSEOUT_POSITION_INCOMPLETE_SPECIFICATION"
-		| "CLOSEOUT_POSITION_UNITS_EXCEED_POSITION_SIZE"
-		| "CLOSEOUT_POSITION_REJECT"
-		| "CLOSEOUT_POSITION_PARTIAL_UNITS_MISSING"
-		| "MARKUP_GROUP_ID_INVALID"
-		| "POSITION_AGGREGATION_MODE_INVALID"
-		| "ADMIN_CONFIGURE_DATA_MISSING"
-		| "MARGIN_RATE_INVALID"
-		| "MARGIN_RATE_WOULD_TRIGGER_CLOSEOUT"
-		| "ALIAS_INVALID"
-		| "CLIENT_CONFIGURE_DATA_MISSING"
-		| "MARGIN_RATE_WOULD_TRIGGER_MARGIN_CALL"
-		| "AMOUNT_INVALID"
-		| "INSUFFICIENT_FUNDS"
-		| "AMOUNT_MISSING"
-		| "FUNDING_REASON_MISSING"
-		| "CLIENT_EXTENSIONS_DATA_MISSING"
-		| "REPLACING_ORDER_INVALID"
-		| "REPLACING_TRADE_ID_INVALID"
-	export type TransactionFilter =
-		| "ORDER"
-		| "FUNDING"
-		| "ADMIN"
-		| "CREATE"
-		| "CLOSE"
-		| "REOPEN"
-		| "CLIENT_CONFIGURE"
-		| "CLIENT_CONFIGURE_REJECT"
-		| "TRANSFER_FUNDS"
-		| "TRANSFER_FUNDS_REJECT"
-		| "MARKET_ORDER"
-		| "MARKET_ORDER_REJECT"
-		| "LIMIT_ORDER"
-		| "LIMIT_ORDER_REJECT"
-		| "STOP_ORDER"
-		| "STOP_ORDER_REJECT"
-		| "MARKET_IF_TOUCHED_ORDER"
-		| "MARKET_IF_TOUCHED_ORDER_REJECT"
-		| "TAKE_PROFIT_ORDER"
-		| "TAKE_PROFIT_ORDER_REJECT"
-		| "STOP_LOSS_ORDER"
-		| "STOP_LOSS_ORDER_REJECT"
-		| "TRAILING_STOP_LOSS_ORDER"
-		| "TRAILING_STOP_LOSS_ORDER_REJECT"
-		| "ONE_CANCELS_ALL_ORDER"
-		| "ONE_CANCELS_ALL_ORDER_REJECT"
-		| "ONE_CANCELS_ALL_ORDER_TRIGGERED"
-		| "ORDER_FILL"
-		| "ORDER_CANCEL"
-		| "ORDER_CANCEL_REJECT"
-		| "ORDER_CLIENT_EXTENSIONS_MODIFY"
-		| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
-		| "TRADE_CLIENT_EXTENSIONS_MODIFY"
-		| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
-		| "MARGIN_CALL_ENTER"
-		| "MARGIN_CALL_EXTEND"
-		| "MARGIN_CALL_EXIT"
-		| "DELAYED_TRADE_CLOSURE"
-		| "DAILY_FINANCING"
-		| "RESET_RESETTABLE_PL"
-	export type TransactionHeartbeat = Partial<{
-		type: string
-		lastTransactionID: string
-		time: string
-	}>
-	export type UserSpecifier = string
-	export type UserInfo = Partial<{
-		username: string
-		userID: number
-		country: string
-		emailAddress: string
-	}>
-	export type UserInfoExternal = Partial<{
-		userID: number
-		country: string
-		FIFO: boolean
-	}>
-	export type PriceStatus = "tradeable" | "non-tradeable" | "invalid"
-	export type HomeConversions = Partial<{
-		currency: string
-		accountGain: string
-		accountLoss: string
-		positionValue: string
-	}>
-	export type PricingHeartbeat = Partial<{ type: string; time: string }>
-	export type OrderID = string
-	export type OrderType =
-		| "MARKET"
-		| "LIMIT"
-		| "STOP"
-		| "MARKET_IF_TOUCHED"
-		| "TAKE_PROFIT"
-		| "STOP_LOSS"
-		| "TRAILING_STOP_LOSS"
-		| "FIXED_PRICE"
-	export type CancellableOrderType =
-		| "LIMIT"
-		| "STOP"
-		| "MARKET_IF_TOUCHED"
-		| "TAKE_PROFIT"
-		| "STOP_LOSS"
-		| "TRAILING_STOP_LOSS"
-	export type OrderState = "PENDING" | "FILLED" | "TRIGGERED" | "CANCELLED"
-	export type OrderStateFilter =
-		| "PENDING"
-		| "FILLED"
-		| "TRIGGERED"
-		| "CANCELLED"
-		| "ALL"
-	export type OrderIdentifier = Partial<{
-		orderID: string
-		clientOrderID: string
-	}>
-	export type OrderSpecifier = string
-	export type TimeInForce = "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
-	export type OrderPositionFill =
-		| "OPEN_ONLY"
-		| "REDUCE_FIRST"
-		| "REDUCE_ONLY"
-		| "DEFAULT"
-	export type OrderTriggerCondition =
-		| "DEFAULT"
-		| "INVERSE"
-		| "BID"
-		| "ASK"
-		| "MID"
-	export type MarketOrder = Partial<{
-		id: string
-		createTime: string
-		state: "PENDING" | "FILLED" | "TRIGGERED" | "CANCELLED"
-		clientExtensions: ClientExtensions
-		type:
-			| "MARKET"
-			| "LIMIT"
-			| "STOP"
-			| "MARKET_IF_TOUCHED"
-			| "TAKE_PROFIT"
-			| "STOP_LOSS"
-			| "TRAILING_STOP_LOSS"
-			| "FIXED_PRICE"
-		instrument: string
-		units: string
-		timeInForce: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
-		priceBound: string
-		positionFill: "OPEN_ONLY" | "REDUCE_FIRST" | "REDUCE_ONLY" | "DEFAULT"
-		tradeClose: MarketOrderTradeClose
-		longPositionCloseout: MarketOrderPositionCloseout
-		shortPositionCloseout: MarketOrderPositionCloseout
-		marginCloseout: MarketOrderMarginCloseout
-		delayedTradeClose: MarketOrderDelayedTradeClose
-		takeProfitOnFill: TakeProfitDetails
-		stopLossOnFill: StopLossDetails
-		trailingStopLossOnFill: TrailingStopLossDetails
-		tradeClientExtensions: ClientExtensions
-		fillingTransactionID: string
-		filledTime: string
-		tradeOpenedID: string
-		tradeReducedID: string
-		tradeClosedIDs: Array<string>
-		cancellingTransactionID: string
-		cancelledTime: string
-	}>
-	export type FixedPriceOrder = Partial<{
-		id: string
-		createTime: string
-		state: "PENDING" | "FILLED" | "TRIGGERED" | "CANCELLED"
-		clientExtensions: ClientExtensions
-		type:
-			| "MARKET"
-			| "LIMIT"
-			| "STOP"
-			| "MARKET_IF_TOUCHED"
-			| "TAKE_PROFIT"
-			| "STOP_LOSS"
-			| "TRAILING_STOP_LOSS"
-			| "FIXED_PRICE"
-		instrument: string
-		units: string
-		price: string
-		positionFill: "OPEN_ONLY" | "REDUCE_FIRST" | "REDUCE_ONLY" | "DEFAULT"
-		tradeState: string
-		takeProfitOnFill: TakeProfitDetails
-		stopLossOnFill: StopLossDetails
-		trailingStopLossOnFill: TrailingStopLossDetails
-		tradeClientExtensions: ClientExtensions
-		fillingTransactionID: string
-		filledTime: string
-		tradeOpenedID: string
-		tradeReducedID: string
-		tradeClosedIDs: Array<string>
-		cancellingTransactionID: string
-		cancelledTime: string
-	}>
-	export type LimitOrder = Partial<{
-		id: string
-		createTime: string
-		state: "PENDING" | "FILLED" | "TRIGGERED" | "CANCELLED"
-		clientExtensions: ClientExtensions
-		type:
-			| "MARKET"
-			| "LIMIT"
-			| "STOP"
-			| "MARKET_IF_TOUCHED"
-			| "TAKE_PROFIT"
-			| "STOP_LOSS"
-			| "TRAILING_STOP_LOSS"
-			| "FIXED_PRICE"
-		instrument: string
-		units: string
-		price: string
-		timeInForce: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
-		gtdTime: string
-		positionFill: "OPEN_ONLY" | "REDUCE_FIRST" | "REDUCE_ONLY" | "DEFAULT"
-		triggerCondition: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
-		takeProfitOnFill: TakeProfitDetails
-		stopLossOnFill: StopLossDetails
-		trailingStopLossOnFill: TrailingStopLossDetails
-		tradeClientExtensions: ClientExtensions
-		fillingTransactionID: string
-		filledTime: string
-		tradeOpenedID: string
-		tradeReducedID: string
-		tradeClosedIDs: Array<string>
-		cancellingTransactionID: string
-		cancelledTime: string
-		replacesOrderID: string
-		replacedByOrderID: string
-	}>
-	export type StopOrder = Partial<{
-		id: string
-		createTime: string
-		state: "PENDING" | "FILLED" | "TRIGGERED" | "CANCELLED"
-		clientExtensions: ClientExtensions
-		type:
-			| "MARKET"
-			| "LIMIT"
-			| "STOP"
-			| "MARKET_IF_TOUCHED"
-			| "TAKE_PROFIT"
-			| "STOP_LOSS"
-			| "TRAILING_STOP_LOSS"
-			| "FIXED_PRICE"
-		instrument: string
-		units: string
-		price: string
-		priceBound: string
-		timeInForce: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
-		gtdTime: string
-		positionFill: "OPEN_ONLY" | "REDUCE_FIRST" | "REDUCE_ONLY" | "DEFAULT"
-		triggerCondition: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
-		takeProfitOnFill: TakeProfitDetails
-		stopLossOnFill: StopLossDetails
-		trailingStopLossOnFill: TrailingStopLossDetails
-		tradeClientExtensions: ClientExtensions
-		fillingTransactionID: string
-		filledTime: string
-		tradeOpenedID: string
-		tradeReducedID: string
-		tradeClosedIDs: Array<string>
-		cancellingTransactionID: string
-		cancelledTime: string
-		replacesOrderID: string
-		replacedByOrderID: string
-	}>
-	export type MarketIfTouchedOrder = Partial<{
-		id: string
-		createTime: string
-		state: "PENDING" | "FILLED" | "TRIGGERED" | "CANCELLED"
-		clientExtensions: ClientExtensions
-		type:
-			| "MARKET"
-			| "LIMIT"
-			| "STOP"
-			| "MARKET_IF_TOUCHED"
-			| "TAKE_PROFIT"
-			| "STOP_LOSS"
-			| "TRAILING_STOP_LOSS"
-			| "FIXED_PRICE"
-		instrument: string
-		units: string
-		price: string
-		priceBound: string
-		timeInForce: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
-		gtdTime: string
-		positionFill: "OPEN_ONLY" | "REDUCE_FIRST" | "REDUCE_ONLY" | "DEFAULT"
-		triggerCondition: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
-		initialMarketPrice: string
-		takeProfitOnFill: TakeProfitDetails
-		stopLossOnFill: StopLossDetails
-		trailingStopLossOnFill: TrailingStopLossDetails
-		tradeClientExtensions: ClientExtensions
-		fillingTransactionID: string
-		filledTime: string
-		tradeOpenedID: string
-		tradeReducedID: string
-		tradeClosedIDs: Array<string>
-		cancellingTransactionID: string
-		cancelledTime: string
-		replacesOrderID: string
-		replacedByOrderID: string
-	}>
-	export type OrderRequest = Record<string, unknown>
-	export type MarketOrderRequest = Partial<{
-		type:
-			| "MARKET"
-			| "LIMIT"
-			| "STOP"
-			| "MARKET_IF_TOUCHED"
-			| "TAKE_PROFIT"
-			| "STOP_LOSS"
-			| "TRAILING_STOP_LOSS"
-			| "FIXED_PRICE"
-		instrument: string
-		units: string
-		timeInForce: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
-		priceBound: string
-		positionFill: "OPEN_ONLY" | "REDUCE_FIRST" | "REDUCE_ONLY" | "DEFAULT"
-		clientExtensions: ClientExtensions
-		takeProfitOnFill: TakeProfitDetails
-		stopLossOnFill: StopLossDetails
-		trailingStopLossOnFill: TrailingStopLossDetails
-		tradeClientExtensions: ClientExtensions
-	}>
-	export type LimitOrderRequest = Partial<{
-		type:
-			| "MARKET"
-			| "LIMIT"
-			| "STOP"
-			| "MARKET_IF_TOUCHED"
-			| "TAKE_PROFIT"
-			| "STOP_LOSS"
-			| "TRAILING_STOP_LOSS"
-			| "FIXED_PRICE"
-		instrument: string
-		units: string
-		price: string
-		timeInForce: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
-		gtdTime: string
-		positionFill: "OPEN_ONLY" | "REDUCE_FIRST" | "REDUCE_ONLY" | "DEFAULT"
-		triggerCondition: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
-		clientExtensions: ClientExtensions
-		takeProfitOnFill: TakeProfitDetails
-		stopLossOnFill: StopLossDetails
-		trailingStopLossOnFill: TrailingStopLossDetails
-		tradeClientExtensions: ClientExtensions
-	}>
-	export type StopOrderRequest = Partial<{
-		type:
-			| "MARKET"
-			| "LIMIT"
-			| "STOP"
-			| "MARKET_IF_TOUCHED"
-			| "TAKE_PROFIT"
-			| "STOP_LOSS"
-			| "TRAILING_STOP_LOSS"
-			| "FIXED_PRICE"
-		instrument: string
-		units: string
-		price: string
-		priceBound: string
-		timeInForce: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
-		gtdTime: string
-		positionFill: "OPEN_ONLY" | "REDUCE_FIRST" | "REDUCE_ONLY" | "DEFAULT"
-		triggerCondition: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
-		clientExtensions: ClientExtensions
-		takeProfitOnFill: TakeProfitDetails
-		stopLossOnFill: StopLossDetails
-		trailingStopLossOnFill: TrailingStopLossDetails
-		tradeClientExtensions: ClientExtensions
-	}>
-	export type MarketIfTouchedOrderRequest = Partial<{
-		type:
-			| "MARKET"
-			| "LIMIT"
-			| "STOP"
-			| "MARKET_IF_TOUCHED"
-			| "TAKE_PROFIT"
-			| "STOP_LOSS"
-			| "TRAILING_STOP_LOSS"
-			| "FIXED_PRICE"
-		instrument: string
-		units: string
-		price: string
-		priceBound: string
-		timeInForce: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
-		gtdTime: string
-		positionFill: "OPEN_ONLY" | "REDUCE_FIRST" | "REDUCE_ONLY" | "DEFAULT"
-		triggerCondition: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
-		clientExtensions: ClientExtensions
-		takeProfitOnFill: TakeProfitDetails
-		stopLossOnFill: StopLossDetails
-		trailingStopLossOnFill: TrailingStopLossDetails
-		tradeClientExtensions: ClientExtensions
-	}>
-	export type TakeProfitOrderRequest = Partial<{
-		type:
-			| "MARKET"
-			| "LIMIT"
-			| "STOP"
-			| "MARKET_IF_TOUCHED"
-			| "TAKE_PROFIT"
-			| "STOP_LOSS"
-			| "TRAILING_STOP_LOSS"
-			| "FIXED_PRICE"
-		tradeID: string
-		clientTradeID: string
-		price: string
-		timeInForce: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
-		gtdTime: string
-		triggerCondition: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
-		clientExtensions: ClientExtensions
-	}>
-	export type StopLossOrderRequest = Partial<{
-		type:
-			| "MARKET"
-			| "LIMIT"
-			| "STOP"
-			| "MARKET_IF_TOUCHED"
-			| "TAKE_PROFIT"
-			| "STOP_LOSS"
-			| "TRAILING_STOP_LOSS"
-			| "FIXED_PRICE"
-		tradeID: string
-		clientTradeID: string
-		price: string
-		distance: string
-		timeInForce: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
-		gtdTime: string
-		triggerCondition: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
-		guaranteed: boolean
-		clientExtensions: ClientExtensions
-	}>
-	export type TrailingStopLossOrderRequest = Partial<{
-		type:
-			| "MARKET"
-			| "LIMIT"
-			| "STOP"
-			| "MARKET_IF_TOUCHED"
-			| "TAKE_PROFIT"
-			| "STOP_LOSS"
-			| "TRAILING_STOP_LOSS"
-			| "FIXED_PRICE"
-		tradeID: string
-		clientTradeID: string
-		distance: string
-		timeInForce: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
-		gtdTime: string
-		triggerCondition: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
-		clientExtensions: ClientExtensions
-	}>
-	export type GuaranteedStopLossOrderEntryData = Partial<{
-		minimumDistance: string
-		premium: string
-		levelRestriction: GuaranteedStopLossOrderLevelRestriction
-	}>
-	export type PriceValue = string
-	export type Price = Partial<{
-		instrument: string
-		tradeable: boolean
-		timestamp: string
-		baseBid: string
-		baseAsk: string
-		bids: Array<PriceBucket>
-		asks: Array<PriceBucket>
-		closeoutBid: string
-		closeoutAsk: string
-	}>
-
-	// </Schemas>
-}
-
-export namespace Endpoints {
-	// <Endpoints>
-
-	export type get_GetInstrumentCandles = {
-		method: "GET"
-		path: "/instruments/{instrument}/candles"
-		requestFormat: "json"
-		parameters: {
-			query: Partial<{
-				price: string
-				granularity: string
-				count: number
-				from: string
-				to: string
-				smooth: boolean
-				includeFirst: boolean
-				dailyAlignment: number
-				alignmentTimezone: string
-				weeklyAlignment: string
-			}>
-			path: { instrument: string }
-			header: {
-				Authorization: string
-				"Accept-Datetime-Format": string | undefined
-			}
-		}
-		response: Partial<{
-			instrument: string
-			granularity:
-				| "S5"
-				| "S10"
-				| "S15"
-				| "S30"
-				| "M1"
-				| "M2"
-				| "M4"
-				| "M5"
-				| "M10"
-				| "M15"
-				| "M30"
-				| "H1"
-				| "H2"
-				| "H3"
-				| "H4"
-				| "H6"
-				| "H8"
-				| "H12"
-				| "D"
-				| "W"
-				| "M"
-			candles: Array<Schemas.Candlestick>
-		}>
-	}
-	export type get_GetInstrumentPrice = {
-		method: "GET"
-		path: "/instruments/{instrument}/price"
-		requestFormat: "json"
-		parameters: {
-			query: Partial<{ time: string }>
-			path: { instrument: string }
-			header: {
-				Authorization: string
-				"Accept-Datetime-Format": string | undefined
-			}
-		}
-		response: Partial<{ price: Schemas.Price }>
-	}
-	export type get_GetInstrumentPriceRange = {
-		method: "GET"
-		path: "/instruments/{instrument}/price/range"
-		requestFormat: "json"
-		parameters: {
-			query: { from: string; to: string | undefined }
-			path: { instrument: string }
-			header: {
-				Authorization: string
-				"Accept-Datetime-Format": string | undefined
-			}
-		}
-		response: Partial<{ prices: Array<Schemas.Price> }>
-	}
-	export type get_InstrumentsInstrumentorderBook = {
-		method: "GET"
-		path: "/instruments/{instrument}/orderBook"
-		requestFormat: "json"
-		parameters: {
-			query: Partial<{ time: string }>
-			path: { instrument: string }
-			header: {
-				Authorization: string
-				"Accept-Datetime-Format": string | undefined
-			}
-		}
-		response: Partial<{ orderBook: Schemas.OrderBook }>
-	}
-	export type get_InstrumentsInstrumentpositionBook = {
-		method: "GET"
-		path: "/instruments/{instrument}/positionBook"
-		requestFormat: "json"
-		parameters: {
-			query: Partial<{ time: string }>
-			path: { instrument: string }
-			header: {
-				Authorization: string
-				"Accept-Datetime-Format": string | undefined
-			}
-		}
-		response: Partial<{ positionBook: Schemas.PositionBook }>
-	}
-	export type get_ListPositions = {
-		method: "GET"
-		path: "/accounts/{accountID}/positions"
-		requestFormat: "json"
-		parameters: {
-			path: { accountID: string }
-			header: { Authorization: string }
-		}
-		response: Partial<{
-			positions: Array<Schemas.Position>
-			lastTransactionID: string
-		}>
-	}
-	export type get_ListOpenPositions = {
-		method: "GET"
-		path: "/accounts/{accountID}/openPositions"
-		requestFormat: "json"
-		parameters: {
-			path: { accountID: string }
-			header: { Authorization: string }
-		}
-		response: Partial<{
-			positions: Array<Schemas.Position>
-			lastTransactionID: string
-		}>
-	}
-	export type get_GetPosition = {
-		method: "GET"
-		path: "/accounts/{accountID}/positions/{instrument}"
-		requestFormat: "json"
-		parameters: {
-			path: { accountID: string; instrument: string }
-			header: { Authorization: string }
-		}
-		response: Partial<{ position: Schemas.Position; lastTransactionID: string }>
-	}
-	export type put_ClosePosition = {
-		method: "PUT"
-		path: "/accounts/{accountID}/positions/{instrument}/close"
-		requestFormat: "json"
-		parameters: {
-			path: { accountID: string; instrument: string }
-			header: {
-				Authorization: string
-				"Accept-Datetime-Format": string | undefined
-			}
-			body: Partial<{
-				longUnits: string
-				longClientExtensions: Schemas.ClientExtensions
-				shortUnits: string
-				shortClientExtensions: Schemas.ClientExtensions
-			}>
-		}
-		response: Partial<{
-			longOrderCreateTransaction: Schemas.MarketOrderTransaction
-			longOrderFillTransaction: Schemas.OrderFillTransaction
-			longOrderCancelTransaction: Schemas.OrderCancelTransaction
-			shortOrderCreateTransaction: Schemas.MarketOrderTransaction
-			shortOrderFillTransaction: Schemas.OrderFillTransaction
-			shortOrderCancelTransaction: Schemas.OrderCancelTransaction
-			relatedTransactionIDs: Array<string>
-			lastTransactionID: string
-		}>
-	}
-	export type get_ListTrades = {
-		method: "GET"
-		path: "/accounts/{accountID}/trades"
-		requestFormat: "json"
-		parameters: {
-			query: Partial<{
-				ids: Array<string>
-				state: string
-				instrument: string
-				count: number
-				beforeID: string
-			}>
-			path: { accountID: string }
-			header: {
-				Authorization: string
-				"Accept-Datetime-Format": string | undefined
-			}
-		}
-		response: Partial<{
-			trades: Array<Schemas.Trade>
-			lastTransactionID: string
-		}>
-	}
-	export type get_ListOpenTrades = {
-		method: "GET"
-		path: "/accounts/{accountID}/openTrades"
-		requestFormat: "json"
-		parameters: {
-			path: { accountID: string }
-			header: {
-				Authorization: string
-				"Accept-Datetime-Format": string | undefined
-			}
-		}
-		response: Partial<{
-			trades: Array<Schemas.Trade>
-			lastTransactionID: string
-		}>
-	}
-	export type get_GetTrade = {
-		method: "GET"
-		path: "/accounts/{accountID}/trades/{tradeSpecifier}"
-		requestFormat: "json"
-		parameters: {
-			path: { accountID: string; tradeSpecifier: string }
-			header: {
-				Authorization: string
-				"Accept-Datetime-Format": string | undefined
-			}
-		}
-		response: Partial<{ trade: Schemas.Trade; lastTransactionID: string }>
-	}
-	export type put_CloseTrade = {
-		method: "PUT"
-		path: "/accounts/{accountID}/trades/{tradeSpecifier}/close"
-		requestFormat: "json"
-		parameters: {
-			path: { accountID: string; tradeSpecifier: string }
-			header: {
-				Authorization: string
-				"Accept-Datetime-Format": string | undefined
-			}
-			body: Partial<{ units: string }>
-		}
-		response: Partial<{
-			orderCreateTransaction: Schemas.MarketOrderTransaction
-			orderFillTransaction: Schemas.OrderFillTransaction
-			orderCancelTransaction: Schemas.OrderCancelTransaction
-			relatedTransactionIDs: Array<string>
-			lastTransactionID: string
-		}>
-	}
-	export type put_SetTradeClientExtensions = {
-		method: "PUT"
-		path: "/accounts/{accountID}/trades/{tradeSpecifier}/clientExtensions"
-		requestFormat: "json"
-		parameters: {
-			path: { accountID: string; tradeSpecifier: string }
-			header: {
-				Authorization: string
-				"Accept-Datetime-Format": string | undefined
-			}
-			body: Partial<{ clientExtensions: Schemas.ClientExtensions }>
-		}
-		response: Partial<{
-			tradeClientExtensionsModifyTransaction: Schemas.TradeClientExtensionsModifyTransaction
-			relatedTransactionIDs: Array<string>
-			lastTransactionID: string
-		}>
-	}
-	export type put_SetTradeDependentOrders = {
-		method: "PUT"
-		path: "/accounts/{accountID}/trades/{tradeSpecifier}/orders"
-		requestFormat: "json"
-		parameters: {
-			path: { accountID: string; tradeSpecifier: string }
-			header: {
-				Authorization: string
-				"Accept-Datetime-Format": string | undefined
-			}
-			body: Partial<{
-				takeProfit: Schemas.TakeProfitDetails
-				stopLoss: Schemas.StopLossDetails
-				trailingStopLoss: Schemas.TrailingStopLossDetails
-			}>
-		}
-		response: Partial<{
-			takeProfitOrderCancelTransaction: Schemas.OrderCancelTransaction
-			takeProfitOrderTransaction: Schemas.TakeProfitOrderTransaction
-			takeProfitOrderFillTransaction: Schemas.OrderFillTransaction
-			takeProfitOrderCreatedCancelTransaction: Schemas.OrderCancelTransaction
-			stopLossOrderCancelTransaction: Schemas.OrderCancelTransaction
-			stopLossOrderTransaction: Schemas.StopLossOrderTransaction
-			stopLossOrderFillTransaction: Schemas.OrderFillTransaction
-			stopLossOrderCreatedCancelTransaction: Schemas.OrderCancelTransaction
-			trailingStopLossOrderCancelTransaction: Schemas.OrderCancelTransaction
-			trailingStopLossOrderTransaction: Schemas.TrailingStopLossOrderTransaction
-			relatedTransactionIDs: Array<string>
-			lastTransactionID: string
-		}>
-	}
-	export type get_ListAccounts = {
-		method: "GET"
-		path: "/accounts"
-		requestFormat: "json"
-		parameters: {
-			header: { Authorization: string }
-		}
-		response: Partial<{ accounts: Array<Schemas.AccountProperties> }>
-	}
-	export type get_GetAccount = {
-		method: "GET"
-		path: "/accounts/{accountID}"
-		requestFormat: "json"
-		parameters: {
-			path: { accountID: string }
-			header: {
-				Authorization: string
-				"Accept-Datetime-Format": string | undefined
-			}
-		}
-		response: Partial<{ account: Schemas.Account; lastTransactionID: string }>
-	}
-	export type get_GetAccountSummary = {
-		method: "GET"
-		path: "/accounts/{accountID}/summary"
-		requestFormat: "json"
-		parameters: {
-			path: { accountID: string }
-			header: {
-				Authorization: string
-				"Accept-Datetime-Format": string | undefined
-			}
-		}
-		response: Partial<{
-			account: Schemas.AccountSummary
-			lastTransactionID: string
-		}>
-	}
-	export type get_GetAccountInstruments = {
-		method: "GET"
-		path: "/accounts/{accountID}/instruments"
-		requestFormat: "json"
-		parameters: {
-			query: Partial<{ instruments: Array<string> }>
-			path: { accountID: string }
-			header: { Authorization: string }
-		}
-		response: Partial<{
-			instruments: Array<Schemas.Instrument>
-			lastTransactionID: string
-		}>
-	}
-	export type patch_ConfigureAccount = {
-		method: "PATCH"
-		path: "/accounts/{accountID}/configuration"
-		requestFormat: "json"
-		parameters: {
-			path: { accountID: string }
-			header: {
-				Authorization: string
-				"Accept-Datetime-Format": string | undefined
-			}
-			body: Partial<{ alias: string; marginRate: string }>
-		}
-		response: Partial<{
-			clientConfigureTransaction: Schemas.ClientConfigureTransaction
-			lastTransactionID: string
-		}>
-	}
-	export type get_GetAccountChanges = {
-		method: "GET"
-		path: "/accounts/{accountID}/changes"
-		requestFormat: "json"
-		parameters: {
-			query: Partial<{ sinceTransactionID: string }>
-			path: { accountID: string }
-			header: {
-				Authorization: string
-				"Accept-Datetime-Format": string | undefined
-			}
-		}
-		response: Partial<{
-			changes: Schemas.AccountChanges
-			state: Schemas.AccountChangesState
-			lastTransactionID: string
-		}>
-	}
-	export type get_ListTransactions = {
-		method: "GET"
-		path: "/accounts/{accountID}/transactions"
-		requestFormat: "json"
-		parameters: {
-			query: Partial<{
-				from: string
-				to: string
-				pageSize: number
-				type: Array<string>
-			}>
-			path: { accountID: string }
-			header: {
-				Authorization: string
-				"Accept-Datetime-Format": string | undefined
-			}
-		}
-		response: Partial<{
-			from: string
-			to: string
-			pageSize: number
-			type: Array<
-				| "ORDER"
-				| "FUNDING"
-				| "ADMIN"
+		/** @description An OrderCancelTransaction represents the cancellation of an Order in the client's Account. */
+		OrderCancelTransaction: {
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The Transaction's Identifier.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Transaction was created.
+			 */
+			time?: string
+			/** @description The ID of the user that initiated the creation of the Transaction. */
+			userID?: number
+			/**
+			 * Format: "-"-delimited string with format "{siteID}-{divisionID}-{userID}-{accountNumber}"
+			 * @description The ID of the Account the Transaction was created for.
+			 */
+			accountID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.
+			 */
+			batchID?: string
+			/** @description The Request ID of the request which generated the transaction. */
+			requestID?: string
+			/**
+			 * @description The Type of the Transaction. Always set to "ORDER_CANCEL" for an OrderCancelTransaction.
+			 * @enum {string}
+			 */
+			type?:
 				| "CREATE"
 				| "CLOSE"
 				| "REOPEN"
@@ -5298,6 +6047,7 @@ export namespace Endpoints {
 				| "TRANSFER_FUNDS_REJECT"
 				| "MARKET_ORDER"
 				| "MARKET_ORDER_REJECT"
+				| "FIXED_PRICE_ORDER"
 				| "LIMIT_ORDER"
 				| "LIMIT_ORDER_REJECT"
 				| "STOP_ORDER"
@@ -5310,9 +6060,6 @@ export namespace Endpoints {
 				| "STOP_LOSS_ORDER_REJECT"
 				| "TRAILING_STOP_LOSS_ORDER"
 				| "TRAILING_STOP_LOSS_ORDER_REJECT"
-				| "ONE_CANCELS_ALL_ORDER"
-				| "ONE_CANCELS_ALL_ORDER_REJECT"
-				| "ONE_CANCELS_ALL_ORDER_TRIGGERED"
 				| "ORDER_FILL"
 				| "ORDER_CANCEL"
 				| "ORDER_CANCEL_REJECT"
@@ -5326,486 +6073,5623 @@ export namespace Endpoints {
 				| "DELAYED_TRADE_CLOSURE"
 				| "DAILY_FINANCING"
 				| "RESET_RESETTABLE_PL"
-			>
-			count: number
-			pages: Array<string>
-			lastTransactionID: string
-		}>
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The ID of the Order cancelled
+			 */
+			orderID?: string
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The client ID of the Order cancelled (only provided if the Order has a client Order ID).
+			 */
+			clientOrderID?: string
+			/**
+			 * @description The reason that the Order was cancelled.
+			 * @enum {string}
+			 */
+			reason?:
+				| "INTERNAL_SERVER_ERROR"
+				| "ACCOUNT_LOCKED"
+				| "ACCOUNT_NEW_POSITIONS_LOCKED"
+				| "ACCOUNT_ORDER_CREATION_LOCKED"
+				| "ACCOUNT_ORDER_FILL_LOCKED"
+				| "CLIENT_REQUEST"
+				| "MIGRATION"
+				| "MARKET_HALTED"
+				| "LINKED_TRADE_CLOSED"
+				| "TIME_IN_FORCE_EXPIRED"
+				| "INSUFFICIENT_MARGIN"
+				| "FIFO_VIOLATION"
+				| "BOUNDS_VIOLATION"
+				| "CLIENT_REQUEST_REPLACED"
+				| "INSUFFICIENT_LIQUIDITY"
+				| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_IN_PAST"
+				| "TAKE_PROFIT_ON_FILL_LOSS"
+				| "LOSING_TAKE_PROFIT"
+				| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
+				| "STOP_LOSS_ON_FILL_LOSS"
+				| "STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_REQUIRED"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_REQUIRED"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_NOT_ALLOWED"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_HEDGING_NOT_ALLOWED"
+				| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
+				| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
+				| "TAKE_PROFIT_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
+				| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
+				| "CLIENT_TRADE_ID_ALREADY_EXISTS"
+				| "POSITION_CLOSEOUT_FAILED"
+				| "OPEN_TRADES_ALLOWED_EXCEEDED"
+				| "PENDING_ORDERS_ALLOWED_EXCEEDED"
+				| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_ID_ALREADY_EXISTS"
+				| "STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_ALREADY_EXISTS"
+				| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_ALREADY_EXISTS"
+				| "POSITION_SIZE_EXCEEDED"
+				| "HEDGING_GSLO_VIOLATION"
+				| "ACCOUNT_POSITION_VALUE_LIMIT_EXCEEDED"
+				| "INSTRUMENT_BID_REDUCE_ONLY"
+				| "INSTRUMENT_ASK_REDUCE_ONLY"
+				| "INSTRUMENT_BID_HALTED"
+				| "INSTRUMENT_ASK_HALTED"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_BID_HALTED"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_ASK_HALTED"
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The ID of the Order that replaced this Order (only provided if this Order was cancelled for replacement).
+			 */
+			replacedByOrderID?: string
+		}
+		/** @description An OrderCancelRejectTransaction represents the rejection of the cancellation of an Order in the client's Account. */
+		OrderCancelRejectTransaction: {
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The Transaction's Identifier.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Transaction was created.
+			 */
+			time?: string
+			/** @description The ID of the user that initiated the creation of the Transaction. */
+			userID?: number
+			/**
+			 * Format: "-"-delimited string with format "{siteID}-{divisionID}-{userID}-{accountNumber}"
+			 * @description The ID of the Account the Transaction was created for.
+			 */
+			accountID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.
+			 */
+			batchID?: string
+			/** @description The Request ID of the request which generated the transaction. */
+			requestID?: string
+			/**
+			 * @description The Type of the Transaction. Always set to "ORDER_CANCEL_REJECT" for an OrderCancelRejectTransaction.
+			 * @enum {string}
+			 */
+			type?:
+				| "CREATE"
+				| "CLOSE"
+				| "REOPEN"
+				| "CLIENT_CONFIGURE"
+				| "CLIENT_CONFIGURE_REJECT"
+				| "TRANSFER_FUNDS"
+				| "TRANSFER_FUNDS_REJECT"
+				| "MARKET_ORDER"
+				| "MARKET_ORDER_REJECT"
+				| "FIXED_PRICE_ORDER"
+				| "LIMIT_ORDER"
+				| "LIMIT_ORDER_REJECT"
+				| "STOP_ORDER"
+				| "STOP_ORDER_REJECT"
+				| "MARKET_IF_TOUCHED_ORDER"
+				| "MARKET_IF_TOUCHED_ORDER_REJECT"
+				| "TAKE_PROFIT_ORDER"
+				| "TAKE_PROFIT_ORDER_REJECT"
+				| "STOP_LOSS_ORDER"
+				| "STOP_LOSS_ORDER_REJECT"
+				| "TRAILING_STOP_LOSS_ORDER"
+				| "TRAILING_STOP_LOSS_ORDER_REJECT"
+				| "ORDER_FILL"
+				| "ORDER_CANCEL"
+				| "ORDER_CANCEL_REJECT"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "MARGIN_CALL_ENTER"
+				| "MARGIN_CALL_EXTEND"
+				| "MARGIN_CALL_EXIT"
+				| "DELAYED_TRADE_CLOSURE"
+				| "DAILY_FINANCING"
+				| "RESET_RESETTABLE_PL"
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The ID of the Order intended to be cancelled
+			 */
+			orderID?: string
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The client ID of the Order intended to be cancelled (only provided if the Order has a client Order ID).
+			 */
+			clientOrderID?: string
+			/**
+			 * @description The reason that the Reject Transaction was created
+			 * @enum {string}
+			 */
+			rejectReason?:
+				| "INTERNAL_SERVER_ERROR"
+				| "INSTRUMENT_PRICE_UNKNOWN"
+				| "ACCOUNT_NOT_ACTIVE"
+				| "ACCOUNT_LOCKED"
+				| "ACCOUNT_ORDER_CREATION_LOCKED"
+				| "ACCOUNT_CONFIGURATION_LOCKED"
+				| "ACCOUNT_DEPOSIT_LOCKED"
+				| "ACCOUNT_WITHDRAWAL_LOCKED"
+				| "ACCOUNT_ORDER_CANCEL_LOCKED"
+				| "INSTRUMENT_NOT_TRADEABLE"
+				| "PENDING_ORDERS_ALLOWED_EXCEEDED"
+				| "ORDER_ID_UNSPECIFIED"
+				| "ORDER_DOESNT_EXIST"
+				| "ORDER_IDENTIFIER_INCONSISTENCY"
+				| "TRADE_ID_UNSPECIFIED"
+				| "TRADE_DOESNT_EXIST"
+				| "TRADE_IDENTIFIER_INCONSISTENCY"
+				| "INSUFFICIENT_MARGIN"
+				| "INSTRUMENT_MISSING"
+				| "INSTRUMENT_UNKNOWN"
+				| "UNITS_MISSING"
+				| "UNITS_INVALID"
+				| "UNITS_PRECISION_EXCEEDED"
+				| "UNITS_LIMIT_EXCEEDED"
+				| "UNITS_MIMIMUM_NOT_MET"
+				| "PRICE_MISSING"
+				| "PRICE_INVALID"
+				| "PRICE_PRECISION_EXCEEDED"
+				| "PRICE_DISTANCE_MISSING"
+				| "PRICE_DISTANCE_INVALID"
+				| "PRICE_DISTANCE_PRECISION_EXCEEDED"
+				| "PRICE_DISTANCE_MAXIMUM_EXCEEDED"
+				| "PRICE_DISTANCE_MINIMUM_NOT_MET"
+				| "TIME_IN_FORCE_MISSING"
+				| "TIME_IN_FORCE_INVALID"
+				| "TIME_IN_FORCE_GTD_TIMESTAMP_MISSING"
+				| "TIME_IN_FORCE_GTD_TIMESTAMP_IN_PAST"
+				| "PRICE_BOUND_INVALID"
+				| "PRICE_BOUND_PRECISION_EXCEEDED"
+				| "ORDERS_ON_FILL_DUPLICATE_CLIENT_ORDER_IDS"
+				| "TRADE_ON_FILL_CLIENT_EXTENSIONS_NOT_SUPPORTED"
+				| "CLIENT_ORDER_ID_INVALID"
+				| "CLIENT_ORDER_ID_ALREADY_EXISTS"
+				| "CLIENT_ORDER_TAG_INVALID"
+				| "CLIENT_ORDER_COMMENT_INVALID"
+				| "CLIENT_TRADE_ID_INVALID"
+				| "CLIENT_TRADE_ID_ALREADY_EXISTS"
+				| "CLIENT_TRADE_TAG_INVALID"
+				| "CLIENT_TRADE_COMMENT_INVALID"
+				| "ORDER_FILL_POSITION_ACTION_MISSING"
+				| "ORDER_FILL_POSITION_ACTION_INVALID"
+				| "TRIGGER_CONDITION_MISSING"
+				| "TRIGGER_CONDITION_INVALID"
+				| "ORDER_PARTIAL_FILL_OPTION_MISSING"
+				| "ORDER_PARTIAL_FILL_OPTION_INVALID"
+				| "INVALID_REISSUE_IMMEDIATE_PARTIAL_FILL"
+				| "TAKE_PROFIT_ORDER_ALREADY_EXISTS"
+				| "TAKE_PROFIT_ON_FILL_PRICE_MISSING"
+				| "TAKE_PROFIT_ON_FILL_PRICE_INVALID"
+				| "TAKE_PROFIT_ON_FILL_PRICE_PRECISION_EXCEEDED"
+				| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_MISSING"
+				| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_INVALID"
+				| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_MISSING"
+				| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_IN_PAST"
+				| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_ID_INVALID"
+				| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_TAG_INVALID"
+				| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
+				| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_MISSING"
+				| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_INVALID"
+				| "STOP_LOSS_ORDER_ALREADY_EXISTS"
+				| "STOP_LOSS_ORDER_GUARANTEED_REQUIRED"
+				| "STOP_LOSS_ORDER_GUARANTEED_PRICE_WITHIN_SPREAD"
+				| "STOP_LOSS_ORDER_GUARANTEED_NOT_ALLOWED"
+				| "STOP_LOSS_ORDER_GUARANTEED_HALTED_CREATE_VIOLATION"
+				| "STOP_LOSS_ORDER_GUARANTEED_HALTED_TIGHTEN_VIOLATION"
+				| "STOP_LOSS_ORDER_GUARANTEED_HEDGING_NOT_ALLOWED"
+				| "STOP_LOSS_ORDER_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
+				| "STOP_LOSS_ORDER_NOT_CANCELABLE"
+				| "STOP_LOSS_ORDER_NOT_REPLACEABLE"
+				| "STOP_LOSS_ORDER_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
+				| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
+				| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_MISSING"
+				| "STOP_LOSS_ON_FILL_REQUIRED_FOR_PENDING_ORDER"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_NOT_ALLOWED"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_REQUIRED"
+				| "STOP_LOSS_ON_FILL_PRICE_MISSING"
+				| "STOP_LOSS_ON_FILL_PRICE_INVALID"
+				| "STOP_LOSS_ON_FILL_PRICE_PRECISION_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_DISTANCE_INVALID"
+				| "STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_DISTANCE_PRECISION_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
+				| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_MISSING"
+				| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
+				| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
+				| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
+				| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
+				| "STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
+				| "STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
+				| "STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
+				| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
+				| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
+				| "TRAILING_STOP_LOSS_ORDER_ALREADY_EXISTS"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_PRECISION_EXCEEDED"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MINIMUM_NOT_MET"
+				| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
+				| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
+				| "TRAILING_STOP_LOSS_ORDERS_NOT_SUPPORTED"
+				| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
+				| "CLOSE_TRADE_TYPE_MISSING"
+				| "CLOSE_TRADE_PARTIAL_UNITS_MISSING"
+				| "CLOSE_TRADE_UNITS_EXCEED_TRADE_SIZE"
+				| "CLOSEOUT_POSITION_DOESNT_EXIST"
+				| "CLOSEOUT_POSITION_INCOMPLETE_SPECIFICATION"
+				| "CLOSEOUT_POSITION_UNITS_EXCEED_POSITION_SIZE"
+				| "CLOSEOUT_POSITION_REJECT"
+				| "CLOSEOUT_POSITION_PARTIAL_UNITS_MISSING"
+				| "MARKUP_GROUP_ID_INVALID"
+				| "POSITION_AGGREGATION_MODE_INVALID"
+				| "ADMIN_CONFIGURE_DATA_MISSING"
+				| "MARGIN_RATE_INVALID"
+				| "MARGIN_RATE_WOULD_TRIGGER_CLOSEOUT"
+				| "ALIAS_INVALID"
+				| "CLIENT_CONFIGURE_DATA_MISSING"
+				| "MARGIN_RATE_WOULD_TRIGGER_MARGIN_CALL"
+				| "AMOUNT_INVALID"
+				| "INSUFFICIENT_FUNDS"
+				| "AMOUNT_MISSING"
+				| "FUNDING_REASON_MISSING"
+				| "CLIENT_EXTENSIONS_DATA_MISSING"
+				| "REPLACING_ORDER_INVALID"
+				| "REPLACING_TRADE_ID_INVALID"
+		}
+		/** @description A OrderClientExtensionsModifyTransaction represents the modification of an Order's Client Extensions. */
+		OrderClientExtensionsModifyTransaction: {
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The Transaction's Identifier.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Transaction was created.
+			 */
+			time?: string
+			/** @description The ID of the user that initiated the creation of the Transaction. */
+			userID?: number
+			/**
+			 * Format: "-"-delimited string with format "{siteID}-{divisionID}-{userID}-{accountNumber}"
+			 * @description The ID of the Account the Transaction was created for.
+			 */
+			accountID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.
+			 */
+			batchID?: string
+			/** @description The Request ID of the request which generated the transaction. */
+			requestID?: string
+			/**
+			 * @description The Type of the Transaction. Always set to "ORDER_CLIENT_EXTENSIONS_MODIFY" for a OrderClienteExtensionsModifyTransaction.
+			 * @enum {string}
+			 */
+			type?:
+				| "CREATE"
+				| "CLOSE"
+				| "REOPEN"
+				| "CLIENT_CONFIGURE"
+				| "CLIENT_CONFIGURE_REJECT"
+				| "TRANSFER_FUNDS"
+				| "TRANSFER_FUNDS_REJECT"
+				| "MARKET_ORDER"
+				| "MARKET_ORDER_REJECT"
+				| "FIXED_PRICE_ORDER"
+				| "LIMIT_ORDER"
+				| "LIMIT_ORDER_REJECT"
+				| "STOP_ORDER"
+				| "STOP_ORDER_REJECT"
+				| "MARKET_IF_TOUCHED_ORDER"
+				| "MARKET_IF_TOUCHED_ORDER_REJECT"
+				| "TAKE_PROFIT_ORDER"
+				| "TAKE_PROFIT_ORDER_REJECT"
+				| "STOP_LOSS_ORDER"
+				| "STOP_LOSS_ORDER_REJECT"
+				| "TRAILING_STOP_LOSS_ORDER"
+				| "TRAILING_STOP_LOSS_ORDER_REJECT"
+				| "ORDER_FILL"
+				| "ORDER_CANCEL"
+				| "ORDER_CANCEL_REJECT"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "MARGIN_CALL_ENTER"
+				| "MARGIN_CALL_EXTEND"
+				| "MARGIN_CALL_EXIT"
+				| "DELAYED_TRADE_CLOSURE"
+				| "DAILY_FINANCING"
+				| "RESET_RESETTABLE_PL"
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The ID of the Order who's client extensions are to be modified.
+			 */
+			orderID?: string
+			/** @description The original Client ID of the Order who's client extensions are to be modified. */
+			clientOrderID?: string
+			clientExtensionsModify?: components["schemas"]["ClientExtensions"]
+			tradeClientExtensionsModify?: components["schemas"]["ClientExtensions"]
+		}
+		/** @description A OrderClientExtensionsModifyRejectTransaction represents the rejection of the modification of an Order's Client Extensions. */
+		OrderClientExtensionsModifyRejectTransaction: {
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The Transaction's Identifier.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Transaction was created.
+			 */
+			time?: string
+			/** @description The ID of the user that initiated the creation of the Transaction. */
+			userID?: number
+			/**
+			 * Format: "-"-delimited string with format "{siteID}-{divisionID}-{userID}-{accountNumber}"
+			 * @description The ID of the Account the Transaction was created for.
+			 */
+			accountID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.
+			 */
+			batchID?: string
+			/** @description The Request ID of the request which generated the transaction. */
+			requestID?: string
+			/**
+			 * @description The Type of the Transaction. Always set to "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT" for a OrderClientExtensionsModifyRejectTransaction.
+			 * @enum {string}
+			 */
+			type?:
+				| "CREATE"
+				| "CLOSE"
+				| "REOPEN"
+				| "CLIENT_CONFIGURE"
+				| "CLIENT_CONFIGURE_REJECT"
+				| "TRANSFER_FUNDS"
+				| "TRANSFER_FUNDS_REJECT"
+				| "MARKET_ORDER"
+				| "MARKET_ORDER_REJECT"
+				| "FIXED_PRICE_ORDER"
+				| "LIMIT_ORDER"
+				| "LIMIT_ORDER_REJECT"
+				| "STOP_ORDER"
+				| "STOP_ORDER_REJECT"
+				| "MARKET_IF_TOUCHED_ORDER"
+				| "MARKET_IF_TOUCHED_ORDER_REJECT"
+				| "TAKE_PROFIT_ORDER"
+				| "TAKE_PROFIT_ORDER_REJECT"
+				| "STOP_LOSS_ORDER"
+				| "STOP_LOSS_ORDER_REJECT"
+				| "TRAILING_STOP_LOSS_ORDER"
+				| "TRAILING_STOP_LOSS_ORDER_REJECT"
+				| "ORDER_FILL"
+				| "ORDER_CANCEL"
+				| "ORDER_CANCEL_REJECT"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "MARGIN_CALL_ENTER"
+				| "MARGIN_CALL_EXTEND"
+				| "MARGIN_CALL_EXIT"
+				| "DELAYED_TRADE_CLOSURE"
+				| "DAILY_FINANCING"
+				| "RESET_RESETTABLE_PL"
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The ID of the Order who's client extensions are to be modified.
+			 */
+			orderID?: string
+			/** @description The original Client ID of the Order who's client extensions are to be modified. */
+			clientOrderID?: string
+			clientExtensionsModify?: components["schemas"]["ClientExtensions"]
+			tradeClientExtensionsModify?: components["schemas"]["ClientExtensions"]
+			/**
+			 * @description The reason that the Reject Transaction was created
+			 * @enum {string}
+			 */
+			rejectReason?:
+				| "INTERNAL_SERVER_ERROR"
+				| "INSTRUMENT_PRICE_UNKNOWN"
+				| "ACCOUNT_NOT_ACTIVE"
+				| "ACCOUNT_LOCKED"
+				| "ACCOUNT_ORDER_CREATION_LOCKED"
+				| "ACCOUNT_CONFIGURATION_LOCKED"
+				| "ACCOUNT_DEPOSIT_LOCKED"
+				| "ACCOUNT_WITHDRAWAL_LOCKED"
+				| "ACCOUNT_ORDER_CANCEL_LOCKED"
+				| "INSTRUMENT_NOT_TRADEABLE"
+				| "PENDING_ORDERS_ALLOWED_EXCEEDED"
+				| "ORDER_ID_UNSPECIFIED"
+				| "ORDER_DOESNT_EXIST"
+				| "ORDER_IDENTIFIER_INCONSISTENCY"
+				| "TRADE_ID_UNSPECIFIED"
+				| "TRADE_DOESNT_EXIST"
+				| "TRADE_IDENTIFIER_INCONSISTENCY"
+				| "INSUFFICIENT_MARGIN"
+				| "INSTRUMENT_MISSING"
+				| "INSTRUMENT_UNKNOWN"
+				| "UNITS_MISSING"
+				| "UNITS_INVALID"
+				| "UNITS_PRECISION_EXCEEDED"
+				| "UNITS_LIMIT_EXCEEDED"
+				| "UNITS_MIMIMUM_NOT_MET"
+				| "PRICE_MISSING"
+				| "PRICE_INVALID"
+				| "PRICE_PRECISION_EXCEEDED"
+				| "PRICE_DISTANCE_MISSING"
+				| "PRICE_DISTANCE_INVALID"
+				| "PRICE_DISTANCE_PRECISION_EXCEEDED"
+				| "PRICE_DISTANCE_MAXIMUM_EXCEEDED"
+				| "PRICE_DISTANCE_MINIMUM_NOT_MET"
+				| "TIME_IN_FORCE_MISSING"
+				| "TIME_IN_FORCE_INVALID"
+				| "TIME_IN_FORCE_GTD_TIMESTAMP_MISSING"
+				| "TIME_IN_FORCE_GTD_TIMESTAMP_IN_PAST"
+				| "PRICE_BOUND_INVALID"
+				| "PRICE_BOUND_PRECISION_EXCEEDED"
+				| "ORDERS_ON_FILL_DUPLICATE_CLIENT_ORDER_IDS"
+				| "TRADE_ON_FILL_CLIENT_EXTENSIONS_NOT_SUPPORTED"
+				| "CLIENT_ORDER_ID_INVALID"
+				| "CLIENT_ORDER_ID_ALREADY_EXISTS"
+				| "CLIENT_ORDER_TAG_INVALID"
+				| "CLIENT_ORDER_COMMENT_INVALID"
+				| "CLIENT_TRADE_ID_INVALID"
+				| "CLIENT_TRADE_ID_ALREADY_EXISTS"
+				| "CLIENT_TRADE_TAG_INVALID"
+				| "CLIENT_TRADE_COMMENT_INVALID"
+				| "ORDER_FILL_POSITION_ACTION_MISSING"
+				| "ORDER_FILL_POSITION_ACTION_INVALID"
+				| "TRIGGER_CONDITION_MISSING"
+				| "TRIGGER_CONDITION_INVALID"
+				| "ORDER_PARTIAL_FILL_OPTION_MISSING"
+				| "ORDER_PARTIAL_FILL_OPTION_INVALID"
+				| "INVALID_REISSUE_IMMEDIATE_PARTIAL_FILL"
+				| "TAKE_PROFIT_ORDER_ALREADY_EXISTS"
+				| "TAKE_PROFIT_ON_FILL_PRICE_MISSING"
+				| "TAKE_PROFIT_ON_FILL_PRICE_INVALID"
+				| "TAKE_PROFIT_ON_FILL_PRICE_PRECISION_EXCEEDED"
+				| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_MISSING"
+				| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_INVALID"
+				| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_MISSING"
+				| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_IN_PAST"
+				| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_ID_INVALID"
+				| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_TAG_INVALID"
+				| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
+				| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_MISSING"
+				| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_INVALID"
+				| "STOP_LOSS_ORDER_ALREADY_EXISTS"
+				| "STOP_LOSS_ORDER_GUARANTEED_REQUIRED"
+				| "STOP_LOSS_ORDER_GUARANTEED_PRICE_WITHIN_SPREAD"
+				| "STOP_LOSS_ORDER_GUARANTEED_NOT_ALLOWED"
+				| "STOP_LOSS_ORDER_GUARANTEED_HALTED_CREATE_VIOLATION"
+				| "STOP_LOSS_ORDER_GUARANTEED_HALTED_TIGHTEN_VIOLATION"
+				| "STOP_LOSS_ORDER_GUARANTEED_HEDGING_NOT_ALLOWED"
+				| "STOP_LOSS_ORDER_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
+				| "STOP_LOSS_ORDER_NOT_CANCELABLE"
+				| "STOP_LOSS_ORDER_NOT_REPLACEABLE"
+				| "STOP_LOSS_ORDER_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
+				| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
+				| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_MISSING"
+				| "STOP_LOSS_ON_FILL_REQUIRED_FOR_PENDING_ORDER"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_NOT_ALLOWED"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_REQUIRED"
+				| "STOP_LOSS_ON_FILL_PRICE_MISSING"
+				| "STOP_LOSS_ON_FILL_PRICE_INVALID"
+				| "STOP_LOSS_ON_FILL_PRICE_PRECISION_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_DISTANCE_INVALID"
+				| "STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_DISTANCE_PRECISION_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
+				| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_MISSING"
+				| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
+				| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
+				| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
+				| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
+				| "STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
+				| "STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
+				| "STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
+				| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
+				| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
+				| "TRAILING_STOP_LOSS_ORDER_ALREADY_EXISTS"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_PRECISION_EXCEEDED"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MINIMUM_NOT_MET"
+				| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
+				| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
+				| "TRAILING_STOP_LOSS_ORDERS_NOT_SUPPORTED"
+				| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
+				| "CLOSE_TRADE_TYPE_MISSING"
+				| "CLOSE_TRADE_PARTIAL_UNITS_MISSING"
+				| "CLOSE_TRADE_UNITS_EXCEED_TRADE_SIZE"
+				| "CLOSEOUT_POSITION_DOESNT_EXIST"
+				| "CLOSEOUT_POSITION_INCOMPLETE_SPECIFICATION"
+				| "CLOSEOUT_POSITION_UNITS_EXCEED_POSITION_SIZE"
+				| "CLOSEOUT_POSITION_REJECT"
+				| "CLOSEOUT_POSITION_PARTIAL_UNITS_MISSING"
+				| "MARKUP_GROUP_ID_INVALID"
+				| "POSITION_AGGREGATION_MODE_INVALID"
+				| "ADMIN_CONFIGURE_DATA_MISSING"
+				| "MARGIN_RATE_INVALID"
+				| "MARGIN_RATE_WOULD_TRIGGER_CLOSEOUT"
+				| "ALIAS_INVALID"
+				| "CLIENT_CONFIGURE_DATA_MISSING"
+				| "MARGIN_RATE_WOULD_TRIGGER_MARGIN_CALL"
+				| "AMOUNT_INVALID"
+				| "INSUFFICIENT_FUNDS"
+				| "AMOUNT_MISSING"
+				| "FUNDING_REASON_MISSING"
+				| "CLIENT_EXTENSIONS_DATA_MISSING"
+				| "REPLACING_ORDER_INVALID"
+				| "REPLACING_TRADE_ID_INVALID"
+		}
+		/** @description A TradeClientExtensionsModifyTransaction represents the modification of a Trade's Client Extensions. */
+		TradeClientExtensionsModifyTransaction: {
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The Transaction's Identifier.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Transaction was created.
+			 */
+			time?: string
+			/** @description The ID of the user that initiated the creation of the Transaction. */
+			userID?: number
+			/**
+			 * Format: "-"-delimited string with format "{siteID}-{divisionID}-{userID}-{accountNumber}"
+			 * @description The ID of the Account the Transaction was created for.
+			 */
+			accountID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.
+			 */
+			batchID?: string
+			/** @description The Request ID of the request which generated the transaction. */
+			requestID?: string
+			/**
+			 * @description The Type of the Transaction. Always set to "TRADE_CLIENT_EXTENSIONS_MODIFY" for a TradeClientExtensionsModifyTransaction.
+			 * @enum {string}
+			 */
+			type?:
+				| "CREATE"
+				| "CLOSE"
+				| "REOPEN"
+				| "CLIENT_CONFIGURE"
+				| "CLIENT_CONFIGURE_REJECT"
+				| "TRANSFER_FUNDS"
+				| "TRANSFER_FUNDS_REJECT"
+				| "MARKET_ORDER"
+				| "MARKET_ORDER_REJECT"
+				| "FIXED_PRICE_ORDER"
+				| "LIMIT_ORDER"
+				| "LIMIT_ORDER_REJECT"
+				| "STOP_ORDER"
+				| "STOP_ORDER_REJECT"
+				| "MARKET_IF_TOUCHED_ORDER"
+				| "MARKET_IF_TOUCHED_ORDER_REJECT"
+				| "TAKE_PROFIT_ORDER"
+				| "TAKE_PROFIT_ORDER_REJECT"
+				| "STOP_LOSS_ORDER"
+				| "STOP_LOSS_ORDER_REJECT"
+				| "TRAILING_STOP_LOSS_ORDER"
+				| "TRAILING_STOP_LOSS_ORDER_REJECT"
+				| "ORDER_FILL"
+				| "ORDER_CANCEL"
+				| "ORDER_CANCEL_REJECT"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "MARGIN_CALL_ENTER"
+				| "MARGIN_CALL_EXTEND"
+				| "MARGIN_CALL_EXIT"
+				| "DELAYED_TRADE_CLOSURE"
+				| "DAILY_FINANCING"
+				| "RESET_RESETTABLE_PL"
+			/**
+			 * Format: The string representation of the OANDA-assigned TradeID. OANDA-assigned TradeIDs are positive integers, and are derived from the TransactionID of the Transaction that opened the Trade.
+			 * @description The ID of the Trade who's client extensions are to be modified.
+			 */
+			tradeID?: string
+			/** @description The original Client ID of the Trade who's client extensions are to be modified. */
+			clientTradeID?: string
+			tradeClientExtensionsModify?: components["schemas"]["ClientExtensions"]
+		}
+		/** @description A TradeClientExtensionsModifyRejectTransaction represents the rejection of the modification of a Trade's Client Extensions. */
+		TradeClientExtensionsModifyRejectTransaction: {
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The Transaction's Identifier.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Transaction was created.
+			 */
+			time?: string
+			/** @description The ID of the user that initiated the creation of the Transaction. */
+			userID?: number
+			/**
+			 * Format: "-"-delimited string with format "{siteID}-{divisionID}-{userID}-{accountNumber}"
+			 * @description The ID of the Account the Transaction was created for.
+			 */
+			accountID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.
+			 */
+			batchID?: string
+			/** @description The Request ID of the request which generated the transaction. */
+			requestID?: string
+			/**
+			 * @description The Type of the Transaction. Always set to "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT" for a TradeClientExtensionsModifyRejectTransaction.
+			 * @enum {string}
+			 */
+			type?:
+				| "CREATE"
+				| "CLOSE"
+				| "REOPEN"
+				| "CLIENT_CONFIGURE"
+				| "CLIENT_CONFIGURE_REJECT"
+				| "TRANSFER_FUNDS"
+				| "TRANSFER_FUNDS_REJECT"
+				| "MARKET_ORDER"
+				| "MARKET_ORDER_REJECT"
+				| "FIXED_PRICE_ORDER"
+				| "LIMIT_ORDER"
+				| "LIMIT_ORDER_REJECT"
+				| "STOP_ORDER"
+				| "STOP_ORDER_REJECT"
+				| "MARKET_IF_TOUCHED_ORDER"
+				| "MARKET_IF_TOUCHED_ORDER_REJECT"
+				| "TAKE_PROFIT_ORDER"
+				| "TAKE_PROFIT_ORDER_REJECT"
+				| "STOP_LOSS_ORDER"
+				| "STOP_LOSS_ORDER_REJECT"
+				| "TRAILING_STOP_LOSS_ORDER"
+				| "TRAILING_STOP_LOSS_ORDER_REJECT"
+				| "ORDER_FILL"
+				| "ORDER_CANCEL"
+				| "ORDER_CANCEL_REJECT"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "MARGIN_CALL_ENTER"
+				| "MARGIN_CALL_EXTEND"
+				| "MARGIN_CALL_EXIT"
+				| "DELAYED_TRADE_CLOSURE"
+				| "DAILY_FINANCING"
+				| "RESET_RESETTABLE_PL"
+			/**
+			 * Format: The string representation of the OANDA-assigned TradeID. OANDA-assigned TradeIDs are positive integers, and are derived from the TransactionID of the Transaction that opened the Trade.
+			 * @description The ID of the Trade who's client extensions are to be modified.
+			 */
+			tradeID?: string
+			/** @description The original Client ID of the Trade who's client extensions are to be modified. */
+			clientTradeID?: string
+			tradeClientExtensionsModify?: components["schemas"]["ClientExtensions"]
+			/**
+			 * @description The reason that the Reject Transaction was created
+			 * @enum {string}
+			 */
+			rejectReason?:
+				| "INTERNAL_SERVER_ERROR"
+				| "INSTRUMENT_PRICE_UNKNOWN"
+				| "ACCOUNT_NOT_ACTIVE"
+				| "ACCOUNT_LOCKED"
+				| "ACCOUNT_ORDER_CREATION_LOCKED"
+				| "ACCOUNT_CONFIGURATION_LOCKED"
+				| "ACCOUNT_DEPOSIT_LOCKED"
+				| "ACCOUNT_WITHDRAWAL_LOCKED"
+				| "ACCOUNT_ORDER_CANCEL_LOCKED"
+				| "INSTRUMENT_NOT_TRADEABLE"
+				| "PENDING_ORDERS_ALLOWED_EXCEEDED"
+				| "ORDER_ID_UNSPECIFIED"
+				| "ORDER_DOESNT_EXIST"
+				| "ORDER_IDENTIFIER_INCONSISTENCY"
+				| "TRADE_ID_UNSPECIFIED"
+				| "TRADE_DOESNT_EXIST"
+				| "TRADE_IDENTIFIER_INCONSISTENCY"
+				| "INSUFFICIENT_MARGIN"
+				| "INSTRUMENT_MISSING"
+				| "INSTRUMENT_UNKNOWN"
+				| "UNITS_MISSING"
+				| "UNITS_INVALID"
+				| "UNITS_PRECISION_EXCEEDED"
+				| "UNITS_LIMIT_EXCEEDED"
+				| "UNITS_MIMIMUM_NOT_MET"
+				| "PRICE_MISSING"
+				| "PRICE_INVALID"
+				| "PRICE_PRECISION_EXCEEDED"
+				| "PRICE_DISTANCE_MISSING"
+				| "PRICE_DISTANCE_INVALID"
+				| "PRICE_DISTANCE_PRECISION_EXCEEDED"
+				| "PRICE_DISTANCE_MAXIMUM_EXCEEDED"
+				| "PRICE_DISTANCE_MINIMUM_NOT_MET"
+				| "TIME_IN_FORCE_MISSING"
+				| "TIME_IN_FORCE_INVALID"
+				| "TIME_IN_FORCE_GTD_TIMESTAMP_MISSING"
+				| "TIME_IN_FORCE_GTD_TIMESTAMP_IN_PAST"
+				| "PRICE_BOUND_INVALID"
+				| "PRICE_BOUND_PRECISION_EXCEEDED"
+				| "ORDERS_ON_FILL_DUPLICATE_CLIENT_ORDER_IDS"
+				| "TRADE_ON_FILL_CLIENT_EXTENSIONS_NOT_SUPPORTED"
+				| "CLIENT_ORDER_ID_INVALID"
+				| "CLIENT_ORDER_ID_ALREADY_EXISTS"
+				| "CLIENT_ORDER_TAG_INVALID"
+				| "CLIENT_ORDER_COMMENT_INVALID"
+				| "CLIENT_TRADE_ID_INVALID"
+				| "CLIENT_TRADE_ID_ALREADY_EXISTS"
+				| "CLIENT_TRADE_TAG_INVALID"
+				| "CLIENT_TRADE_COMMENT_INVALID"
+				| "ORDER_FILL_POSITION_ACTION_MISSING"
+				| "ORDER_FILL_POSITION_ACTION_INVALID"
+				| "TRIGGER_CONDITION_MISSING"
+				| "TRIGGER_CONDITION_INVALID"
+				| "ORDER_PARTIAL_FILL_OPTION_MISSING"
+				| "ORDER_PARTIAL_FILL_OPTION_INVALID"
+				| "INVALID_REISSUE_IMMEDIATE_PARTIAL_FILL"
+				| "TAKE_PROFIT_ORDER_ALREADY_EXISTS"
+				| "TAKE_PROFIT_ON_FILL_PRICE_MISSING"
+				| "TAKE_PROFIT_ON_FILL_PRICE_INVALID"
+				| "TAKE_PROFIT_ON_FILL_PRICE_PRECISION_EXCEEDED"
+				| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_MISSING"
+				| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_INVALID"
+				| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_MISSING"
+				| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_IN_PAST"
+				| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_ID_INVALID"
+				| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_TAG_INVALID"
+				| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
+				| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_MISSING"
+				| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_INVALID"
+				| "STOP_LOSS_ORDER_ALREADY_EXISTS"
+				| "STOP_LOSS_ORDER_GUARANTEED_REQUIRED"
+				| "STOP_LOSS_ORDER_GUARANTEED_PRICE_WITHIN_SPREAD"
+				| "STOP_LOSS_ORDER_GUARANTEED_NOT_ALLOWED"
+				| "STOP_LOSS_ORDER_GUARANTEED_HALTED_CREATE_VIOLATION"
+				| "STOP_LOSS_ORDER_GUARANTEED_HALTED_TIGHTEN_VIOLATION"
+				| "STOP_LOSS_ORDER_GUARANTEED_HEDGING_NOT_ALLOWED"
+				| "STOP_LOSS_ORDER_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
+				| "STOP_LOSS_ORDER_NOT_CANCELABLE"
+				| "STOP_LOSS_ORDER_NOT_REPLACEABLE"
+				| "STOP_LOSS_ORDER_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
+				| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
+				| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_MISSING"
+				| "STOP_LOSS_ON_FILL_REQUIRED_FOR_PENDING_ORDER"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_NOT_ALLOWED"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_REQUIRED"
+				| "STOP_LOSS_ON_FILL_PRICE_MISSING"
+				| "STOP_LOSS_ON_FILL_PRICE_INVALID"
+				| "STOP_LOSS_ON_FILL_PRICE_PRECISION_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
+				| "STOP_LOSS_ON_FILL_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_DISTANCE_INVALID"
+				| "STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_DISTANCE_PRECISION_EXCEEDED"
+				| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
+				| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_MISSING"
+				| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
+				| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
+				| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
+				| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
+				| "STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
+				| "STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
+				| "STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
+				| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
+				| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
+				| "TRAILING_STOP_LOSS_ORDER_ALREADY_EXISTS"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_PRECISION_EXCEEDED"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
+				| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MINIMUM_NOT_MET"
+				| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
+				| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
+				| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
+				| "TRAILING_STOP_LOSS_ORDERS_NOT_SUPPORTED"
+				| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
+				| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
+				| "CLOSE_TRADE_TYPE_MISSING"
+				| "CLOSE_TRADE_PARTIAL_UNITS_MISSING"
+				| "CLOSE_TRADE_UNITS_EXCEED_TRADE_SIZE"
+				| "CLOSEOUT_POSITION_DOESNT_EXIST"
+				| "CLOSEOUT_POSITION_INCOMPLETE_SPECIFICATION"
+				| "CLOSEOUT_POSITION_UNITS_EXCEED_POSITION_SIZE"
+				| "CLOSEOUT_POSITION_REJECT"
+				| "CLOSEOUT_POSITION_PARTIAL_UNITS_MISSING"
+				| "MARKUP_GROUP_ID_INVALID"
+				| "POSITION_AGGREGATION_MODE_INVALID"
+				| "ADMIN_CONFIGURE_DATA_MISSING"
+				| "MARGIN_RATE_INVALID"
+				| "MARGIN_RATE_WOULD_TRIGGER_CLOSEOUT"
+				| "ALIAS_INVALID"
+				| "CLIENT_CONFIGURE_DATA_MISSING"
+				| "MARGIN_RATE_WOULD_TRIGGER_MARGIN_CALL"
+				| "AMOUNT_INVALID"
+				| "INSUFFICIENT_FUNDS"
+				| "AMOUNT_MISSING"
+				| "FUNDING_REASON_MISSING"
+				| "CLIENT_EXTENSIONS_DATA_MISSING"
+				| "REPLACING_ORDER_INVALID"
+				| "REPLACING_TRADE_ID_INVALID"
+		}
+		/** @description A MarginCallEnterTransaction is created when an Account enters the margin call state. */
+		MarginCallEnterTransaction: {
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The Transaction's Identifier.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Transaction was created.
+			 */
+			time?: string
+			/** @description The ID of the user that initiated the creation of the Transaction. */
+			userID?: number
+			/**
+			 * Format: "-"-delimited string with format "{siteID}-{divisionID}-{userID}-{accountNumber}"
+			 * @description The ID of the Account the Transaction was created for.
+			 */
+			accountID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.
+			 */
+			batchID?: string
+			/** @description The Request ID of the request which generated the transaction. */
+			requestID?: string
+			/**
+			 * @description The Type of the Transaction. Always set to "MARGIN_CALL_ENTER" for an MarginCallEnterTransaction.
+			 * @enum {string}
+			 */
+			type?:
+				| "CREATE"
+				| "CLOSE"
+				| "REOPEN"
+				| "CLIENT_CONFIGURE"
+				| "CLIENT_CONFIGURE_REJECT"
+				| "TRANSFER_FUNDS"
+				| "TRANSFER_FUNDS_REJECT"
+				| "MARKET_ORDER"
+				| "MARKET_ORDER_REJECT"
+				| "FIXED_PRICE_ORDER"
+				| "LIMIT_ORDER"
+				| "LIMIT_ORDER_REJECT"
+				| "STOP_ORDER"
+				| "STOP_ORDER_REJECT"
+				| "MARKET_IF_TOUCHED_ORDER"
+				| "MARKET_IF_TOUCHED_ORDER_REJECT"
+				| "TAKE_PROFIT_ORDER"
+				| "TAKE_PROFIT_ORDER_REJECT"
+				| "STOP_LOSS_ORDER"
+				| "STOP_LOSS_ORDER_REJECT"
+				| "TRAILING_STOP_LOSS_ORDER"
+				| "TRAILING_STOP_LOSS_ORDER_REJECT"
+				| "ORDER_FILL"
+				| "ORDER_CANCEL"
+				| "ORDER_CANCEL_REJECT"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "MARGIN_CALL_ENTER"
+				| "MARGIN_CALL_EXTEND"
+				| "MARGIN_CALL_EXIT"
+				| "DELAYED_TRADE_CLOSURE"
+				| "DAILY_FINANCING"
+				| "RESET_RESETTABLE_PL"
+		}
+		/** @description A MarginCallExtendTransaction is created when the margin call state for an Account has been extended. */
+		MarginCallExtendTransaction: {
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The Transaction's Identifier.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Transaction was created.
+			 */
+			time?: string
+			/** @description The ID of the user that initiated the creation of the Transaction. */
+			userID?: number
+			/**
+			 * Format: "-"-delimited string with format "{siteID}-{divisionID}-{userID}-{accountNumber}"
+			 * @description The ID of the Account the Transaction was created for.
+			 */
+			accountID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.
+			 */
+			batchID?: string
+			/** @description The Request ID of the request which generated the transaction. */
+			requestID?: string
+			/**
+			 * @description The Type of the Transaction. Always set to "MARGIN_CALL_EXTEND" for an MarginCallExtendTransaction.
+			 * @enum {string}
+			 */
+			type?:
+				| "CREATE"
+				| "CLOSE"
+				| "REOPEN"
+				| "CLIENT_CONFIGURE"
+				| "CLIENT_CONFIGURE_REJECT"
+				| "TRANSFER_FUNDS"
+				| "TRANSFER_FUNDS_REJECT"
+				| "MARKET_ORDER"
+				| "MARKET_ORDER_REJECT"
+				| "FIXED_PRICE_ORDER"
+				| "LIMIT_ORDER"
+				| "LIMIT_ORDER_REJECT"
+				| "STOP_ORDER"
+				| "STOP_ORDER_REJECT"
+				| "MARKET_IF_TOUCHED_ORDER"
+				| "MARKET_IF_TOUCHED_ORDER_REJECT"
+				| "TAKE_PROFIT_ORDER"
+				| "TAKE_PROFIT_ORDER_REJECT"
+				| "STOP_LOSS_ORDER"
+				| "STOP_LOSS_ORDER_REJECT"
+				| "TRAILING_STOP_LOSS_ORDER"
+				| "TRAILING_STOP_LOSS_ORDER_REJECT"
+				| "ORDER_FILL"
+				| "ORDER_CANCEL"
+				| "ORDER_CANCEL_REJECT"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "MARGIN_CALL_ENTER"
+				| "MARGIN_CALL_EXTEND"
+				| "MARGIN_CALL_EXIT"
+				| "DELAYED_TRADE_CLOSURE"
+				| "DAILY_FINANCING"
+				| "RESET_RESETTABLE_PL"
+			/** @description The number of the extensions to the Account's current margin call that have been applied. This value will be set to 1 for the first MarginCallExtend Transaction */
+			extensionNumber?: number
+		}
+		/** @description A MarginCallExitnterTransaction is created when an Account leaves the margin call state. */
+		MarginCallExitTransaction: {
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The Transaction's Identifier.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Transaction was created.
+			 */
+			time?: string
+			/** @description The ID of the user that initiated the creation of the Transaction. */
+			userID?: number
+			/**
+			 * Format: "-"-delimited string with format "{siteID}-{divisionID}-{userID}-{accountNumber}"
+			 * @description The ID of the Account the Transaction was created for.
+			 */
+			accountID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.
+			 */
+			batchID?: string
+			/** @description The Request ID of the request which generated the transaction. */
+			requestID?: string
+			/**
+			 * @description The Type of the Transaction. Always set to "MARGIN_CALL_EXIT" for an MarginCallExitTransaction.
+			 * @enum {string}
+			 */
+			type?:
+				| "CREATE"
+				| "CLOSE"
+				| "REOPEN"
+				| "CLIENT_CONFIGURE"
+				| "CLIENT_CONFIGURE_REJECT"
+				| "TRANSFER_FUNDS"
+				| "TRANSFER_FUNDS_REJECT"
+				| "MARKET_ORDER"
+				| "MARKET_ORDER_REJECT"
+				| "FIXED_PRICE_ORDER"
+				| "LIMIT_ORDER"
+				| "LIMIT_ORDER_REJECT"
+				| "STOP_ORDER"
+				| "STOP_ORDER_REJECT"
+				| "MARKET_IF_TOUCHED_ORDER"
+				| "MARKET_IF_TOUCHED_ORDER_REJECT"
+				| "TAKE_PROFIT_ORDER"
+				| "TAKE_PROFIT_ORDER_REJECT"
+				| "STOP_LOSS_ORDER"
+				| "STOP_LOSS_ORDER_REJECT"
+				| "TRAILING_STOP_LOSS_ORDER"
+				| "TRAILING_STOP_LOSS_ORDER_REJECT"
+				| "ORDER_FILL"
+				| "ORDER_CANCEL"
+				| "ORDER_CANCEL_REJECT"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "MARGIN_CALL_ENTER"
+				| "MARGIN_CALL_EXTEND"
+				| "MARGIN_CALL_EXIT"
+				| "DELAYED_TRADE_CLOSURE"
+				| "DAILY_FINANCING"
+				| "RESET_RESETTABLE_PL"
+		}
+		/** @description A DelayedTradeClosure Transaction is created administratively to indicate open trades that should have been closed but weren't because the open trades' instruments were untradeable at the time. Open trades listed in this transaction will be closed once their respective instruments become tradeable. */
+		DelayedTradeClosureTransaction: {
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The Transaction's Identifier.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Transaction was created.
+			 */
+			time?: string
+			/** @description The ID of the user that initiated the creation of the Transaction. */
+			userID?: number
+			/**
+			 * Format: "-"-delimited string with format "{siteID}-{divisionID}-{userID}-{accountNumber}"
+			 * @description The ID of the Account the Transaction was created for.
+			 */
+			accountID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.
+			 */
+			batchID?: string
+			/** @description The Request ID of the request which generated the transaction. */
+			requestID?: string
+			/**
+			 * @description The Type of the Transaction. Always set to "DELAYED_TRADE_CLOSURE" for an DelayedTradeClosureTransaction.
+			 * @enum {string}
+			 */
+			type?:
+				| "CREATE"
+				| "CLOSE"
+				| "REOPEN"
+				| "CLIENT_CONFIGURE"
+				| "CLIENT_CONFIGURE_REJECT"
+				| "TRANSFER_FUNDS"
+				| "TRANSFER_FUNDS_REJECT"
+				| "MARKET_ORDER"
+				| "MARKET_ORDER_REJECT"
+				| "FIXED_PRICE_ORDER"
+				| "LIMIT_ORDER"
+				| "LIMIT_ORDER_REJECT"
+				| "STOP_ORDER"
+				| "STOP_ORDER_REJECT"
+				| "MARKET_IF_TOUCHED_ORDER"
+				| "MARKET_IF_TOUCHED_ORDER_REJECT"
+				| "TAKE_PROFIT_ORDER"
+				| "TAKE_PROFIT_ORDER_REJECT"
+				| "STOP_LOSS_ORDER"
+				| "STOP_LOSS_ORDER_REJECT"
+				| "TRAILING_STOP_LOSS_ORDER"
+				| "TRAILING_STOP_LOSS_ORDER_REJECT"
+				| "ORDER_FILL"
+				| "ORDER_CANCEL"
+				| "ORDER_CANCEL_REJECT"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "MARGIN_CALL_ENTER"
+				| "MARGIN_CALL_EXTEND"
+				| "MARGIN_CALL_EXIT"
+				| "DELAYED_TRADE_CLOSURE"
+				| "DAILY_FINANCING"
+				| "RESET_RESETTABLE_PL"
+			/**
+			 * @description The reason for the delayed trade closure
+			 * @enum {string}
+			 */
+			reason?:
+				| "CLIENT_ORDER"
+				| "TRADE_CLOSE"
+				| "POSITION_CLOSEOUT"
+				| "MARGIN_CLOSEOUT"
+				| "DELAYED_TRADE_CLOSE"
+			/**
+			 * Format: The string representation of the OANDA-assigned TradeID. OANDA-assigned TradeIDs are positive integers, and are derived from the TransactionID of the Transaction that opened the Trade.
+			 * @description List of Trade ID's identifying the open trades that will be closed when their respective instruments become tradeable
+			 */
+			tradeIDs?: string
+		}
+		/** @description A DailyFinancingTransaction represents the daily payment/collection of financing for an Account. */
+		DailyFinancingTransaction: {
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The Transaction's Identifier.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Transaction was created.
+			 */
+			time?: string
+			/** @description The ID of the user that initiated the creation of the Transaction. */
+			userID?: number
+			/**
+			 * Format: "-"-delimited string with format "{siteID}-{divisionID}-{userID}-{accountNumber}"
+			 * @description The ID of the Account the Transaction was created for.
+			 */
+			accountID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.
+			 */
+			batchID?: string
+			/** @description The Request ID of the request which generated the transaction. */
+			requestID?: string
+			/**
+			 * @description The Type of the Transaction. Always set to "DAILY_FINANCING" for a DailyFinancingTransaction.
+			 * @enum {string}
+			 */
+			type?:
+				| "CREATE"
+				| "CLOSE"
+				| "REOPEN"
+				| "CLIENT_CONFIGURE"
+				| "CLIENT_CONFIGURE_REJECT"
+				| "TRANSFER_FUNDS"
+				| "TRANSFER_FUNDS_REJECT"
+				| "MARKET_ORDER"
+				| "MARKET_ORDER_REJECT"
+				| "FIXED_PRICE_ORDER"
+				| "LIMIT_ORDER"
+				| "LIMIT_ORDER_REJECT"
+				| "STOP_ORDER"
+				| "STOP_ORDER_REJECT"
+				| "MARKET_IF_TOUCHED_ORDER"
+				| "MARKET_IF_TOUCHED_ORDER_REJECT"
+				| "TAKE_PROFIT_ORDER"
+				| "TAKE_PROFIT_ORDER_REJECT"
+				| "STOP_LOSS_ORDER"
+				| "STOP_LOSS_ORDER_REJECT"
+				| "TRAILING_STOP_LOSS_ORDER"
+				| "TRAILING_STOP_LOSS_ORDER_REJECT"
+				| "ORDER_FILL"
+				| "ORDER_CANCEL"
+				| "ORDER_CANCEL_REJECT"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "MARGIN_CALL_ENTER"
+				| "MARGIN_CALL_EXTEND"
+				| "MARGIN_CALL_EXIT"
+				| "DELAYED_TRADE_CLOSURE"
+				| "DAILY_FINANCING"
+				| "RESET_RESETTABLE_PL"
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The amount of financing paid/collected for the Account.
+			 */
+			financing?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The Account's balance after daily financing.
+			 */
+			accountBalance?: string
+			/**
+			 * @description The account financing mode at the time of the daily financing.
+			 * @enum {string}
+			 */
+			accountFinancingMode?: "NO_FINANCING" | "SECOND_BY_SECOND" | "DAILY"
+			/** @description The financing paid/collected for each Position in the Account. */
+			positionFinancings?: components["schemas"]["PositionFinancing"][]
+		}
+		/** @description A ResetResettablePLTransaction represents the resetting of the Account's resettable PL counters. */
+		ResetResettablePLTransaction: {
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The Transaction's Identifier.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Transaction was created.
+			 */
+			time?: string
+			/** @description The ID of the user that initiated the creation of the Transaction. */
+			userID?: number
+			/**
+			 * Format: "-"-delimited string with format "{siteID}-{divisionID}-{userID}-{accountNumber}"
+			 * @description The ID of the Account the Transaction was created for.
+			 */
+			accountID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the "batch" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.
+			 */
+			batchID?: string
+			/** @description The Request ID of the request which generated the transaction. */
+			requestID?: string
+			/**
+			 * @description The Type of the Transaction. Always set to "RESET_RESETTABLE_PL" for a ResetResettablePLTransaction.
+			 * @enum {string}
+			 */
+			type?:
+				| "CREATE"
+				| "CLOSE"
+				| "REOPEN"
+				| "CLIENT_CONFIGURE"
+				| "CLIENT_CONFIGURE_REJECT"
+				| "TRANSFER_FUNDS"
+				| "TRANSFER_FUNDS_REJECT"
+				| "MARKET_ORDER"
+				| "MARKET_ORDER_REJECT"
+				| "FIXED_PRICE_ORDER"
+				| "LIMIT_ORDER"
+				| "LIMIT_ORDER_REJECT"
+				| "STOP_ORDER"
+				| "STOP_ORDER_REJECT"
+				| "MARKET_IF_TOUCHED_ORDER"
+				| "MARKET_IF_TOUCHED_ORDER_REJECT"
+				| "TAKE_PROFIT_ORDER"
+				| "TAKE_PROFIT_ORDER_REJECT"
+				| "STOP_LOSS_ORDER"
+				| "STOP_LOSS_ORDER_REJECT"
+				| "TRAILING_STOP_LOSS_ORDER"
+				| "TRAILING_STOP_LOSS_ORDER_REJECT"
+				| "ORDER_FILL"
+				| "ORDER_CANCEL"
+				| "ORDER_CANCEL_REJECT"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY"
+				| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY"
+				| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
+				| "MARGIN_CALL_ENTER"
+				| "MARGIN_CALL_EXTEND"
+				| "MARGIN_CALL_EXIT"
+				| "DELAYED_TRADE_CLOSURE"
+				| "DAILY_FINANCING"
+				| "RESET_RESETTABLE_PL"
+		}
+		/** @description A client-provided identifier, used by clients to refer to their Orders or Trades with an identifier that they have provided. */
+		ClientID: string
+		/** @description A client-provided tag that can contain any data and may be assigned to their Orders or Trades. Tags are typically used to associate groups of Trades and/or Orders together. */
+		ClientTag: string
+		/** @description A client-provided comment that can contain any data and may be assigned to their Orders or Trades. Comments are typically used to provide extra context or meaning to an Order or Trade. */
+		ClientComment: string
+		/** @description A ClientExtensions object allows a client to attach a clientID, tag and comment to Orders and Trades in their Account.  Do not set, modify, or delete this field if your account is associated with MT4. */
+		ClientExtensions: {
+			/** @description The Client ID of the Order/Trade */
+			id?: string
+			/** @description A tag associated with the Order/Trade */
+			tag?: string
+			/** @description A comment associated with the Order/Trade */
+			comment?: string
+		}
+		/** @description TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade. */
+		TakeProfitDetails: {
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The price that the Take Profit Order will be triggered at. Only one of the price and distance fields may be specified.
+			 */
+			price?: string
+			/**
+			 * @description The time in force for the created Take Profit Order. This may only be GTC, GTD or GFD.
+			 * @enum {string}
+			 */
+			timeInForce?: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date when the Take Profit Order will be cancelled on if timeInForce is GTD.
+			 */
+			gtdTime?: string
+			clientExtensions?: components["schemas"]["ClientExtensions"]
+		}
+		/** @description StopLossDetails specifies the details of a Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Stop Loss, or when a Trade's dependent Stop Loss Order is modified directly through the Trade. */
+		StopLossDetails: {
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The price that the Stop Loss Order will be triggered at. Only one of the price and distance fields may be specified.
+			 */
+			price?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description Specifies the distance (in price units) from the Trade's open price to use as the Stop Loss Order price. Only one of the distance and price fields may be specified.
+			 */
+			distance?: string
+			/**
+			 * @description The time in force for the created Stop Loss Order. This may only be GTC, GTD or GFD.
+			 * @enum {string}
+			 */
+			timeInForce?: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date when the Stop Loss Order will be cancelled on if timeInForce is GTD.
+			 */
+			gtdTime?: string
+			clientExtensions?: components["schemas"]["ClientExtensions"]
+			/** @description Flag indicating that the price for the Stop Loss Order is guaranteed. The default value depends on the GuaranteedStopLossOrderMode of the account, if it is REQUIRED, the default will be true, for DISABLED or ENABLED the default is false. */
+			guaranteed?: boolean
+		}
+		/** @description TrailingStopLossDetails specifies the details of a Trailing Stop Loss Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Trailing Stop Loss, or when a Trade's dependent Trailing Stop Loss Order is modified directly through the Trade. */
+		TrailingStopLossDetails: {
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The distance (in price units) from the Trade's fill price that the Trailing Stop Loss Order will be triggered at.
+			 */
+			distance?: string
+			/**
+			 * @description The time in force for the created Trailing Stop Loss Order. This may only be GTC, GTD or GFD.
+			 * @enum {string}
+			 */
+			timeInForce?: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date when the Trailing Stop Loss Order will be cancelled on if timeInForce is GTD.
+			 */
+			gtdTime?: string
+			clientExtensions?: components["schemas"]["ClientExtensions"]
+		}
+		/** @description A TradeOpen object represents a Trade for an instrument that was opened in an Account. It is found embedded in Transactions that affect the position of an instrument in the Account, specifically the OrderFill Transaction. */
+		TradeOpen: {
+			/**
+			 * Format: The string representation of the OANDA-assigned TradeID. OANDA-assigned TradeIDs are positive integers, and are derived from the TransactionID of the Transaction that opened the Trade.
+			 * @description The ID of the Trade that was opened
+			 */
+			tradeID?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The number of units opened by the Trade
+			 */
+			units?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The average price that the units were opened at.
+			 */
+			price?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description This is the fee charged for opening the trade if it has a guaranteed Stop Loss Order attached to it.
+			 */
+			guaranteedExecutionFee?: string
+			clientExtensions?: components["schemas"]["ClientExtensions"]
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The half spread cost for the trade open. This can be a positive or negative value and is represented in the home currency of the Account.
+			 */
+			halfSpreadCost?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The margin required at the time the Trade was created. Note, this is the 'pure' margin required, it is not the 'effective' margin used that factors in the trade risk if a GSLO is attached to the trade.
+			 */
+			initialMarginRequired?: string
+		}
+		/** @description A TradeReduce object represents a Trade for an instrument that was reduced (either partially or fully) in an Account. It is found embedded in Transactions that affect the position of an instrument in the account, specifically the OrderFill Transaction. */
+		TradeReduce: {
+			/**
+			 * Format: The string representation of the OANDA-assigned TradeID. OANDA-assigned TradeIDs are positive integers, and are derived from the TransactionID of the Transaction that opened the Trade.
+			 * @description The ID of the Trade that was reduced or closed
+			 */
+			tradeID?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The number of units that the Trade was reduced by
+			 */
+			units?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The average price that the units were closed at. This price may be clamped for guaranteed Stop Loss Orders.
+			 */
+			price?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The PL realized when reducing the Trade
+			 */
+			realizedPL?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The financing paid/collected when reducing the Trade
+			 */
+			financing?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description This is the fee that is charged for closing the Trade if it has a guaranteed Stop Loss Order attached to it.
+			 */
+			guaranteedExecutionFee?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The half spread cost for the trade reduce/close. This can be a positive or negative value and is represented in the home currency of the Account.
+			 */
+			halfSpreadCost?: string
+		}
+		/** @description A MarketOrderTradeClose specifies the extensions to a Market Order that has been created specifically to close a Trade. */
+		MarketOrderTradeClose: {
+			/**
+			 * Format: The string representation of the OANDA-assigned TradeID. OANDA-assigned TradeIDs are positive integers, and are derived from the TransactionID of the Transaction that opened the Trade.
+			 * @description The ID of the Trade requested to be closed
+			 */
+			tradeID?: string
+			/** @description The client ID of the Trade requested to be closed */
+			clientTradeID?: string
+			/** @description Indication of how much of the Trade to close. Either "ALL", or a DecimalNumber reflection a partial close of the Trade. */
+			units?: string
+		}
+		/** @description Details for the Market Order extensions specific to a Market Order placed that is part of a Market Order Margin Closeout in a client's account */
+		MarketOrderMarginCloseout: {
+			/**
+			 * @description The reason the Market Order was created to perform a margin closeout
+			 * @enum {string}
+			 */
+			reason?:
+				| "MARGIN_CHECK_VIOLATION"
+				| "REGULATORY_MARGIN_CALL_VIOLATION"
+				| "REGULATORY_MARGIN_CHECK_VIOLATION"
+		}
+		/**
+		 * @description The reason that the Market Order was created to perform a margin closeout
+		 * @enum {string}
+		 */
+		MarketOrderMarginCloseoutReason:
+			| "MARGIN_CHECK_VIOLATION"
+			| "REGULATORY_MARGIN_CALL_VIOLATION"
+			| "REGULATORY_MARGIN_CHECK_VIOLATION"
+		/** @description Details for the Market Order extensions specific to a Market Order placed with the intent of fully closing a specific open trade that should have already been closed but wasn't due to halted market conditions */
+		MarketOrderDelayedTradeClose: {
+			/**
+			 * Format: The string representation of the OANDA-assigned TradeID. OANDA-assigned TradeIDs are positive integers, and are derived from the TransactionID of the Transaction that opened the Trade.
+			 * @description The ID of the Trade being closed
+			 */
+			tradeID?: string
+			/**
+			 * Format: The string representation of the OANDA-assigned TradeID. OANDA-assigned TradeIDs are positive integers, and are derived from the TransactionID of the Transaction that opened the Trade.
+			 * @description The Client ID of the Trade being closed
+			 */
+			clientTradeID?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The Transaction ID of the DelayedTradeClosure transaction to which this Delayed Trade Close belongs to
+			 */
+			sourceTransactionID?: string
+		}
+		/** @description A MarketOrderPositionCloseout specifies the extensions to a Market Order when it has been created to closeout a specific Position. */
+		MarketOrderPositionCloseout: {
+			/**
+			 * Format: A string containing the base currency and quote currency delimited by a "_".
+			 * @description The instrument of the Position being closed out.
+			 */
+			instrument?: string
+			/** @description Indication of how much of the Position to close. Either "ALL", or a DecimalNumber reflection a partial close of the Trade. The DecimalNumber must always be positive, and represent a number that doesn't exceed the absolute size of the Position. */
+			units?: string
+		}
+		/** @description A LiquidityRegenerationSchedule indicates how liquidity that is used when filling an Order for an instrument is regenerated following the fill.  A liquidity regeneration schedule will be in effect until the timestamp of its final step, but may be replaced by a schedule created for an Order of the same instrument that is filled while it is still in effect. */
+		LiquidityRegenerationSchedule: {
+			/** @description The steps in the Liquidity Regeneration Schedule */
+			steps?: components["schemas"]["LiquidityRegenerationScheduleStep"][]
+		}
+		/** @description A liquidity regeneration schedule Step indicates the amount of bid and ask liquidity that is used by the Account at a certain time. These amounts will only change at the timestamp of the following step. */
+		LiquidityRegenerationScheduleStep: {
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The timestamp of the schedule step.
+			 */
+			timestamp?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The amount of bid liquidity used at this step in the schedule.
+			 */
+			bidLiquidityUsed?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The amount of ask liquidity used at this step in the schedule.
+			 */
+			askLiquidityUsed?: string
+		}
+		/** @description OpenTradeFinancing is used to pay/collect daily financing charge for an open Trade within an Account */
+		OpenTradeFinancing: {
+			/**
+			 * Format: The string representation of the OANDA-assigned TradeID. OANDA-assigned TradeIDs are positive integers, and are derived from the TransactionID of the Transaction that opened the Trade.
+			 * @description The ID of the Trade that financing is being paid/collected for.
+			 */
+			tradeID?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The amount of financing paid/collected for the Trade.
+			 */
+			financing?: string
+		}
+		/** @description OpenTradeFinancing is used to pay/collect daily financing charge for a Position within an Account */
+		PositionFinancing: {
+			/**
+			 * Format: A string containing the base currency and quote currency delimited by a "_".
+			 * @description The instrument of the Position that financing is being paid/collected for.
+			 */
+			instrument?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on the Account's home currency.
+			 * @description The amount of financing paid/collected for the Position.
+			 */
+			financing?: string
+			/** @description The financing paid/collecte for each open Trade within the Position. */
+			openTradeFinancings?: components["schemas"]["OpenTradeFinancing"][]
+		}
+		/** @description The request identifier. */
+		RequestID: string
+		/** @description A client provided request identifier. */
+		ClientRequestID: string
+		/**
+		 * @description The reason that a Transaction was rejected.
+		 * @enum {string}
+		 */
+		TransactionRejectReason:
+			| "INTERNAL_SERVER_ERROR"
+			| "INSTRUMENT_PRICE_UNKNOWN"
+			| "ACCOUNT_NOT_ACTIVE"
+			| "ACCOUNT_LOCKED"
+			| "ACCOUNT_ORDER_CREATION_LOCKED"
+			| "ACCOUNT_CONFIGURATION_LOCKED"
+			| "ACCOUNT_DEPOSIT_LOCKED"
+			| "ACCOUNT_WITHDRAWAL_LOCKED"
+			| "ACCOUNT_ORDER_CANCEL_LOCKED"
+			| "INSTRUMENT_NOT_TRADEABLE"
+			| "PENDING_ORDERS_ALLOWED_EXCEEDED"
+			| "ORDER_ID_UNSPECIFIED"
+			| "ORDER_DOESNT_EXIST"
+			| "ORDER_IDENTIFIER_INCONSISTENCY"
+			| "TRADE_ID_UNSPECIFIED"
+			| "TRADE_DOESNT_EXIST"
+			| "TRADE_IDENTIFIER_INCONSISTENCY"
+			| "INSUFFICIENT_MARGIN"
+			| "INSTRUMENT_MISSING"
+			| "INSTRUMENT_UNKNOWN"
+			| "UNITS_MISSING"
+			| "UNITS_INVALID"
+			| "UNITS_PRECISION_EXCEEDED"
+			| "UNITS_LIMIT_EXCEEDED"
+			| "UNITS_MIMIMUM_NOT_MET"
+			| "PRICE_MISSING"
+			| "PRICE_INVALID"
+			| "PRICE_PRECISION_EXCEEDED"
+			| "PRICE_DISTANCE_MISSING"
+			| "PRICE_DISTANCE_INVALID"
+			| "PRICE_DISTANCE_PRECISION_EXCEEDED"
+			| "PRICE_DISTANCE_MAXIMUM_EXCEEDED"
+			| "PRICE_DISTANCE_MINIMUM_NOT_MET"
+			| "TIME_IN_FORCE_MISSING"
+			| "TIME_IN_FORCE_INVALID"
+			| "TIME_IN_FORCE_GTD_TIMESTAMP_MISSING"
+			| "TIME_IN_FORCE_GTD_TIMESTAMP_IN_PAST"
+			| "PRICE_BOUND_INVALID"
+			| "PRICE_BOUND_PRECISION_EXCEEDED"
+			| "ORDERS_ON_FILL_DUPLICATE_CLIENT_ORDER_IDS"
+			| "TRADE_ON_FILL_CLIENT_EXTENSIONS_NOT_SUPPORTED"
+			| "CLIENT_ORDER_ID_INVALID"
+			| "CLIENT_ORDER_ID_ALREADY_EXISTS"
+			| "CLIENT_ORDER_TAG_INVALID"
+			| "CLIENT_ORDER_COMMENT_INVALID"
+			| "CLIENT_TRADE_ID_INVALID"
+			| "CLIENT_TRADE_ID_ALREADY_EXISTS"
+			| "CLIENT_TRADE_TAG_INVALID"
+			| "CLIENT_TRADE_COMMENT_INVALID"
+			| "ORDER_FILL_POSITION_ACTION_MISSING"
+			| "ORDER_FILL_POSITION_ACTION_INVALID"
+			| "TRIGGER_CONDITION_MISSING"
+			| "TRIGGER_CONDITION_INVALID"
+			| "ORDER_PARTIAL_FILL_OPTION_MISSING"
+			| "ORDER_PARTIAL_FILL_OPTION_INVALID"
+			| "INVALID_REISSUE_IMMEDIATE_PARTIAL_FILL"
+			| "TAKE_PROFIT_ORDER_ALREADY_EXISTS"
+			| "TAKE_PROFIT_ON_FILL_PRICE_MISSING"
+			| "TAKE_PROFIT_ON_FILL_PRICE_INVALID"
+			| "TAKE_PROFIT_ON_FILL_PRICE_PRECISION_EXCEEDED"
+			| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_MISSING"
+			| "TAKE_PROFIT_ON_FILL_TIME_IN_FORCE_INVALID"
+			| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_MISSING"
+			| "TAKE_PROFIT_ON_FILL_GTD_TIMESTAMP_IN_PAST"
+			| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_ID_INVALID"
+			| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_TAG_INVALID"
+			| "TAKE_PROFIT_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
+			| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_MISSING"
+			| "TAKE_PROFIT_ON_FILL_TRIGGER_CONDITION_INVALID"
+			| "STOP_LOSS_ORDER_ALREADY_EXISTS"
+			| "STOP_LOSS_ORDER_GUARANTEED_REQUIRED"
+			| "STOP_LOSS_ORDER_GUARANTEED_PRICE_WITHIN_SPREAD"
+			| "STOP_LOSS_ORDER_GUARANTEED_NOT_ALLOWED"
+			| "STOP_LOSS_ORDER_GUARANTEED_HALTED_CREATE_VIOLATION"
+			| "STOP_LOSS_ORDER_GUARANTEED_HALTED_TIGHTEN_VIOLATION"
+			| "STOP_LOSS_ORDER_GUARANTEED_HEDGING_NOT_ALLOWED"
+			| "STOP_LOSS_ORDER_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
+			| "STOP_LOSS_ORDER_NOT_CANCELABLE"
+			| "STOP_LOSS_ORDER_NOT_REPLACEABLE"
+			| "STOP_LOSS_ORDER_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
+			| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
+			| "STOP_LOSS_ORDER_PRICE_AND_DISTANCE_BOTH_MISSING"
+			| "STOP_LOSS_ON_FILL_REQUIRED_FOR_PENDING_ORDER"
+			| "STOP_LOSS_ON_FILL_GUARANTEED_NOT_ALLOWED"
+			| "STOP_LOSS_ON_FILL_GUARANTEED_REQUIRED"
+			| "STOP_LOSS_ON_FILL_PRICE_MISSING"
+			| "STOP_LOSS_ON_FILL_PRICE_INVALID"
+			| "STOP_LOSS_ON_FILL_PRICE_PRECISION_EXCEEDED"
+			| "STOP_LOSS_ON_FILL_GUARANTEED_MINIMUM_DISTANCE_NOT_MET"
+			| "STOP_LOSS_ON_FILL_GUARANTEED_LEVEL_RESTRICTION_EXCEEDED"
+			| "STOP_LOSS_ON_FILL_DISTANCE_INVALID"
+			| "STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
+			| "STOP_LOSS_ON_FILL_DISTANCE_PRECISION_EXCEEDED"
+			| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_SPECIFIED"
+			| "STOP_LOSS_ON_FILL_PRICE_AND_DISTANCE_BOTH_MISSING"
+			| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
+			| "STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
+			| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
+			| "STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
+			| "STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
+			| "STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
+			| "STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
+			| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
+			| "STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
+			| "TRAILING_STOP_LOSS_ORDER_ALREADY_EXISTS"
+			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MISSING"
+			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_INVALID"
+			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_PRECISION_EXCEEDED"
+			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MAXIMUM_EXCEEDED"
+			| "TRAILING_STOP_LOSS_ON_FILL_PRICE_DISTANCE_MINIMUM_NOT_MET"
+			| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_MISSING"
+			| "TRAILING_STOP_LOSS_ON_FILL_TIME_IN_FORCE_INVALID"
+			| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_MISSING"
+			| "TRAILING_STOP_LOSS_ON_FILL_GTD_TIMESTAMP_IN_PAST"
+			| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_ID_INVALID"
+			| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_TAG_INVALID"
+			| "TRAILING_STOP_LOSS_ON_FILL_CLIENT_ORDER_COMMENT_INVALID"
+			| "TRAILING_STOP_LOSS_ORDERS_NOT_SUPPORTED"
+			| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_MISSING"
+			| "TRAILING_STOP_LOSS_ON_FILL_TRIGGER_CONDITION_INVALID"
+			| "CLOSE_TRADE_TYPE_MISSING"
+			| "CLOSE_TRADE_PARTIAL_UNITS_MISSING"
+			| "CLOSE_TRADE_UNITS_EXCEED_TRADE_SIZE"
+			| "CLOSEOUT_POSITION_DOESNT_EXIST"
+			| "CLOSEOUT_POSITION_INCOMPLETE_SPECIFICATION"
+			| "CLOSEOUT_POSITION_UNITS_EXCEED_POSITION_SIZE"
+			| "CLOSEOUT_POSITION_REJECT"
+			| "CLOSEOUT_POSITION_PARTIAL_UNITS_MISSING"
+			| "MARKUP_GROUP_ID_INVALID"
+			| "POSITION_AGGREGATION_MODE_INVALID"
+			| "ADMIN_CONFIGURE_DATA_MISSING"
+			| "MARGIN_RATE_INVALID"
+			| "MARGIN_RATE_WOULD_TRIGGER_CLOSEOUT"
+			| "ALIAS_INVALID"
+			| "CLIENT_CONFIGURE_DATA_MISSING"
+			| "MARGIN_RATE_WOULD_TRIGGER_MARGIN_CALL"
+			| "AMOUNT_INVALID"
+			| "INSUFFICIENT_FUNDS"
+			| "AMOUNT_MISSING"
+			| "FUNDING_REASON_MISSING"
+			| "CLIENT_EXTENSIONS_DATA_MISSING"
+			| "REPLACING_ORDER_INVALID"
+			| "REPLACING_TRADE_ID_INVALID"
+		/**
+		 * @description A filter that can be used when fetching Transactions
+		 * @enum {string}
+		 */
+		TransactionFilter:
+			| "ORDER"
+			| "FUNDING"
+			| "ADMIN"
+			| "CREATE"
+			| "CLOSE"
+			| "REOPEN"
+			| "CLIENT_CONFIGURE"
+			| "CLIENT_CONFIGURE_REJECT"
+			| "TRANSFER_FUNDS"
+			| "TRANSFER_FUNDS_REJECT"
+			| "MARKET_ORDER"
+			| "MARKET_ORDER_REJECT"
+			| "LIMIT_ORDER"
+			| "LIMIT_ORDER_REJECT"
+			| "STOP_ORDER"
+			| "STOP_ORDER_REJECT"
+			| "MARKET_IF_TOUCHED_ORDER"
+			| "MARKET_IF_TOUCHED_ORDER_REJECT"
+			| "TAKE_PROFIT_ORDER"
+			| "TAKE_PROFIT_ORDER_REJECT"
+			| "STOP_LOSS_ORDER"
+			| "STOP_LOSS_ORDER_REJECT"
+			| "TRAILING_STOP_LOSS_ORDER"
+			| "TRAILING_STOP_LOSS_ORDER_REJECT"
+			| "ONE_CANCELS_ALL_ORDER"
+			| "ONE_CANCELS_ALL_ORDER_REJECT"
+			| "ONE_CANCELS_ALL_ORDER_TRIGGERED"
+			| "ORDER_FILL"
+			| "ORDER_CANCEL"
+			| "ORDER_CANCEL_REJECT"
+			| "ORDER_CLIENT_EXTENSIONS_MODIFY"
+			| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
+			| "TRADE_CLIENT_EXTENSIONS_MODIFY"
+			| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
+			| "MARGIN_CALL_ENTER"
+			| "MARGIN_CALL_EXTEND"
+			| "MARGIN_CALL_EXIT"
+			| "DELAYED_TRADE_CLOSURE"
+			| "DAILY_FINANCING"
+			| "RESET_RESETTABLE_PL"
+		/** @description A TransactionHeartbeat object is injected into the Transaction stream to ensure that the HTTP connection remains active. */
+		TransactionHeartbeat: {
+			/** @description The string "HEARTBEAT" */
+			type?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description The ID of the most recent Transaction created for the Account
+			 */
+			lastTransactionID?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the TransactionHeartbeat was created.
+			 */
+			time?: string
+		}
+		/**
+		 * Format: A user specifier may have one of 3 formats: the OANDA-assigned User ID (numerical), the client-provided username prefixed by the "@" symbol (e.g. "@myusername"), or the "@" symbol. The "@" symbol on its own acts as an alias for the username of the user accessing the endpoint (as inferred from the token provided).
+		 * @description The specifier that refers to a User
+		 */
+		UserSpecifier: string
+		/** @description A representation of user information, as provided to the user themself. */
+		UserInfo: {
+			/** @description The user-provided username. */
+			username?: string
+			/** @description The user's OANDA-assigned user ID. */
+			userID?: number
+			/** @description The country that the user is based in. */
+			country?: string
+			/** @description The user's email address. */
+			emailAddress?: string
+		}
+		/** @description A representation of user information, as available to external (3rd party) clients. */
+		UserInfoExternal: {
+			/** @description The user's OANDA-assigned user ID. */
+			userID?: number
+			/** @description The country that the user is based in. */
+			country?: string
+			/** @description Flag indicating if the the user's Accounts adhere to FIFO execution rules. */
+			FIFO?: boolean
+		}
+		/** @description The specification of an Account-specific Price. */
+		ClientPrice: {
+			/** @description The string "PRICE". Used to identify the a Price object when found in a stream. */
+			type?: string
+			/**
+			 * Format: A string containing the base currency and quote currency delimited by a "_".
+			 * @description The Price's Instrument.
+			 */
+			instrument?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Price was created
+			 */
+			time?: string
+			/**
+			 * @description The status of the Price.
+			 * @enum {string}
+			 */
+			status?: "tradeable" | "non-tradeable" | "invalid"
+			/** @description Flag indicating if the Price is tradeable or not */
+			tradeable?: boolean
+			/** @description The list of prices and liquidity available on the Instrument's bid side. It is possible for this list to be empty if there is no bid liquidity currently available for the Instrument in the Account. */
+			bids?: components["schemas"]["PriceBucket"][]
+			/** @description The list of prices and liquidity available on the Instrument's ask side. It is possible for this list to be empty if there is no ask liquidity currently available for the Instrument in the Account. */
+			asks?: components["schemas"]["PriceBucket"][]
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The closeout bid Price. This Price is used when a bid is required to closeout a Position (margin closeout or manual) yet there is no bid liquidity. The closeout bid is never used to open a new position.
+			 */
+			closeoutBid?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The closeout ask Price. This Price is used when a ask is required to closeout a Position (margin closeout or manual) yet there is no ask liquidity. The closeout ask is never used to open a new position.
+			 */
+			closeoutAsk?: string
+			quoteHomeConversionFactors?: components["schemas"]["QuoteHomeConversionFactors"]
+			unitsAvailable?: components["schemas"]["UnitsAvailable"]
+		}
+		/**
+		 * @description The status of the Price.
+		 * @enum {string}
+		 */
+		PriceStatus: "tradeable" | "non-tradeable" | "invalid"
+		/** @description QuoteHomeConversionFactors represents the factors that can be used used to convert quantities of a Price's Instrument's quote currency into the Account's home currency. */
+		QuoteHomeConversionFactors: {
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The factor used to convert a positive amount of the Price's Instrument's quote currency into a positive amount of the Account's home currency.  Conversion is performed by multiplying the quote units by the conversion factor.
+			 */
+			positiveUnits?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The factor used to convert a negative amount of the Price's Instrument's quote currency into a negative amount of the Account's home currency.  Conversion is performed by multiplying the quote units by the conversion factor.
+			 */
+			negativeUnits?: string
+		}
+		/** @description HomeConversions represents the factors to use to convert quantities of a given currency into the Account's home currency. The conversion factor depends on the scenario the conversion is required for. */
+		HomeConversions: {
+			/**
+			 * Format: A string containing an ISO 4217 currency (http://en.wikipedia.org/wiki/ISO_4217)
+			 * @description The currency to be converted into the home currency.
+			 */
+			currency?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The factor used to convert any gains for an Account in the specified currency into the Account's home currency. This would include positive realized P/L and positive financing amounts. Conversion is performed by multiplying the positive P/L by the conversion factor.
+			 */
+			accountGain?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The string representation of a decimal number.
+			 */
+			accountLoss?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The factor used to convert a Position or Trade Value in the specified currency into the Account's home currency. Conversion is performed by multiplying the Position or Trade Value by the conversion factor.
+			 */
+			positionValue?: string
+		}
+		/** @description A PricingHeartbeat object is injected into the Pricing stream to ensure that the HTTP connection remains active. */
+		PricingHeartbeat: {
+			/** @description The string "HEARTBEAT" */
+			type?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Heartbeat was created.
+			 */
+			time?: string
+		}
+		/**
+		 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+		 * @description The Order's identifier, unique within the Order's Account.
+		 */
+		OrderID: string
+		/**
+		 * @description The type of the Order.
+		 * @enum {string}
+		 */
+		OrderType:
+			| "MARKET"
+			| "LIMIT"
+			| "STOP"
+			| "MARKET_IF_TOUCHED"
+			| "TAKE_PROFIT"
+			| "STOP_LOSS"
+			| "TRAILING_STOP_LOSS"
+			| "FIXED_PRICE"
+		/**
+		 * @description The type of the Order.
+		 * @enum {string}
+		 */
+		CancellableOrderType:
+			| "LIMIT"
+			| "STOP"
+			| "MARKET_IF_TOUCHED"
+			| "TAKE_PROFIT"
+			| "STOP_LOSS"
+			| "TRAILING_STOP_LOSS"
+		/**
+		 * @description The current state of the Order.
+		 * @enum {string}
+		 */
+		OrderState: "PENDING" | "FILLED" | "TRIGGERED" | "CANCELLED"
+		/**
+		 * @description The state to filter the requested Orders by.
+		 * @enum {string}
+		 */
+		OrderStateFilter: "PENDING" | "FILLED" | "TRIGGERED" | "CANCELLED" | "ALL"
+		/** @description An OrderIdentifier is used to refer to an Order, and contains both the OrderID and the ClientOrderID. */
+		OrderIdentifier: {
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The OANDA-assigned Order ID
+			 */
+			orderID?: string
+			/** @description The client-provided client Order ID */
+			clientOrderID?: string
+		}
+		/**
+		 * Format: Either the Order's OANDA-assigned OrderID or the Order's client-provided ClientID prefixed by the "@" symbol
+		 * @description The specification of an Order as referred to by clients
+		 */
+		OrderSpecifier: string
+		/**
+		 * @description The time-in-force of an Order. TimeInForce describes how long an Order should remain pending before being automatically cancelled by the execution system.
+		 * @enum {string}
+		 */
+		TimeInForce: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
+		/**
+		 * @description Specification of how Positions in the Account are modified when the Order is filled.
+		 * @enum {string}
+		 */
+		OrderPositionFill: "OPEN_ONLY" | "REDUCE_FIRST" | "REDUCE_ONLY" | "DEFAULT"
+		/**
+		 * @description Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.
+		 *     This feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.
+		 *     A special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be "DEFAULT", or the "natural" trigger side "DEFAULT" results in. So for a Stop Loss Order for a long trade valid values are "DEFAULT" and "BID", and for short trades "DEFAULT" and "ASK" are valid.
+		 * @enum {string}
+		 */
+		OrderTriggerCondition: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
+		/** @description The dynamic state of an Order. This is only relevant to TrailingStopLoss Orders, as no other Order type has dynamic state. */
+		DynamicOrderState: {
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The Order's ID.
+			 */
+			id?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The Order's calculated trailing stop value.
+			 */
+			trailingStopValue?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The distance between the Trailing Stop Loss Order's trailingStopValue and the current Market Price. This represents the distance (in price units) of the Order from a triggering price. If the distance could not be determined, this value will not be set.
+			 */
+			triggerDistance?: string
+			/** @description True if an exact trigger distance could be calculated. If false, it means the provided trigger distance is a best estimate. If the distance could not be determined, this value will not be set. */
+			isTriggerDistanceExact?: boolean
+		}
+		/** @description The base Order definition specifies the properties that are common to all Orders. */
+		Order: {
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The Order's identifier, unique within the Order's Account.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The time when the Order was created.
+			 */
+			createTime?: string
+			/**
+			 * @description The current state of the Order.
+			 * @enum {string}
+			 */
+			state?: "PENDING" | "FILLED" | "TRIGGERED" | "CANCELLED"
+			clientExtensions?: components["schemas"]["ClientExtensions"]
+		}
+		/** @description A MarketOrder is an order that is filled immediately upon creation using the current market price. */
+		MarketOrder: {
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The Order's identifier, unique within the Order's Account.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The time when the Order was created.
+			 */
+			createTime?: string
+			/**
+			 * @description The current state of the Order.
+			 * @enum {string}
+			 */
+			state?: "PENDING" | "FILLED" | "TRIGGERED" | "CANCELLED"
+			clientExtensions?: components["schemas"]["ClientExtensions"]
+			/**
+			 * @description The type of the Order. Always set to "MARKET" for Market Orders.
+			 * @enum {string}
+			 */
+			type?:
+				| "MARKET"
+				| "LIMIT"
+				| "STOP"
+				| "MARKET_IF_TOUCHED"
+				| "TAKE_PROFIT"
+				| "STOP_LOSS"
+				| "TRAILING_STOP_LOSS"
+				| "FIXED_PRICE"
+			/**
+			 * Format: A string containing the base currency and quote currency delimited by a "_".
+			 * @description The Market Order's Instrument.
+			 */
+			instrument?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The quantity requested to be filled by the Market Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.
+			 */
+			units?: string
+			/**
+			 * @description The time-in-force requested for the Market Order. Restricted to FOK or IOC for a MarketOrder.
+			 * @enum {string}
+			 */
+			timeInForce?: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The worst price that the client is willing to have the Market Order filled at.
+			 */
+			priceBound?: string
+			/**
+			 * @description Specification of how Positions in the Account are modified when the Order is filled.
+			 * @enum {string}
+			 */
+			positionFill?: "OPEN_ONLY" | "REDUCE_FIRST" | "REDUCE_ONLY" | "DEFAULT"
+			tradeClose?: components["schemas"]["MarketOrderTradeClose"]
+			longPositionCloseout?: components["schemas"]["MarketOrderPositionCloseout"]
+			shortPositionCloseout?: components["schemas"]["MarketOrderPositionCloseout"]
+			marginCloseout?: components["schemas"]["MarketOrderMarginCloseout"]
+			delayedTradeClose?: components["schemas"]["MarketOrderDelayedTradeClose"]
+			takeProfitOnFill?: components["schemas"]["TakeProfitDetails"]
+			stopLossOnFill?: components["schemas"]["StopLossDetails"]
+			trailingStopLossOnFill?: components["schemas"]["TrailingStopLossDetails"]
+			tradeClientExtensions?: components["schemas"]["ClientExtensions"]
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)
+			 */
+			fillingTransactionID?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description Date/time when the Order was filled (only provided when the Order's state is FILLED)
+			 */
+			filledTime?: string
+			/**
+			 * Format: The string representation of the OANDA-assigned TradeID. OANDA-assigned TradeIDs are positive integers, and are derived from the TransactionID of the Transaction that opened the Trade.
+			 * @description Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)
+			 */
+			tradeOpenedID?: string
+			/**
+			 * Format: The string representation of the OANDA-assigned TradeID. OANDA-assigned TradeIDs are positive integers, and are derived from the TransactionID of the Transaction that opened the Trade.
+			 * @description Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)
+			 */
+			tradeReducedID?: string
+			/** @description Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill) */
+			tradeClosedIDs?: string[]
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)
+			 */
+			cancellingTransactionID?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)
+			 */
+			cancelledTime?: string
+		}
+		/** @description A FixedPriceOrder is an order that is filled immediately upon creation using a fixed price. */
+		FixedPriceOrder: {
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The Order's identifier, unique within the Order's Account.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The time when the Order was created.
+			 */
+			createTime?: string
+			/**
+			 * @description The current state of the Order.
+			 * @enum {string}
+			 */
+			state?: "PENDING" | "FILLED" | "TRIGGERED" | "CANCELLED"
+			clientExtensions?: components["schemas"]["ClientExtensions"]
+			/**
+			 * @description The type of the Order. Always set to "FIXED_PRICE" for Fixed Price Orders.
+			 * @enum {string}
+			 */
+			type?:
+				| "MARKET"
+				| "LIMIT"
+				| "STOP"
+				| "MARKET_IF_TOUCHED"
+				| "TAKE_PROFIT"
+				| "STOP_LOSS"
+				| "TRAILING_STOP_LOSS"
+				| "FIXED_PRICE"
+			/**
+			 * Format: A string containing the base currency and quote currency delimited by a "_".
+			 * @description The Fixed Price Order's Instrument.
+			 */
+			instrument?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The quantity requested to be filled by the Fixed Price Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.
+			 */
+			units?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The price specified for the Fixed Price Order. This price is the exact price that the Fixed Price Order will be filled at.
+			 */
+			price?: string
+			/**
+			 * @description Specification of how Positions in the Account are modified when the Order is filled.
+			 * @enum {string}
+			 */
+			positionFill?: "OPEN_ONLY" | "REDUCE_FIRST" | "REDUCE_ONLY" | "DEFAULT"
+			/** @description The state that the trade resulting from the Fixed Price Order should be set to. */
+			tradeState?: string
+			takeProfitOnFill?: components["schemas"]["TakeProfitDetails"]
+			stopLossOnFill?: components["schemas"]["StopLossDetails"]
+			trailingStopLossOnFill?: components["schemas"]["TrailingStopLossDetails"]
+			tradeClientExtensions?: components["schemas"]["ClientExtensions"]
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)
+			 */
+			fillingTransactionID?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description Date/time when the Order was filled (only provided when the Order's state is FILLED)
+			 */
+			filledTime?: string
+			/**
+			 * Format: The string representation of the OANDA-assigned TradeID. OANDA-assigned TradeIDs are positive integers, and are derived from the TransactionID of the Transaction that opened the Trade.
+			 * @description Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)
+			 */
+			tradeOpenedID?: string
+			/**
+			 * Format: The string representation of the OANDA-assigned TradeID. OANDA-assigned TradeIDs are positive integers, and are derived from the TransactionID of the Transaction that opened the Trade.
+			 * @description Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)
+			 */
+			tradeReducedID?: string
+			/** @description Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill) */
+			tradeClosedIDs?: string[]
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)
+			 */
+			cancellingTransactionID?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)
+			 */
+			cancelledTime?: string
+		}
+		/** @description A LimitOrder is an order that is created with a price threshold, and will only be filled by a price that is equal to or better than the threshold. */
+		LimitOrder: {
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The Order's identifier, unique within the Order's Account.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The time when the Order was created.
+			 */
+			createTime?: string
+			/**
+			 * @description The current state of the Order.
+			 * @enum {string}
+			 */
+			state?: "PENDING" | "FILLED" | "TRIGGERED" | "CANCELLED"
+			clientExtensions?: components["schemas"]["ClientExtensions"]
+			/**
+			 * @description The type of the Order. Always set to "LIMIT" for Limit Orders.
+			 * @enum {string}
+			 */
+			type?:
+				| "MARKET"
+				| "LIMIT"
+				| "STOP"
+				| "MARKET_IF_TOUCHED"
+				| "TAKE_PROFIT"
+				| "STOP_LOSS"
+				| "TRAILING_STOP_LOSS"
+				| "FIXED_PRICE"
+			/**
+			 * Format: A string containing the base currency and quote currency delimited by a "_".
+			 * @description The Limit Order's Instrument.
+			 */
+			instrument?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The quantity requested to be filled by the Limit Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.
+			 */
+			units?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The price threshold specified for the Limit Order. The Limit Order will only be filled by a market price that is equal to or better than this price.
+			 */
+			price?: string
+			/**
+			 * @description The time-in-force requested for the Limit Order.
+			 * @enum {string}
+			 */
+			timeInForce?: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Limit Order will be cancelled if its timeInForce is "GTD".
+			 */
+			gtdTime?: string
+			/**
+			 * @description Specification of how Positions in the Account are modified when the Order is filled.
+			 * @enum {string}
+			 */
+			positionFill?: "OPEN_ONLY" | "REDUCE_FIRST" | "REDUCE_ONLY" | "DEFAULT"
+			/**
+			 * @description Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.
+			 *     This feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.
+			 *     A special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be "DEFAULT", or the "natural" trigger side "DEFAULT" results in. So for a Stop Loss Order for a long trade valid values are "DEFAULT" and "BID", and for short trades "DEFAULT" and "ASK" are valid.
+			 * @enum {string}
+			 */
+			triggerCondition?: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
+			takeProfitOnFill?: components["schemas"]["TakeProfitDetails"]
+			stopLossOnFill?: components["schemas"]["StopLossDetails"]
+			trailingStopLossOnFill?: components["schemas"]["TrailingStopLossDetails"]
+			tradeClientExtensions?: components["schemas"]["ClientExtensions"]
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)
+			 */
+			fillingTransactionID?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description Date/time when the Order was filled (only provided when the Order's state is FILLED)
+			 */
+			filledTime?: string
+			/**
+			 * Format: The string representation of the OANDA-assigned TradeID. OANDA-assigned TradeIDs are positive integers, and are derived from the TransactionID of the Transaction that opened the Trade.
+			 * @description Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)
+			 */
+			tradeOpenedID?: string
+			/**
+			 * Format: The string representation of the OANDA-assigned TradeID. OANDA-assigned TradeIDs are positive integers, and are derived from the TransactionID of the Transaction that opened the Trade.
+			 * @description Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)
+			 */
+			tradeReducedID?: string
+			/** @description Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill) */
+			tradeClosedIDs?: string[]
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)
+			 */
+			cancellingTransactionID?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)
+			 */
+			cancelledTime?: string
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace).
+			 */
+			replacesOrderID?: string
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace).
+			 */
+			replacedByOrderID?: string
+		}
+		/** @description A StopOrder is an order that is created with a price threshold, and will only be filled by a price that is equal to or worse than the threshold. */
+		StopOrder: {
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The Order's identifier, unique within the Order's Account.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The time when the Order was created.
+			 */
+			createTime?: string
+			/**
+			 * @description The current state of the Order.
+			 * @enum {string}
+			 */
+			state?: "PENDING" | "FILLED" | "TRIGGERED" | "CANCELLED"
+			clientExtensions?: components["schemas"]["ClientExtensions"]
+			/**
+			 * @description The type of the Order. Always set to "STOP" for Stop Orders.
+			 * @enum {string}
+			 */
+			type?:
+				| "MARKET"
+				| "LIMIT"
+				| "STOP"
+				| "MARKET_IF_TOUCHED"
+				| "TAKE_PROFIT"
+				| "STOP_LOSS"
+				| "TRAILING_STOP_LOSS"
+				| "FIXED_PRICE"
+			/**
+			 * Format: A string containing the base currency and quote currency delimited by a "_".
+			 * @description The Stop Order's Instrument.
+			 */
+			instrument?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The quantity requested to be filled by the Stop Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.
+			 */
+			units?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The price threshold specified for the Stop Order. The Stop Order will only be filled by a market price that is equal to or worse than this price.
+			 */
+			price?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The worst market price that may be used to fill this Stop Order. If the market gaps and crosses through both the price and the priceBound, the Stop Order will be cancelled instead of being filled.
+			 */
+			priceBound?: string
+			/**
+			 * @description The time-in-force requested for the Stop Order.
+			 * @enum {string}
+			 */
+			timeInForce?: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Stop Order will be cancelled if its timeInForce is "GTD".
+			 */
+			gtdTime?: string
+			/**
+			 * @description Specification of how Positions in the Account are modified when the Order is filled.
+			 * @enum {string}
+			 */
+			positionFill?: "OPEN_ONLY" | "REDUCE_FIRST" | "REDUCE_ONLY" | "DEFAULT"
+			/**
+			 * @description Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.
+			 *     This feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.
+			 *     A special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be "DEFAULT", or the "natural" trigger side "DEFAULT" results in. So for a Stop Loss Order for a long trade valid values are "DEFAULT" and "BID", and for short trades "DEFAULT" and "ASK" are valid.
+			 * @enum {string}
+			 */
+			triggerCondition?: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
+			takeProfitOnFill?: components["schemas"]["TakeProfitDetails"]
+			stopLossOnFill?: components["schemas"]["StopLossDetails"]
+			trailingStopLossOnFill?: components["schemas"]["TrailingStopLossDetails"]
+			tradeClientExtensions?: components["schemas"]["ClientExtensions"]
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)
+			 */
+			fillingTransactionID?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description Date/time when the Order was filled (only provided when the Order's state is FILLED)
+			 */
+			filledTime?: string
+			/**
+			 * Format: The string representation of the OANDA-assigned TradeID. OANDA-assigned TradeIDs are positive integers, and are derived from the TransactionID of the Transaction that opened the Trade.
+			 * @description Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)
+			 */
+			tradeOpenedID?: string
+			/**
+			 * Format: The string representation of the OANDA-assigned TradeID. OANDA-assigned TradeIDs are positive integers, and are derived from the TransactionID of the Transaction that opened the Trade.
+			 * @description Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)
+			 */
+			tradeReducedID?: string
+			/** @description Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill) */
+			tradeClosedIDs?: string[]
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)
+			 */
+			cancellingTransactionID?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)
+			 */
+			cancelledTime?: string
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace).
+			 */
+			replacesOrderID?: string
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace).
+			 */
+			replacedByOrderID?: string
+		}
+		/** @description A MarketIfTouchedOrder is an order that is created with a price threshold, and will only be filled by a market price that is touches or crosses the threshold. */
+		MarketIfTouchedOrder: {
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The Order's identifier, unique within the Order's Account.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The time when the Order was created.
+			 */
+			createTime?: string
+			/**
+			 * @description The current state of the Order.
+			 * @enum {string}
+			 */
+			state?: "PENDING" | "FILLED" | "TRIGGERED" | "CANCELLED"
+			clientExtensions?: components["schemas"]["ClientExtensions"]
+			/**
+			 * @description The type of the Order. Always set to "MARKET_IF_TOUCHED" for Market If Touched Orders.
+			 * @enum {string}
+			 */
+			type?:
+				| "MARKET"
+				| "LIMIT"
+				| "STOP"
+				| "MARKET_IF_TOUCHED"
+				| "TAKE_PROFIT"
+				| "STOP_LOSS"
+				| "TRAILING_STOP_LOSS"
+				| "FIXED_PRICE"
+			/**
+			 * Format: A string containing the base currency and quote currency delimited by a "_".
+			 * @description The MarketIfTouched Order's Instrument.
+			 */
+			instrument?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The quantity requested to be filled by the MarketIfTouched Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.
+			 */
+			units?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The price threshold specified for the MarketIfTouched Order. The MarketIfTouched Order will only be filled by a market price that crosses this price from the direction of the market price at the time when the Order was created (the initialMarketPrice). Depending on the value of the Order's price and initialMarketPrice, the MarketIfTouchedOrder will behave like a Limit or a Stop Order.
+			 */
+			price?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The worst market price that may be used to fill this MarketIfTouched Order.
+			 */
+			priceBound?: string
+			/**
+			 * @description The time-in-force requested for the MarketIfTouched Order. Restricted to "GTC", "GFD" and "GTD" for MarketIfTouched Orders.
+			 * @enum {string}
+			 */
+			timeInForce?: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the MarketIfTouched Order will be cancelled if its timeInForce is "GTD".
+			 */
+			gtdTime?: string
+			/**
+			 * @description Specification of how Positions in the Account are modified when the Order is filled.
+			 * @enum {string}
+			 */
+			positionFill?: "OPEN_ONLY" | "REDUCE_FIRST" | "REDUCE_ONLY" | "DEFAULT"
+			/**
+			 * @description Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.
+			 *     This feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.
+			 *     A special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be "DEFAULT", or the "natural" trigger side "DEFAULT" results in. So for a Stop Loss Order for a long trade valid values are "DEFAULT" and "BID", and for short trades "DEFAULT" and "ASK" are valid.
+			 * @enum {string}
+			 */
+			triggerCondition?: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The Market price at the time when the MarketIfTouched Order was created.
+			 */
+			initialMarketPrice?: string
+			takeProfitOnFill?: components["schemas"]["TakeProfitDetails"]
+			stopLossOnFill?: components["schemas"]["StopLossDetails"]
+			trailingStopLossOnFill?: components["schemas"]["TrailingStopLossDetails"]
+			tradeClientExtensions?: components["schemas"]["ClientExtensions"]
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)
+			 */
+			fillingTransactionID?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description Date/time when the Order was filled (only provided when the Order's state is FILLED)
+			 */
+			filledTime?: string
+			/**
+			 * Format: The string representation of the OANDA-assigned TradeID. OANDA-assigned TradeIDs are positive integers, and are derived from the TransactionID of the Transaction that opened the Trade.
+			 * @description Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)
+			 */
+			tradeOpenedID?: string
+			/**
+			 * Format: The string representation of the OANDA-assigned TradeID. OANDA-assigned TradeIDs are positive integers, and are derived from the TransactionID of the Transaction that opened the Trade.
+			 * @description Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)
+			 */
+			tradeReducedID?: string
+			/** @description Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill) */
+			tradeClosedIDs?: string[]
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)
+			 */
+			cancellingTransactionID?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)
+			 */
+			cancelledTime?: string
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace).
+			 */
+			replacesOrderID?: string
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace).
+			 */
+			replacedByOrderID?: string
+		}
+		/** @description A TakeProfitOrder is an order that is linked to an open Trade and created with a price threshold. The Order will be filled (closing the Trade) by the first price that is equal to or better than the threshold. A TakeProfitOrder cannot be used to open a new Position. */
+		TakeProfitOrder: {
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The Order's identifier, unique within the Order's Account.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The time when the Order was created.
+			 */
+			createTime?: string
+			/**
+			 * @description The current state of the Order.
+			 * @enum {string}
+			 */
+			state?: "PENDING" | "FILLED" | "TRIGGERED" | "CANCELLED"
+			clientExtensions?: components["schemas"]["ClientExtensions"]
+			/**
+			 * @description The type of the Order. Always set to "TAKE_PROFIT" for Take Profit Orders.
+			 * @enum {string}
+			 */
+			type?:
+				| "MARKET"
+				| "LIMIT"
+				| "STOP"
+				| "MARKET_IF_TOUCHED"
+				| "TAKE_PROFIT"
+				| "STOP_LOSS"
+				| "TRAILING_STOP_LOSS"
+				| "FIXED_PRICE"
+			/**
+			 * Format: The string representation of the OANDA-assigned TradeID. OANDA-assigned TradeIDs are positive integers, and are derived from the TransactionID of the Transaction that opened the Trade.
+			 * @description The ID of the Trade to close when the price threshold is breached.
+			 */
+			tradeID?: string
+			/** @description The client ID of the Trade to be closed when the price threshold is breached. */
+			clientTradeID?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The price threshold specified for the TakeProfit Order. The associated Trade will be closed by a market price that is equal to or better than this threshold.
+			 */
+			price?: string
+			/**
+			 * @description The time-in-force requested for the TakeProfit Order. Restricted to "GTC", "GFD" and "GTD" for TakeProfit Orders.
+			 * @enum {string}
+			 */
+			timeInForce?: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the TakeProfit Order will be cancelled if its timeInForce is "GTD".
+			 */
+			gtdTime?: string
+			/**
+			 * @description Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.
+			 *     This feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.
+			 *     A special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be "DEFAULT", or the "natural" trigger side "DEFAULT" results in. So for a Stop Loss Order for a long trade valid values are "DEFAULT" and "BID", and for short trades "DEFAULT" and "ASK" are valid.
+			 * @enum {string}
+			 */
+			triggerCondition?: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)
+			 */
+			fillingTransactionID?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description Date/time when the Order was filled (only provided when the Order's state is FILLED)
+			 */
+			filledTime?: string
+			/**
+			 * Format: The string representation of the OANDA-assigned TradeID. OANDA-assigned TradeIDs are positive integers, and are derived from the TransactionID of the Transaction that opened the Trade.
+			 * @description Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)
+			 */
+			tradeOpenedID?: string
+			/**
+			 * Format: The string representation of the OANDA-assigned TradeID. OANDA-assigned TradeIDs are positive integers, and are derived from the TransactionID of the Transaction that opened the Trade.
+			 * @description Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)
+			 */
+			tradeReducedID?: string
+			/** @description Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill) */
+			tradeClosedIDs?: string[]
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)
+			 */
+			cancellingTransactionID?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)
+			 */
+			cancelledTime?: string
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace).
+			 */
+			replacesOrderID?: string
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace).
+			 */
+			replacedByOrderID?: string
+		}
+		/** @description A StopLossOrder is an order that is linked to an open Trade and created with a price threshold. The Order will be filled (closing the Trade) by the first price that is equal to or worse than the threshold. A StopLossOrder cannot be used to open a new Position. */
+		StopLossOrder: {
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The Order's identifier, unique within the Order's Account.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The time when the Order was created.
+			 */
+			createTime?: string
+			/**
+			 * @description The current state of the Order.
+			 * @enum {string}
+			 */
+			state?: "PENDING" | "FILLED" | "TRIGGERED" | "CANCELLED"
+			clientExtensions?: components["schemas"]["ClientExtensions"]
+			/**
+			 * @description The type of the Order. Always set to "STOP_LOSS" for Stop Loss Orders.
+			 * @enum {string}
+			 */
+			type?:
+				| "MARKET"
+				| "LIMIT"
+				| "STOP"
+				| "MARKET_IF_TOUCHED"
+				| "TAKE_PROFIT"
+				| "STOP_LOSS"
+				| "TRAILING_STOP_LOSS"
+				| "FIXED_PRICE"
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The premium that will be charged if the Stop Loss Order is guaranteed and the Order is filled at the guaranteed price. It is in price units and is charged for each unit of the Trade.
+			 */
+			guaranteedExecutionPremium?: string
+			/**
+			 * Format: The string representation of the OANDA-assigned TradeID. OANDA-assigned TradeIDs are positive integers, and are derived from the TransactionID of the Transaction that opened the Trade.
+			 * @description The ID of the Trade to close when the price threshold is breached.
+			 */
+			tradeID?: string
+			/** @description The client ID of the Trade to be closed when the price threshold is breached. */
+			clientTradeID?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The price threshold specified for the Stop Loss Order. If the guaranteed flag is false, the associated Trade will be closed by a market price that is equal to or worse than this threshold. If the flag is true the associated Trade will be closed at this price.
+			 */
+			price?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description Specifies the distance (in price units) from the Account's current price to use as the Stop Loss Order price. If the Trade is short the Instrument's bid price is used, and for long Trades the ask is used.
+			 */
+			distance?: string
+			/**
+			 * @description The time-in-force requested for the StopLoss Order. Restricted to "GTC", "GFD" and "GTD" for StopLoss Orders.
+			 * @enum {string}
+			 */
+			timeInForce?: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the StopLoss Order will be cancelled if its timeInForce is "GTD".
+			 */
+			gtdTime?: string
+			/**
+			 * @description Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.
+			 *     This feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.
+			 *     A special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be "DEFAULT", or the "natural" trigger side "DEFAULT" results in. So for a Stop Loss Order for a long trade valid values are "DEFAULT" and "BID", and for short trades "DEFAULT" and "ASK" are valid.
+			 * @enum {string}
+			 */
+			triggerCondition?: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
+			/** @description Flag indicating that the Stop Loss Order is guaranteed. The default value depends on the GuaranteedStopLossOrderMode of the account, if it is REQUIRED, the default will be true, for DISABLED or ENABLED the default is false. */
+			guaranteed?: boolean
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)
+			 */
+			fillingTransactionID?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description Date/time when the Order was filled (only provided when the Order's state is FILLED)
+			 */
+			filledTime?: string
+			/**
+			 * Format: The string representation of the OANDA-assigned TradeID. OANDA-assigned TradeIDs are positive integers, and are derived from the TransactionID of the Transaction that opened the Trade.
+			 * @description Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)
+			 */
+			tradeOpenedID?: string
+			/**
+			 * Format: The string representation of the OANDA-assigned TradeID. OANDA-assigned TradeIDs are positive integers, and are derived from the TransactionID of the Transaction that opened the Trade.
+			 * @description Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)
+			 */
+			tradeReducedID?: string
+			/** @description Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill) */
+			tradeClosedIDs?: string[]
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)
+			 */
+			cancellingTransactionID?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)
+			 */
+			cancelledTime?: string
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace).
+			 */
+			replacesOrderID?: string
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace).
+			 */
+			replacedByOrderID?: string
+		}
+		/** @description A TrailingStopLossOrder is an order that is linked to an open Trade and created with a price distance. The price distance is used to calculate a trailing stop value for the order that is in the losing direction from the market price at the time of the order's creation. The trailing stop value will follow the market price as it moves in the winning direction, and the order will filled (closing the Trade) by the first price that is equal to or worse than the trailing stop value. A TrailingStopLossOrder cannot be used to open a new Position. */
+		TrailingStopLossOrder: {
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The Order's identifier, unique within the Order's Account.
+			 */
+			id?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The time when the Order was created.
+			 */
+			createTime?: string
+			/**
+			 * @description The current state of the Order.
+			 * @enum {string}
+			 */
+			state?: "PENDING" | "FILLED" | "TRIGGERED" | "CANCELLED"
+			clientExtensions?: components["schemas"]["ClientExtensions"]
+			/**
+			 * @description The type of the Order. Always set to "TRAILING_STOP_LOSS" for Trailing Stop Loss Orders.
+			 * @enum {string}
+			 */
+			type?:
+				| "MARKET"
+				| "LIMIT"
+				| "STOP"
+				| "MARKET_IF_TOUCHED"
+				| "TAKE_PROFIT"
+				| "STOP_LOSS"
+				| "TRAILING_STOP_LOSS"
+				| "FIXED_PRICE"
+			/**
+			 * Format: The string representation of the OANDA-assigned TradeID. OANDA-assigned TradeIDs are positive integers, and are derived from the TransactionID of the Transaction that opened the Trade.
+			 * @description The ID of the Trade to close when the price threshold is breached.
+			 */
+			tradeID?: string
+			/** @description The client ID of the Trade to be closed when the price threshold is breached. */
+			clientTradeID?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The price distance (in price units) specified for the TrailingStopLoss Order.
+			 */
+			distance?: string
+			/**
+			 * @description The time-in-force requested for the TrailingStopLoss Order. Restricted to "GTC", "GFD" and "GTD" for TrailingStopLoss Orders.
+			 * @enum {string}
+			 */
+			timeInForce?: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the StopLoss Order will be cancelled if its timeInForce is "GTD".
+			 */
+			gtdTime?: string
+			/**
+			 * @description Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.
+			 *     This feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.
+			 *     A special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be "DEFAULT", or the "natural" trigger side "DEFAULT" results in. So for a Stop Loss Order for a long trade valid values are "DEFAULT" and "BID", and for short trades "DEFAULT" and "ASK" are valid.
+			 * @enum {string}
+			 */
+			triggerCondition?: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The trigger price for the Trailing Stop Loss Order. The trailing stop value will trail (follow) the market price by the TSL order's configured "distance" as the market price moves in the winning direction. If the market price moves to a level that is equal to or worse than the trailing stop value, the order will be filled and the Trade will be closed.
+			 */
+			trailingStopValue?: string
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)
+			 */
+			fillingTransactionID?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description Date/time when the Order was filled (only provided when the Order's state is FILLED)
+			 */
+			filledTime?: string
+			/**
+			 * Format: The string representation of the OANDA-assigned TradeID. OANDA-assigned TradeIDs are positive integers, and are derived from the TransactionID of the Transaction that opened the Trade.
+			 * @description Trade ID of Trade opened when the Order was filled (only provided when the Order's state is FILLED and a Trade was opened as a result of the fill)
+			 */
+			tradeOpenedID?: string
+			/**
+			 * Format: The string representation of the OANDA-assigned TradeID. OANDA-assigned TradeIDs are positive integers, and are derived from the TransactionID of the Transaction that opened the Trade.
+			 * @description Trade ID of Trade reduced when the Order was filled (only provided when the Order's state is FILLED and a Trade was reduced as a result of the fill)
+			 */
+			tradeReducedID?: string
+			/** @description Trade IDs of Trades closed when the Order was filled (only provided when the Order's state is FILLED and one or more Trades were closed as a result of the fill) */
+			tradeClosedIDs?: string[]
+			/**
+			 * Format: String representation of the numerical OANDA-assigned TransactionID
+			 * @description ID of the Transaction that cancelled the Order (only provided when the Order's state is CANCELLED)
+			 */
+			cancellingTransactionID?: string
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description Date/time when the Order was cancelled (only provided when the state of the Order is CANCELLED)
+			 */
+			cancelledTime?: string
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The ID of the Order that was replaced by this Order (only provided if this Order was created as part of a cancel/replace).
+			 */
+			replacesOrderID?: string
+			/**
+			 * Format: The string representation of the OANDA-assigned OrderID. OANDA-assigned OrderIDs are positive integers, and are derived from the TransactionID of the Transaction that created the Order.
+			 * @description The ID of the Order that replaced this Order (only provided if this Order was cancelled as part of a cancel/replace).
+			 */
+			replacedByOrderID?: string
+		}
+		/** @description The base Order specification used when requesting that an Order be created. Each specific Order-type extends this definition. */
+		OrderRequest: Record<string, never>
+		/** @description A MarketOrderRequest specifies the parameters that may be set when creating a Market Order. */
+		MarketOrderRequest: {
+			/**
+			 * @description The type of the Order to Create. Must be set to "MARKET" when creating a Market Order.
+			 * @enum {string}
+			 */
+			type?:
+				| "MARKET"
+				| "LIMIT"
+				| "STOP"
+				| "MARKET_IF_TOUCHED"
+				| "TAKE_PROFIT"
+				| "STOP_LOSS"
+				| "TRAILING_STOP_LOSS"
+				| "FIXED_PRICE"
+			/**
+			 * Format: A string containing the base currency and quote currency delimited by a "_".
+			 * @description The Market Order's Instrument.
+			 */
+			instrument?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The quantity requested to be filled by the Market Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.
+			 */
+			units?: string
+			/**
+			 * @description The time-in-force requested for the Market Order. Restricted to FOK or IOC for a MarketOrder.
+			 * @enum {string}
+			 */
+			timeInForce?: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The worst price that the client is willing to have the Market Order filled at.
+			 */
+			priceBound?: string
+			/**
+			 * @description Specification of how Positions in the Account are modified when the Order is filled.
+			 * @enum {string}
+			 */
+			positionFill?: "OPEN_ONLY" | "REDUCE_FIRST" | "REDUCE_ONLY" | "DEFAULT"
+			clientExtensions?: components["schemas"]["ClientExtensions"]
+			takeProfitOnFill?: components["schemas"]["TakeProfitDetails"]
+			stopLossOnFill?: components["schemas"]["StopLossDetails"]
+			trailingStopLossOnFill?: components["schemas"]["TrailingStopLossDetails"]
+			tradeClientExtensions?: components["schemas"]["ClientExtensions"]
+		}
+		/** @description A LimitOrderRequest specifies the parameters that may be set when creating a Limit Order. */
+		LimitOrderRequest: {
+			/**
+			 * @description The type of the Order to Create. Must be set to "LIMIT" when creating a Market Order.
+			 * @enum {string}
+			 */
+			type?:
+				| "MARKET"
+				| "LIMIT"
+				| "STOP"
+				| "MARKET_IF_TOUCHED"
+				| "TAKE_PROFIT"
+				| "STOP_LOSS"
+				| "TRAILING_STOP_LOSS"
+				| "FIXED_PRICE"
+			/**
+			 * Format: A string containing the base currency and quote currency delimited by a "_".
+			 * @description The Limit Order's Instrument.
+			 */
+			instrument?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The quantity requested to be filled by the Limit Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.
+			 */
+			units?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The price threshold specified for the Limit Order. The Limit Order will only be filled by a market price that is equal to or better than this price.
+			 */
+			price?: string
+			/**
+			 * @description The time-in-force requested for the Limit Order.
+			 * @enum {string}
+			 */
+			timeInForce?: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Limit Order will be cancelled if its timeInForce is "GTD".
+			 */
+			gtdTime?: string
+			/**
+			 * @description Specification of how Positions in the Account are modified when the Order is filled.
+			 * @enum {string}
+			 */
+			positionFill?: "OPEN_ONLY" | "REDUCE_FIRST" | "REDUCE_ONLY" | "DEFAULT"
+			/**
+			 * @description Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.
+			 *     This feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.
+			 *     A special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be "DEFAULT", or the "natural" trigger side "DEFAULT" results in. So for a Stop Loss Order for a long trade valid values are "DEFAULT" and "BID", and for short trades "DEFAULT" and "ASK" are valid.
+			 * @enum {string}
+			 */
+			triggerCondition?: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
+			clientExtensions?: components["schemas"]["ClientExtensions"]
+			takeProfitOnFill?: components["schemas"]["TakeProfitDetails"]
+			stopLossOnFill?: components["schemas"]["StopLossDetails"]
+			trailingStopLossOnFill?: components["schemas"]["TrailingStopLossDetails"]
+			tradeClientExtensions?: components["schemas"]["ClientExtensions"]
+		}
+		/** @description A StopOrderRequest specifies the parameters that may be set when creating a Stop Order. */
+		StopOrderRequest: {
+			/**
+			 * @description The type of the Order to Create. Must be set to "STOP" when creating a Stop Order.
+			 * @enum {string}
+			 */
+			type?:
+				| "MARKET"
+				| "LIMIT"
+				| "STOP"
+				| "MARKET_IF_TOUCHED"
+				| "TAKE_PROFIT"
+				| "STOP_LOSS"
+				| "TRAILING_STOP_LOSS"
+				| "FIXED_PRICE"
+			/**
+			 * Format: A string containing the base currency and quote currency delimited by a "_".
+			 * @description The Stop Order's Instrument.
+			 */
+			instrument?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The quantity requested to be filled by the Stop Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.
+			 */
+			units?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The price threshold specified for the Stop Order. The Stop Order will only be filled by a market price that is equal to or worse than this price.
+			 */
+			price?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The worst market price that may be used to fill this Stop Order. If the market gaps and crosses through both the price and the priceBound, the Stop Order will be cancelled instead of being filled.
+			 */
+			priceBound?: string
+			/**
+			 * @description The time-in-force requested for the Stop Order.
+			 * @enum {string}
+			 */
+			timeInForce?: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Stop Order will be cancelled if its timeInForce is "GTD".
+			 */
+			gtdTime?: string
+			/**
+			 * @description Specification of how Positions in the Account are modified when the Order is filled.
+			 * @enum {string}
+			 */
+			positionFill?: "OPEN_ONLY" | "REDUCE_FIRST" | "REDUCE_ONLY" | "DEFAULT"
+			/**
+			 * @description Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.
+			 *     This feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.
+			 *     A special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be "DEFAULT", or the "natural" trigger side "DEFAULT" results in. So for a Stop Loss Order for a long trade valid values are "DEFAULT" and "BID", and for short trades "DEFAULT" and "ASK" are valid.
+			 * @enum {string}
+			 */
+			triggerCondition?: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
+			clientExtensions?: components["schemas"]["ClientExtensions"]
+			takeProfitOnFill?: components["schemas"]["TakeProfitDetails"]
+			stopLossOnFill?: components["schemas"]["StopLossDetails"]
+			trailingStopLossOnFill?: components["schemas"]["TrailingStopLossDetails"]
+			tradeClientExtensions?: components["schemas"]["ClientExtensions"]
+		}
+		/** @description A MarketIfTouchedOrderRequest specifies the parameters that may be set when creating a Market-if-Touched Order. */
+		MarketIfTouchedOrderRequest: {
+			/**
+			 * @description The type of the Order to Create. Must be set to "MARKET_IF_TOUCHED" when creating a Market If Touched Order.
+			 * @enum {string}
+			 */
+			type?:
+				| "MARKET"
+				| "LIMIT"
+				| "STOP"
+				| "MARKET_IF_TOUCHED"
+				| "TAKE_PROFIT"
+				| "STOP_LOSS"
+				| "TRAILING_STOP_LOSS"
+				| "FIXED_PRICE"
+			/**
+			 * Format: A string containing the base currency and quote currency delimited by a "_".
+			 * @description The MarketIfTouched Order's Instrument.
+			 */
+			instrument?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The quantity requested to be filled by the MarketIfTouched Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.
+			 */
+			units?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The price threshold specified for the MarketIfTouched Order. The MarketIfTouched Order will only be filled by a market price that crosses this price from the direction of the market price at the time when the Order was created (the initialMarketPrice). Depending on the value of the Order's price and initialMarketPrice, the MarketIfTouchedOrder will behave like a Limit or a Stop Order.
+			 */
+			price?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The worst market price that may be used to fill this MarketIfTouched Order.
+			 */
+			priceBound?: string
+			/**
+			 * @description The time-in-force requested for the MarketIfTouched Order. Restricted to "GTC", "GFD" and "GTD" for MarketIfTouched Orders.
+			 * @enum {string}
+			 */
+			timeInForce?: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the MarketIfTouched Order will be cancelled if its timeInForce is "GTD".
+			 */
+			gtdTime?: string
+			/**
+			 * @description Specification of how Positions in the Account are modified when the Order is filled.
+			 * @enum {string}
+			 */
+			positionFill?: "OPEN_ONLY" | "REDUCE_FIRST" | "REDUCE_ONLY" | "DEFAULT"
+			/**
+			 * @description Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.
+			 *     This feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.
+			 *     A special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be "DEFAULT", or the "natural" trigger side "DEFAULT" results in. So for a Stop Loss Order for a long trade valid values are "DEFAULT" and "BID", and for short trades "DEFAULT" and "ASK" are valid.
+			 * @enum {string}
+			 */
+			triggerCondition?: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
+			clientExtensions?: components["schemas"]["ClientExtensions"]
+			takeProfitOnFill?: components["schemas"]["TakeProfitDetails"]
+			stopLossOnFill?: components["schemas"]["StopLossDetails"]
+			trailingStopLossOnFill?: components["schemas"]["TrailingStopLossDetails"]
+			tradeClientExtensions?: components["schemas"]["ClientExtensions"]
+		}
+		/** @description A TakeProfitOrderRequest specifies the parameters that may be set when creating a Take Profit Order. Only one of the price and distance fields may be specified. */
+		TakeProfitOrderRequest: {
+			/**
+			 * @description The type of the Order to Create. Must be set to "TAKE_PROFIT" when creating a Take Profit Order.
+			 * @enum {string}
+			 */
+			type?:
+				| "MARKET"
+				| "LIMIT"
+				| "STOP"
+				| "MARKET_IF_TOUCHED"
+				| "TAKE_PROFIT"
+				| "STOP_LOSS"
+				| "TRAILING_STOP_LOSS"
+				| "FIXED_PRICE"
+			/**
+			 * Format: The string representation of the OANDA-assigned TradeID. OANDA-assigned TradeIDs are positive integers, and are derived from the TransactionID of the Transaction that opened the Trade.
+			 * @description The ID of the Trade to close when the price threshold is breached.
+			 */
+			tradeID?: string
+			/** @description The client ID of the Trade to be closed when the price threshold is breached. */
+			clientTradeID?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The price threshold specified for the TakeProfit Order. The associated Trade will be closed by a market price that is equal to or better than this threshold.
+			 */
+			price?: string
+			/**
+			 * @description The time-in-force requested for the TakeProfit Order. Restricted to "GTC", "GFD" and "GTD" for TakeProfit Orders.
+			 * @enum {string}
+			 */
+			timeInForce?: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the TakeProfit Order will be cancelled if its timeInForce is "GTD".
+			 */
+			gtdTime?: string
+			/**
+			 * @description Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.
+			 *     This feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.
+			 *     A special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be "DEFAULT", or the "natural" trigger side "DEFAULT" results in. So for a Stop Loss Order for a long trade valid values are "DEFAULT" and "BID", and for short trades "DEFAULT" and "ASK" are valid.
+			 * @enum {string}
+			 */
+			triggerCondition?: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
+			clientExtensions?: components["schemas"]["ClientExtensions"]
+		}
+		/** @description A StopLossOrderRequest specifies the parameters that may be set when creating a Stop Loss Order. Only one of the price and distance fields may be specified. */
+		StopLossOrderRequest: {
+			/**
+			 * @description The type of the Order to Create. Must be set to "STOP_LOSS" when creating a Stop Loss Order.
+			 * @enum {string}
+			 */
+			type?:
+				| "MARKET"
+				| "LIMIT"
+				| "STOP"
+				| "MARKET_IF_TOUCHED"
+				| "TAKE_PROFIT"
+				| "STOP_LOSS"
+				| "TRAILING_STOP_LOSS"
+				| "FIXED_PRICE"
+			/**
+			 * Format: The string representation of the OANDA-assigned TradeID. OANDA-assigned TradeIDs are positive integers, and are derived from the TransactionID of the Transaction that opened the Trade.
+			 * @description The ID of the Trade to close when the price threshold is breached.
+			 */
+			tradeID?: string
+			/** @description The client ID of the Trade to be closed when the price threshold is breached. */
+			clientTradeID?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The price threshold specified for the Stop Loss Order. If the guaranteed flag is false, the associated Trade will be closed by a market price that is equal to or worse than this threshold. If the flag is true the associated Trade will be closed at this price.
+			 */
+			price?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description Specifies the distance (in price units) from the Account's current price to use as the Stop Loss Order price. If the Trade is short the Instrument's bid price is used, and for long Trades the ask is used.
+			 */
+			distance?: string
+			/**
+			 * @description The time-in-force requested for the StopLoss Order. Restricted to "GTC", "GFD" and "GTD" for StopLoss Orders.
+			 * @enum {string}
+			 */
+			timeInForce?: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the StopLoss Order will be cancelled if its timeInForce is "GTD".
+			 */
+			gtdTime?: string
+			/**
+			 * @description Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.
+			 *     This feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.
+			 *     A special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be "DEFAULT", or the "natural" trigger side "DEFAULT" results in. So for a Stop Loss Order for a long trade valid values are "DEFAULT" and "BID", and for short trades "DEFAULT" and "ASK" are valid.
+			 * @enum {string}
+			 */
+			triggerCondition?: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
+			/** @description Flag indicating that the Stop Loss Order is guaranteed. The default value depends on the GuaranteedStopLossOrderMode of the account, if it is REQUIRED, the default will be true, for DISABLED or ENABLED the default is false. */
+			guaranteed?: boolean
+			clientExtensions?: components["schemas"]["ClientExtensions"]
+		}
+		/** @description A TrailingStopLossOrderRequest specifies the parameters that may be set when creating a Trailing Stop Loss Order. */
+		TrailingStopLossOrderRequest: {
+			/**
+			 * @description The type of the Order to Create. Must be set to "TRAILING_STOP_LOSS" when creating a Trailng Stop Loss Order.
+			 * @enum {string}
+			 */
+			type?:
+				| "MARKET"
+				| "LIMIT"
+				| "STOP"
+				| "MARKET_IF_TOUCHED"
+				| "TAKE_PROFIT"
+				| "STOP_LOSS"
+				| "TRAILING_STOP_LOSS"
+				| "FIXED_PRICE"
+			/**
+			 * Format: The string representation of the OANDA-assigned TradeID. OANDA-assigned TradeIDs are positive integers, and are derived from the TransactionID of the Transaction that opened the Trade.
+			 * @description The ID of the Trade to close when the price threshold is breached.
+			 */
+			tradeID?: string
+			/** @description The client ID of the Trade to be closed when the price threshold is breached. */
+			clientTradeID?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The price distance (in price units) specified for the TrailingStopLoss Order.
+			 */
+			distance?: string
+			/**
+			 * @description The time-in-force requested for the TrailingStopLoss Order. Restricted to "GTC", "GFD" and "GTD" for TrailingStopLoss Orders.
+			 * @enum {string}
+			 */
+			timeInForce?: "GTC" | "GTD" | "GFD" | "FOK" | "IOC"
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the StopLoss Order will be cancelled if its timeInForce is "GTD".
+			 */
+			gtdTime?: string
+			/**
+			 * @description Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.
+			 *     This feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.
+			 *     A special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be "DEFAULT", or the "natural" trigger side "DEFAULT" results in. So for a Stop Loss Order for a long trade valid values are "DEFAULT" and "BID", and for short trades "DEFAULT" and "ASK" are valid.
+			 * @enum {string}
+			 */
+			triggerCondition?: "DEFAULT" | "INVERSE" | "BID" | "ASK" | "MID"
+			clientExtensions?: components["schemas"]["ClientExtensions"]
+		}
+		/** @description Representation of many units of an Instrument are available to be traded for both long and short Orders. */
+		UnitsAvailableDetails: {
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The units available for long Orders.
+			 */
+			long?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The units available for short Orders.
+			 */
+			short?: string
+		}
+		/** @description Representation of how many units of an Instrument are available to be traded by an Order depending on its postionFill option. */
+		UnitsAvailable: {
+			default?: components["schemas"]["UnitsAvailableDetails"]
+			reduceFirst?: components["schemas"]["UnitsAvailableDetails"]
+			reduceOnly?: components["schemas"]["UnitsAvailableDetails"]
+			openOnly?: components["schemas"]["UnitsAvailableDetails"]
+		}
+		/** @description Details required by clients creating a Guaranteed Stop Loss Order */
+		GuaranteedStopLossOrderEntryData: {
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The minimum distance allowed between the Trade's fill price and the configured price for guaranteed Stop Loss Orders created for this instrument. Specified in price units.
+			 */
+			minimumDistance?: string
+			/**
+			 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+			 * @description The amount that is charged to the account if a guaranteed Stop Loss Order is triggered and filled. The value is in price units and is charged for each unit of the Trade.
+			 */
+			premium?: string
+			levelRestriction?: components["schemas"]["GuaranteedStopLossOrderLevelRestriction"]
+		}
+		/**
+		 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+		 * @description The string representation of a Price for a Bucket.
+		 */
+		PriceValue: string
+		/** @description A Price Bucket represents a price available for an amount of liquidity */
+		PriceBucket: {
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The Price offered by the PriceBucket
+			 */
+			price?: string
+			/** @description The amount of liquidity offered by the PriceBucket */
+			liquidity?: number
+		}
+		/** @description The Price representation */
+		Price: {
+			/**
+			 * Format: A string containing the base currency and quote currency delimited by a "_".
+			 * @description The Price's Instrument.
+			 */
+			instrument?: string
+			/** @description Flag indicating if the Price is tradeable or not */
+			tradeable?: boolean
+			/**
+			 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+			 * @description The date/time when the Price was created.
+			 */
+			timestamp?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The base bid price as calculated by pricing.
+			 */
+			baseBid?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The base ask price as calculated by pricing.
+			 */
+			baseAsk?: string
+			/** @description The list of prices and liquidity available on the Instrument's bid side. It is possible for this list to be empty if there is no bid liquidity currently available for the Instrument in the Account. */
+			bids?: components["schemas"]["PriceBucket"][]
+			/** @description The list of prices and liquidity available on the Instrument's ask side. It is possible for this list to be empty if there is no ask liquidity currently available for the Instrument in the Account. */
+			asks?: components["schemas"]["PriceBucket"][]
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The closeout bid price. This price is used when a bid is required to closeout a Position (margin closeout or manual) yet there is no bid liquidity. The closeout bid is never used to open a new position.
+			 */
+			closeoutBid?: string
+			/**
+			 * Format: A decimal number encodes as a string. The amount of precision provided depends on the Instrument.
+			 * @description The closeout ask price. This price is used when an ask is required to closeout a Position (margin closeout or manual) yet there is no ask liquidity. The closeout ask is never used to open a new position.
+			 */
+			closeoutAsk?: string
+		}
 	}
-	export type get_GetTransaction = {
-		method: "GET"
-		path: "/accounts/{accountID}/transactions/{transactionID}"
-		requestFormat: "json"
-		parameters: {
-			path: { accountID: string; transactionID: string }
-			header: {
-				Authorization: string
-				"Accept-Datetime-Format": string | undefined
+	responses: {
+		/** @description Bad Request. The client has provided invalid data to be processed by the server. */
+		400: {
+			headers: {
+				/** @description The unique identifier generated for the request */
+				RequestID?: string
+				[name: string]: unknown
+			}
+			content: {
+				"application/json": {
+					/** @description The code of the error that has occurred. This field may not be returned for some errors. */
+					errorCode?: string
+					/** @description The human-readable description of the error that has occurred. */
+					errorMessage?: string
+				}
 			}
 		}
-		response: Partial<{
-			transaction: Schemas.Transaction
-			lastTransactionID: string
-		}>
-	}
-	export type get_GetTransactionRange = {
-		method: "GET"
-		path: "/accounts/{accountID}/transactions/idrange"
-		requestFormat: "json"
-		parameters: {
-			query: { from: string; to: string; type: Array<string> | undefined }
-			path: { accountID: string }
-			header: {
-				Authorization: string
-				"Accept-Datetime-Format": string | undefined
+		/** @description Unauthorized. The endpoint being access required the client to authenticated, however the the authentication token is invalid or has not been provided. */
+		401: {
+			headers: {
+				/** @description The unique identifier generated for the request */
+				RequestID?: string
+				[name: string]: unknown
+			}
+			content: {
+				"application/json": {
+					/** @description The code of the error that has occurred. This field may not be returned for some errors. */
+					errorCode?: string
+					/** @description The human-readable description of the error that has occurred. */
+					errorMessage?: string
+				}
 			}
 		}
-		response: Partial<{
-			transactions: Array<Schemas.Transaction>
-			lastTransactionID: string
-		}>
-	}
-	export type get_GetTransactionsSinceId = {
-		method: "GET"
-		path: "/accounts/{accountID}/transactions/sinceid"
-		requestFormat: "json"
-		parameters: {
-			query: { id: string }
-			path: { accountID: string }
-			header: {
-				Authorization: string
-				"Accept-Datetime-Format": string | undefined
+		/** @description Forbidden. The client has provided a token that does not authorize them to perform the action implemented by the API endpoint. */
+		403: {
+			headers: {
+				/** @description The unique identifier generated for the request */
+				RequestID?: string
+				[name: string]: unknown
+			}
+			content: {
+				"application/json": {
+					/** @description The code of the error that has occurred. This field may not be returned for some errors. */
+					errorCode?: string
+					/** @description The human-readable description of the error that has occurred. */
+					errorMessage?: string
+				}
 			}
 		}
-		response: Partial<{
-			transactions: Array<Schemas.Transaction>
-			lastTransactionID: string
-		}>
-	}
-	export type get_StreamTransactions = {
-		method: "GET"
-		path: "/accounts/{accountID}/transactions/stream"
-		requestFormat: "json"
-		parameters: {
-			path: { accountID: string }
-			header: { Authorization: string }
-		}
-		response: Partial<{
-			transaction: Schemas.Transaction
-			heartbeat: Schemas.TransactionHeartbeat
-		}>
-	}
-	export type get_GetUserInfo = {
-		method: "GET"
-		path: "/users/{userSpecifier}"
-		requestFormat: "json"
-		parameters: {
-			path: { userSpecifier: string }
-			header: { Authorization: string }
-		}
-		response: Partial<{ userInfo: Schemas.UserInfo }>
-	}
-	export type get_GetExternalUserInfo = {
-		method: "GET"
-		path: "/users/{userSpecifier}/externalInfo"
-		requestFormat: "json"
-		parameters: {
-			path: { userSpecifier: string }
-			header: { Authorization: string }
-		}
-		response: Partial<{ userInfo: Schemas.UserInfoExternal }>
-	}
-	export type get_GetBasePrices = {
-		method: "GET"
-		path: "/pricing"
-		requestFormat: "json"
-		parameters: {
-			query: Partial<{ time: string }>
-
-			header: {
-				Authorization: string
-				"Accept-Datetime-Format": string | undefined
+		/** @description Not Found. The client has attempted to access an entity that does not exist. */
+		404: {
+			headers: {
+				/** @description The unique identifier generated for the request */
+				RequestID?: string
+				[name: string]: unknown
+			}
+			content: {
+				"application/json": {
+					/** @description The code of the error that has occurred. This field may not be returned for some errors. */
+					errorCode?: string
+					/** @description The human-readable description of the error that has occurred. */
+					errorMessage?: string
+				}
 			}
 		}
-		response: Partial<{ prices: Array<Schemas.Price> }>
-	}
-	export type get_GetPriceRange = {
-		method: "GET"
-		path: "/pricing/range"
-		requestFormat: "json"
-		parameters: {
-			query: { from: string; to: string | undefined }
-			path: { instrument: string }
-			header: {
-				Authorization: string
-				"Accept-Datetime-Format": string | undefined
+		/** @description Method Not Allowed. The client has attempted to access an endpoint using an HTTP method that is not supported. */
+		405: {
+			headers: {
+				/** @description The unique identifier generated for the request */
+				RequestID?: string
+				[name: string]: unknown
+			}
+			content: {
+				"application/json": {
+					/** @description The code of the error that has occurred. This field may not be returned for some errors. */
+					errorCode?: string
+					/** @description The human-readable description of the error that has occurred. */
+					errorMessage?: string
+				}
 			}
 		}
-		response: Partial<{ prices: Array<Schemas.Price> }>
+		/** @description Range Not Satisfiable. The client has specified a range that is invalid or cannot be processed. */
+		416: {
+			headers: {
+				/** @description The unique identifier generated for the request */
+				RequestID?: string
+				[name: string]: unknown
+			}
+			content: {
+				"application/json": {
+					/** @description The code of the error that has occurred. This field may not be returned for some errors. */
+					errorCode?: string
+					/** @description The human-readable description of the error that has occurred. */
+					errorMessage?: string
+				}
+			}
+		}
 	}
-	export type get_GetPrices = {
-		method: "GET"
-		path: "/accounts/{accountID}/pricing"
-		requestFormat: "json"
+	parameters: {
+		/** @description Format of DateTime fields in the request and response. */
+		acceptDatetimeFormatHeaderParam: string
+		/** @description Account Identifier */
+		accountIDPathParam: string
+		/** @description The authorization bearer token previously obtained by the client */
+		authorizationHeaderParam: string
+		/** @description Client specified RequestID to be sent with request. */
+		clientRequestIDHeaderParam: string
+		/** @description Name of the Instrument */
+		instrumentNamePathParam: string
+		/** @description MT4 Server ID */
+		mt4ServerIDPathParam: number
+		/** @description The Order Specifier */
+		orderSpecifierPathParam: string
+		/** @description The year that a Yearly Account Statement is generated for. */
+		statementYearPathParam: number
+		/** @description Specifier for the Trade */
+		tradeSpecifierPathParam: string
+		/** @description A Transaction ID */
+		transactionIDPathParam: string
+		/** @description The User Specifier */
+		userSpecifierPathParam: string
+	}
+	requestBodies: never
+	headers: never
+	pathItems: never
+}
+export type $defs = Record<string, never>
+export interface operations {
+	getInstrumentCandles: {
+		parameters: {
+			query?: {
+				/** @description The Price component(s) to get candlestick data for. Can contain any combination of the characters "M" (midpoint candles) "B" (bid candles) and "A" (ask candles). */
+				price?: string
+				/** @description The granularity of the candlesticks to fetch */
+				granularity?: string
+				/** @description The number of candlesticks to return in the reponse. Count should not be specified if both the start and end parameters are provided, as the time range combined with the graularity will determine the number of candlesticks to return. */
+				count?: number
+				/** @description The start of the time range to fetch candlesticks for. */
+				from?: string
+				/** @description The end of the time range to fetch candlesticks for. */
+				to?: string
+				/** @description A flag that controls whether the candlestick is "smoothed" or not.  A smoothed candlestick uses the previous candle's close price as its open price, while an unsmoothed candlestick uses the first price from its time range as its open price. */
+				smooth?: boolean
+				/** @description A flag that controls whether the candlestick that is covered by the from time should be included in the results. This flag enables clients to use the timestamp of the last completed candlestick received to poll for future candlesticks but avoid receiving the previous candlestick repeatedly. */
+				includeFirst?: boolean
+				/** @description The hour of the day (in the specified timezone) to use for granularities that have daily alignments. */
+				dailyAlignment?: number
+				/** @description The timezone to use for the dailyAlignment parameter. Candlesticks with daily alignment will be aligned to the dailyAlignment hour within the alignmentTimezone.  Note that the returned times will still be represented in UTC. */
+				alignmentTimezone?: string
+				/** @description The day of the week used for granularities that have weekly alignment. */
+				weeklyAlignment?: string
+			}
+			header: {
+				/** @description The authorization bearer token previously obtained by the client */
+				Authorization: components["parameters"]["authorizationHeaderParam"]
+				/** @description Format of DateTime fields in the request and response. */
+				"Accept-Datetime-Format"?: components["parameters"]["acceptDatetimeFormatHeaderParam"]
+			}
+			path: {
+				/** @description Name of the Instrument */
+				instrument: components["parameters"]["instrumentNamePathParam"]
+			}
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description Pricing information has been successfully provided. */
+			200: {
+				headers: {
+					/** @description The unique identifier generated for the request */
+					RequestID?: string
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						/**
+						 * Format: A string containing the base currency and quote currency delimited by a "_".
+						 * @description The instrument whose Prices are represented by the candlesticks.
+						 */
+						instrument?: string
+						/**
+						 * @description The granularity of the candlesticks provided.
+						 * @enum {string}
+						 */
+						granularity?:
+							| "S5"
+							| "S10"
+							| "S15"
+							| "S30"
+							| "M1"
+							| "M2"
+							| "M4"
+							| "M5"
+							| "M10"
+							| "M15"
+							| "M30"
+							| "H1"
+							| "H2"
+							| "H3"
+							| "H4"
+							| "H6"
+							| "H8"
+							| "H12"
+							| "D"
+							| "W"
+							| "M"
+						/** @description The list of candlesticks that satisfy the request. */
+						candles?: components["schemas"]["Candlestick"][]
+					}
+				}
+			}
+			400: components["responses"]["400"]
+			401: components["responses"]["401"]
+			404: components["responses"]["404"]
+			405: components["responses"]["405"]
+		}
+	}
+	getInstrumentPrice: {
+		parameters: {
+			query?: {
+				/** @description The time at which the desired price is in effect. The current price is returned if no time is provided. */
+				time?: string
+			}
+			header: {
+				/** @description The authorization bearer token previously obtained by the client */
+				Authorization: components["parameters"]["authorizationHeaderParam"]
+				/** @description Format of DateTime fields in the request and response. */
+				"Accept-Datetime-Format"?: components["parameters"]["acceptDatetimeFormatHeaderParam"]
+			}
+			path: {
+				/** @description Name of the Instrument */
+				instrument: components["parameters"]["instrumentNamePathParam"]
+			}
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description Pricing information has been successfully provided. */
+			200: {
+				headers: {
+					/** @description The unique identifier generated for the request */
+					RequestID?: string
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						price?: components["schemas"]["Price"]
+					}
+				}
+			}
+			400: components["responses"]["400"]
+			401: components["responses"]["401"]
+			404: components["responses"]["404"]
+			405: components["responses"]["405"]
+		}
+	}
+	getInstrumentPriceRange: {
 		parameters: {
 			query: {
-				instruments: Array<string>
-				since: string | undefined
-				includeUnitsAvailable: boolean | undefined
-				includeHomeConversions: boolean | undefined
+				/** @description The start of the time range to fetch prices for. */
+				from: string
+				/** @description The end of the time range to fetch prices for. The current time is used if this parameter is not provided. */
+				to?: string
 			}
-			path: { accountID: string }
 			header: {
-				Authorization: string
-				"Accept-Datetime-Format": string | undefined
+				/** @description The authorization bearer token previously obtained by the client */
+				Authorization: components["parameters"]["authorizationHeaderParam"]
+				/** @description Format of DateTime fields in the request and response. */
+				"Accept-Datetime-Format"?: components["parameters"]["acceptDatetimeFormatHeaderParam"]
 			}
+			path: {
+				/** @description Name of the Instrument */
+				instrument: components["parameters"]["instrumentNamePathParam"]
+			}
+			cookie?: never
 		}
-		response: Partial<{
-			prices: Array<Schemas.ClientPrice>
-			homeConversions: Array<Schemas.HomeConversions>
-			time: string
-		}>
+		requestBody?: never
+		responses: {
+			/** @description Pricing information has been successfully provided. */
+			200: {
+				headers: {
+					/** @description The unique identifier generated for the request */
+					RequestID?: string
+					/** @description A link to the next page of results if the results were paginated */
+					Link?: string
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						/** @description The list of prices that satisfy the request. */
+						prices?: components["schemas"]["Price"][]
+					}
+				}
+			}
+			400: components["responses"]["400"]
+			401: components["responses"]["401"]
+			404: components["responses"]["404"]
+			405: components["responses"]["405"]
+		}
 	}
-	export type get_StreamPricing = {
-		method: "GET"
-		path: "/accounts/{accountID}/pricing/stream"
-		requestFormat: "json"
+	listPositions: {
 		parameters: {
-			query: { instruments: Array<string>; snapshot: boolean | undefined }
-			path: { accountID: string }
+			query?: never
 			header: {
-				Authorization: string
-				"Accept-Datetime-Format": string | undefined
+				/** @description The authorization bearer token previously obtained by the client */
+				Authorization: components["parameters"]["authorizationHeaderParam"]
 			}
+			path: {
+				/** @description Account Identifier */
+				accountID: components["parameters"]["accountIDPathParam"]
+			}
+			cookie?: never
 		}
-		response: Partial<{
-			price: Schemas.ClientPrice
-			heartbeat: Schemas.PricingHeartbeat
-		}>
+		requestBody?: never
+		responses: {
+			/** @description The Account's Positions are provided. */
+			200: {
+				headers: {
+					/** @description The unique identifier generated for the request */
+					RequestID?: string
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						/** @description The list of Account Positions. */
+						positions?: components["schemas"]["Position"][]
+						/**
+						 * Format: String representation of the numerical OANDA-assigned TransactionID
+						 * @description The ID of the most recent Transaction created for the Account
+						 */
+						lastTransactionID?: string
+					}
+				}
+			}
+			401: components["responses"]["401"]
+			404: components["responses"]["404"]
+			405: components["responses"]["405"]
+		}
 	}
-
-	export type post_CreateOrder = {
-		method: "POST"
-		path: "/accounts/{accountID}/orders"
-		requestFormat: "json"
+	listOpenPositions: {
 		parameters: {
-			path: { accountID: string }
+			query?: never
 			header: {
-				Authorization: string
-				"Accept-Datetime-Format": string | undefined
+				/** @description The authorization bearer token previously obtained by the client */
+				Authorization: components["parameters"]["authorizationHeaderParam"]
 			}
-			body: Partial<{ order: Schemas.OrderRequest }>
+			path: {
+				/** @description Account Identifier */
+				accountID: components["parameters"]["accountIDPathParam"]
+			}
+			cookie?: never
 		}
-		response: Partial<{
-			orderCreateTransaction: Schemas.Transaction
-			orderFillTransaction: Schemas.OrderFillTransaction
-			orderCancelTransaction: Schemas.OrderCancelTransaction
-			orderReissueTransaction: Schemas.Transaction
-			orderReissueRejectTransaction: Schemas.Transaction
-			relatedTransactionIDs: Array<string>
-			lastTransactionID: string
-		}>
+		requestBody?: never
+		responses: {
+			/** @description The Account's open Positions are provided. */
+			200: {
+				headers: {
+					/** @description The unique identifier generated for the request */
+					RequestID?: string
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						/** @description The list of open Positions in the Account. */
+						positions?: components["schemas"]["Position"][]
+						/**
+						 * Format: String representation of the numerical OANDA-assigned TransactionID
+						 * @description The ID of the most recent Transaction created for the Account
+						 */
+						lastTransactionID?: string
+					}
+				}
+			}
+			401: components["responses"]["401"]
+			404: components["responses"]["404"]
+			405: components["responses"]["405"]
+		}
 	}
-	export type get_ListOrders = {
-		method: "GET"
-		path: "/accounts/{accountID}/orders"
-		requestFormat: "json"
+	getPosition: {
 		parameters: {
-			query: Partial<{
-				ids: Array<string>
-				state: string
-				instrument: string
-				count: number
-				beforeID: string
-			}>
-			path: { accountID: string }
+			query?: never
 			header: {
-				Authorization: string
-				"Accept-Datetime-Format": string | undefined
+				/** @description The authorization bearer token previously obtained by the client */
+				Authorization: components["parameters"]["authorizationHeaderParam"]
 			}
+			path: {
+				/** @description Account Identifier */
+				accountID: components["parameters"]["accountIDPathParam"]
+				/** @description Name of the Instrument */
+				instrument: components["parameters"]["instrumentNamePathParam"]
+			}
+			cookie?: never
 		}
-		response: Partial<{
-			orders: Array<Schemas.Order>
-			lastTransactionID: string
-		}>
+		requestBody?: never
+		responses: {
+			/** @description The Position is provided. */
+			200: {
+				headers: {
+					/** @description The unique identifier generated for the request */
+					RequestID?: string
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						position?: components["schemas"]["Position"]
+						/**
+						 * Format: String representation of the numerical OANDA-assigned TransactionID
+						 * @description The ID of the most recent Transaction created for the Account
+						 */
+						lastTransactionID?: string
+					}
+				}
+			}
+			401: components["responses"]["401"]
+			404: components["responses"]["404"]
+			405: components["responses"]["405"]
+		}
 	}
-	export type get_ListPendingOrders = {
-		method: "GET"
-		path: "/accounts/{accountID}/pendingOrders"
-		requestFormat: "json"
+	closePosition: {
 		parameters: {
-			path: { accountID: string }
+			query?: never
 			header: {
-				Authorization: string
-				"Accept-Datetime-Format": string | undefined
+				/** @description The authorization bearer token previously obtained by the client */
+				Authorization: components["parameters"]["authorizationHeaderParam"]
+				/** @description Format of DateTime fields in the request and response. */
+				"Accept-Datetime-Format"?: components["parameters"]["acceptDatetimeFormatHeaderParam"]
+			}
+			path: {
+				/** @description Account Identifier */
+				accountID: components["parameters"]["accountIDPathParam"]
+				/** @description Name of the Instrument */
+				instrument: components["parameters"]["instrumentNamePathParam"]
+			}
+			cookie?: never
+		}
+		/** @description Representation of how to close the position */
+		requestBody: {
+			content: {
+				"application/json": {
+					/** @description Indication of how much of the long Position to closeout. Either the string "ALL", the string "NONE", or a DecimalNumber representing how many units of the long position to close using a PositionCloseout MarketOrder. The units specified must always be positive. */
+					longUnits?: string
+					longClientExtensions?: components["schemas"]["ClientExtensions"]
+					/** @description Indication of how much of the short Position to closeout. Either the string "ALL", the string "NONE", or a DecimalNumber representing how many units of the short position to close using a PositionCloseout MarketOrder. The units specified must always be positive. */
+					shortUnits?: string
+					shortClientExtensions?: components["schemas"]["ClientExtensions"]
+				}
 			}
 		}
-		response: Partial<{
-			orders: Array<Schemas.Order>
-			lastTransactionID: string
-		}>
+		responses: {
+			/** @description The Position closeout request has been successfully processed. */
+			200: {
+				headers: {
+					/** @description A link to the Position that was just closed out */
+					Location?: string
+					/** @description The unique identifier generated for the request */
+					RequestID?: string
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						longOrderCreateTransaction?: components["schemas"]["MarketOrderTransaction"]
+						longOrderFillTransaction?: components["schemas"]["OrderFillTransaction"]
+						longOrderCancelTransaction?: components["schemas"]["OrderCancelTransaction"]
+						shortOrderCreateTransaction?: components["schemas"]["MarketOrderTransaction"]
+						shortOrderFillTransaction?: components["schemas"]["OrderFillTransaction"]
+						shortOrderCancelTransaction?: components["schemas"]["OrderCancelTransaction"]
+						/** @description The IDs of all Transactions that were created while satisfying the request. */
+						relatedTransactionIDs?: string[]
+						/**
+						 * Format: String representation of the numerical OANDA-assigned TransactionID
+						 * @description The ID of the most recent Transaction created for the Account
+						 */
+						lastTransactionID?: string
+					}
+				}
+			}
+			/** @description The Parameters provided that describe the Position closeout are invalid. */
+			400: {
+				headers: {
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						longOrderRejectTransaction?: components["schemas"]["MarketOrderRejectTransaction"]
+						shortOrderRejectTransaction?: components["schemas"]["MarketOrderRejectTransaction"]
+						/** @description The IDs of all Transactions that were created while satisfying the request. */
+						relatedTransactionIDs?: string[]
+						/**
+						 * Format: String representation of the numerical OANDA-assigned TransactionID
+						 * @description The ID of the most recent Transaction created for the Account
+						 */
+						lastTransactionID?: string
+						/** @description The code of the error that has occurred. This field may not be returned for some errors. */
+						errorCode?: string
+						/** @description The human-readable description of the error that has occurred. */
+						errorMessage?: string
+					}
+				}
+			}
+			401: components["responses"]["401"]
+			/** @description The Account or one or more of the Positions specified does not exist. */
+			404: {
+				headers: {
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						longOrderRejectTransaction?: components["schemas"]["MarketOrderRejectTransaction"]
+						shortOrderRejectTransaction?: components["schemas"]["MarketOrderRejectTransaction"]
+						/** @description The IDs of all Transactions that were created while satisfying the request. Only present if the Account exists. */
+						relatedTransactionIDs?: string[]
+						/**
+						 * Format: String representation of the numerical OANDA-assigned TransactionID
+						 * @description The ID of the most recent Transaction created for the Account. Only present if the Account exists.
+						 */
+						lastTransactionID?: string
+						/** @description The code of the error that has occurred. This field may not be returned for some errors. */
+						errorCode?: string
+						/** @description The human-readable description of the error that has occurred. */
+						errorMessage?: string
+					}
+				}
+			}
+			405: components["responses"]["405"]
+		}
 	}
-	export type get_GetOrder = {
-		method: "GET"
-		path: "/accounts/{accountID}/orders/{orderSpecifier}"
-		requestFormat: "json"
+	listTrades: {
 		parameters: {
-			path: { accountID: string; orderSpecifier: string }
-			header: {
-				Authorization: string
-				"Accept-Datetime-Format": string | undefined
+			query?: {
+				/** @description List of Trade IDs to retrieve. */
+				ids?: string[]
+				/** @description The state to filter the requested Trades by. */
+				state?: string
+				/** @description The instrument to filter the requested Trades by. */
+				instrument?: string
+				/** @description The maximum number of Trades to return. */
+				count?: number
+				/** @description The maximum Trade ID to return. If not provided the most recent Trades in the Account are returned. */
+				beforeID?: string
 			}
+			header: {
+				/** @description The authorization bearer token previously obtained by the client */
+				Authorization: components["parameters"]["authorizationHeaderParam"]
+				/** @description Format of DateTime fields in the request and response. */
+				"Accept-Datetime-Format"?: components["parameters"]["acceptDatetimeFormatHeaderParam"]
+			}
+			path: {
+				/** @description Account Identifier */
+				accountID: components["parameters"]["accountIDPathParam"]
+			}
+			cookie?: never
 		}
-		response: Partial<{ order: Schemas.Order; lastTransactionID: string }>
+		requestBody?: never
+		responses: {
+			/** @description The list of Trades requested */
+			200: {
+				headers: {
+					/** @description A link to the next page of Trades if the results were paginated */
+					Link?: string
+					/** @description The unique identifier generated for the request */
+					RequestID?: string
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						/** @description The list of Trade detail objects */
+						trades?: components["schemas"]["Trade"][]
+						/**
+						 * Format: String representation of the numerical OANDA-assigned TransactionID
+						 * @description The ID of the most recent Transaction created for the Account
+						 */
+						lastTransactionID?: string
+					}
+				}
+			}
+			401: components["responses"]["401"]
+			404: components["responses"]["404"]
+			405: components["responses"]["405"]
+		}
 	}
-	export type put_ReplaceOrder = {
-		method: "PUT"
-		path: "/accounts/{accountID}/orders/{orderSpecifier}"
-		requestFormat: "json"
+	listOpenTrades: {
 		parameters: {
-			path: { accountID: string; orderSpecifier: string }
+			query?: never
 			header: {
-				Authorization: string
-				"Accept-Datetime-Format": string | undefined
-				ClientRequestID: string | undefined
+				/** @description The authorization bearer token previously obtained by the client */
+				Authorization: components["parameters"]["authorizationHeaderParam"]
+				/** @description Format of DateTime fields in the request and response. */
+				"Accept-Datetime-Format"?: components["parameters"]["acceptDatetimeFormatHeaderParam"]
 			}
-			body: Partial<{ order: Schemas.OrderRequest }>
+			path: {
+				/** @description Account Identifier */
+				accountID: components["parameters"]["accountIDPathParam"]
+			}
+			cookie?: never
 		}
-		response: Partial<{
-			orderCancelTransaction: Schemas.OrderCancelTransaction
-			orderCreateTransaction: Schemas.Transaction
-			orderFillTransaction: Schemas.OrderFillTransaction
-			orderReissueTransaction: Schemas.Transaction
-			orderReissueRejectTransaction: Schemas.Transaction
-			replacingOrderCancelTransaction: Schemas.OrderCancelTransaction
-			relatedTransactionIDs: Array<string>
-			lastTransactionID: string
-		}>
+		requestBody?: never
+		responses: {
+			/** @description The Account's list of open Trades is provided */
+			200: {
+				headers: {
+					/** @description The unique identifier generated for the request */
+					RequestID?: string
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						/** @description The Account's list of open Trades */
+						trades?: components["schemas"]["Trade"][]
+						/**
+						 * Format: String representation of the numerical OANDA-assigned TransactionID
+						 * @description The ID of the most recent Transaction created for the Account
+						 */
+						lastTransactionID?: string
+					}
+				}
+			}
+			401: components["responses"]["401"]
+			404: components["responses"]["404"]
+			405: components["responses"]["405"]
+		}
 	}
-	export type put_CancelOrder = {
-		method: "PUT"
-		path: "/accounts/{accountID}/orders/{orderSpecifier}/cancel"
-		requestFormat: "json"
+	getTrade: {
 		parameters: {
-			path: { accountID: string; orderSpecifier: string }
+			query?: never
 			header: {
-				Authorization: string
-				"Accept-Datetime-Format": string | undefined
-				ClientRequestID: string | undefined
+				/** @description The authorization bearer token previously obtained by the client */
+				Authorization: components["parameters"]["authorizationHeaderParam"]
+				/** @description Format of DateTime fields in the request and response. */
+				"Accept-Datetime-Format"?: components["parameters"]["acceptDatetimeFormatHeaderParam"]
 			}
+			path: {
+				/** @description Account Identifier */
+				accountID: components["parameters"]["accountIDPathParam"]
+				/** @description Specifier for the Trade */
+				tradeSpecifier: components["parameters"]["tradeSpecifierPathParam"]
+			}
+			cookie?: never
 		}
-		response: Partial<{
-			orderCancelTransaction: Schemas.OrderCancelTransaction
-			relatedTransactionIDs: Array<string>
-			lastTransactionID: string
-		}>
+		requestBody?: never
+		responses: {
+			/** @description The details for the requested Trade is provided */
+			200: {
+				headers: {
+					/** @description The unique identifier generated for the request */
+					RequestID?: string
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						trade?: components["schemas"]["Trade"]
+						/**
+						 * Format: String representation of the numerical OANDA-assigned TransactionID
+						 * @description The ID of the most recent Transaction created for the Account
+						 */
+						lastTransactionID?: string
+					}
+				}
+			}
+			401: components["responses"]["401"]
+			404: components["responses"]["404"]
+			405: components["responses"]["405"]
+		}
 	}
-	export type put_SetOrderClientExtensions = {
-		method: "PUT"
-		path: "/accounts/{accountID}/orders/{orderSpecifier}/clientExtensions"
-		requestFormat: "json"
+	closeTrade: {
 		parameters: {
-			path: { accountID: string; orderSpecifier: string }
+			query?: never
 			header: {
-				Authorization: string
-				"Accept-Datetime-Format": string | undefined
+				/** @description The authorization bearer token previously obtained by the client */
+				Authorization: components["parameters"]["authorizationHeaderParam"]
+				/** @description Format of DateTime fields in the request and response. */
+				"Accept-Datetime-Format"?: components["parameters"]["acceptDatetimeFormatHeaderParam"]
 			}
-			body: Partial<{
-				clientExtensions: Schemas.ClientExtensions
-				tradeClientExtensions: Schemas.ClientExtensions
-			}>
+			path: {
+				/** @description Account Identifier */
+				accountID: components["parameters"]["accountIDPathParam"]
+				/** @description Specifier for the Trade */
+				tradeSpecifier: components["parameters"]["tradeSpecifierPathParam"]
+			}
+			cookie?: never
 		}
-		response: Partial<{
-			orderClientExtensionsModifyTransaction: Schemas.OrderClientExtensionsModifyTransaction
-			lastTransactionID: string
-			relatedTransactionIDs: Array<string>
-		}>
+		/** @description Details of how much of the open Trade to close. */
+		requestBody: {
+			content: {
+				"application/json": {
+					/** @description Indication of how much of the Trade to close. Either the string "ALL" (indicating that all of the Trade should be closed), or a DecimalNumber representing the number of units of the open Trade to Close using a TradeClose MarketOrder. The units specified must always be positive, and the magnitude of the value cannot exceed the magnitude of the Trade's open units. */
+					units?: string
+				}
+			}
+		}
+		responses: {
+			/** @description The Trade has been closed as requested */
+			200: {
+				headers: {
+					/** @description The unique identifier generated for the request */
+					RequestID?: string
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						orderCreateTransaction?: components["schemas"]["MarketOrderTransaction"]
+						orderFillTransaction?: components["schemas"]["OrderFillTransaction"]
+						orderCancelTransaction?: components["schemas"]["OrderCancelTransaction"]
+						/** @description The IDs of all Transactions that were created while satisfying the request. */
+						relatedTransactionIDs?: string[]
+						/**
+						 * Format: String representation of the numerical OANDA-assigned TransactionID
+						 * @description The ID of the most recent Transaction created for the Account
+						 */
+						lastTransactionID?: string
+					}
+				}
+			}
+			/** @description The Trade cannot be closed as requested. */
+			400: {
+				headers: {
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						orderRejectTransaction?: components["schemas"]["MarketOrderRejectTransaction"]
+						/** @description The code of the error that has occurred. This field may not be returned for some errors. */
+						errorCode?: string
+						/** @description The human-readable description of the error that has occurred. */
+						errorMessage?: string
+					}
+				}
+			}
+			401: components["responses"]["401"]
+			/** @description The Account or Trade specified does not exist. */
+			404: {
+				headers: {
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						orderRejectTransaction?: components["schemas"]["MarketOrderRejectTransaction"]
+						/**
+						 * Format: String representation of the numerical OANDA-assigned TransactionID
+						 * @description The ID of the most recent Transaction created for the Account. Only present if the Account exists.
+						 */
+						lastTransactionID?: string
+						/** @description The IDs of all Transactions that were created while satisfying the request. Only present if the Account exists. */
+						relatedTransactionIDs?: string[]
+						/** @description The code of the error that has occurred. This field may not be returned for some errors. */
+						errorCode?: string
+						/** @description The human-readable description of the error that has occurred. */
+						errorMessage?: string
+					}
+				}
+			}
+			405: components["responses"]["405"]
+		}
 	}
-
-	// </Endpoints>
+	setTradeClientExtensions: {
+		parameters: {
+			query?: never
+			header: {
+				/** @description The authorization bearer token previously obtained by the client */
+				Authorization: components["parameters"]["authorizationHeaderParam"]
+				/** @description Format of DateTime fields in the request and response. */
+				"Accept-Datetime-Format"?: components["parameters"]["acceptDatetimeFormatHeaderParam"]
+			}
+			path: {
+				/** @description Account Identifier */
+				accountID: components["parameters"]["accountIDPathParam"]
+				/** @description Specifier for the Trade */
+				tradeSpecifier: components["parameters"]["tradeSpecifierPathParam"]
+			}
+			cookie?: never
+		}
+		/** @description Details of how to modify the Trade's Client Extensions. */
+		requestBody: {
+			content: {
+				"application/json": {
+					clientExtensions?: components["schemas"]["ClientExtensions"]
+				}
+			}
+		}
+		responses: {
+			/** @description The Trade's Client Extensions have been updated as requested. */
+			200: {
+				headers: {
+					/** @description The unique identifier generated for the request */
+					RequestID?: string
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						tradeClientExtensionsModifyTransaction?: components["schemas"]["TradeClientExtensionsModifyTransaction"]
+						/** @description The IDs of all Transactions that were created while satisfying the request. */
+						relatedTransactionIDs?: string[]
+						/**
+						 * Format: String representation of the numerical OANDA-assigned TransactionID
+						 * @description The ID of the most recent Transaction created for the Account
+						 */
+						lastTransactionID?: string
+					}
+				}
+			}
+			/** @description The Trade's Client Extensions cannot be modified as requested. */
+			400: {
+				headers: {
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						tradeClientExtensionsModifyRejectTransaction?: components["schemas"]["TradeClientExtensionsModifyRejectTransaction"]
+						/**
+						 * Format: String representation of the numerical OANDA-assigned TransactionID
+						 * @description The ID of the most recent Transaction created for the Account.
+						 */
+						lastTransactionID?: string
+						/** @description The IDs of all Transactions that were created while satisfying the request. */
+						relatedTransactionIDs?: string[]
+						/** @description The code of the error that has occurred. This field may not be returned for some errors. */
+						errorCode?: string
+						/** @description The human-readable description of the error that has occurred. */
+						errorMessage?: string
+					}
+				}
+			}
+			401: components["responses"]["401"]
+			/** @description The Account or Trade specified does not exist. */
+			404: {
+				headers: {
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						tradeClientExtensionsModifyRejectTransaction?: components["schemas"]["TradeClientExtensionsModifyRejectTransaction"]
+						/**
+						 * Format: String representation of the numerical OANDA-assigned TransactionID
+						 * @description The ID of the most recent Transaction created for the Account. Only present if the Account exists.
+						 */
+						lastTransactionID?: string
+						/** @description The IDs of all Transactions that were created while satisfying the request. Only present if the Account exists. */
+						relatedTransactionIDs?: string[]
+						/** @description The code of the error that has occurred. This field may not be returned for some errors. */
+						errorCode?: string
+						/** @description The human-readable description of the error that has occurred. */
+						errorMessage?: string
+					}
+				}
+			}
+			405: components["responses"]["405"]
+		}
+	}
+	setTradeDependentOrders: {
+		parameters: {
+			query?: never
+			header: {
+				/** @description The authorization bearer token previously obtained by the client */
+				Authorization: components["parameters"]["authorizationHeaderParam"]
+				/** @description Format of DateTime fields in the request and response. */
+				"Accept-Datetime-Format"?: components["parameters"]["acceptDatetimeFormatHeaderParam"]
+			}
+			path: {
+				/** @description Account Identifier */
+				accountID: components["parameters"]["accountIDPathParam"]
+				/** @description Specifier for the Trade */
+				tradeSpecifier: components["parameters"]["tradeSpecifierPathParam"]
+			}
+			cookie?: never
+		}
+		/** @description Details of how to modify the Trade's dependent Orders. */
+		requestBody: {
+			content: {
+				"application/json": {
+					takeProfit?: components["schemas"]["TakeProfitDetails"]
+					stopLoss?: components["schemas"]["StopLossDetails"]
+					trailingStopLoss?: components["schemas"]["TrailingStopLossDetails"]
+				}
+			}
+		}
+		responses: {
+			/** @description The Trade's dependent Orders have been modified as requested. */
+			200: {
+				headers: {
+					/** @description The unique identifier generated for the request */
+					RequestID?: string
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						takeProfitOrderCancelTransaction?: components["schemas"]["OrderCancelTransaction"]
+						takeProfitOrderTransaction?: components["schemas"]["TakeProfitOrderTransaction"]
+						takeProfitOrderFillTransaction?: components["schemas"]["OrderFillTransaction"]
+						takeProfitOrderCreatedCancelTransaction?: components["schemas"]["OrderCancelTransaction"]
+						stopLossOrderCancelTransaction?: components["schemas"]["OrderCancelTransaction"]
+						stopLossOrderTransaction?: components["schemas"]["StopLossOrderTransaction"]
+						stopLossOrderFillTransaction?: components["schemas"]["OrderFillTransaction"]
+						stopLossOrderCreatedCancelTransaction?: components["schemas"]["OrderCancelTransaction"]
+						trailingStopLossOrderCancelTransaction?: components["schemas"]["OrderCancelTransaction"]
+						trailingStopLossOrderTransaction?: components["schemas"]["TrailingStopLossOrderTransaction"]
+						/** @description The IDs of all Transactions that were created while satisfying the request. */
+						relatedTransactionIDs?: string[]
+						/**
+						 * Format: String representation of the numerical OANDA-assigned TransactionID
+						 * @description The ID of the most recent Transaction created for the Account
+						 */
+						lastTransactionID?: string
+					}
+				}
+			}
+			/** @description The Trade's dependent Orders cannot be modified as requested. */
+			400: {
+				headers: {
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						takeProfitOrderCancelRejectTransaction?: components["schemas"]["OrderCancelRejectTransaction"]
+						takeProfitOrderRejectTransaction?: components["schemas"]["TakeProfitOrderRejectTransaction"]
+						stopLossOrderCancelRejectTransaction?: components["schemas"]["OrderCancelRejectTransaction"]
+						stopLossOrderRejectTransaction?: components["schemas"]["StopLossOrderRejectTransaction"]
+						trailingStopLossOrderCancelRejectTransaction?: components["schemas"]["OrderCancelRejectTransaction"]
+						trailingStopLossOrderRejectTransaction?: components["schemas"]["TrailingStopLossOrderRejectTransaction"]
+						/**
+						 * Format: String representation of the numerical OANDA-assigned TransactionID
+						 * @description The ID of the most recent Transaction created for the Account.
+						 */
+						lastTransactionID?: string
+						/** @description The IDs of all Transactions that were created while satisfying the request. */
+						relatedTransactionIDs?: string[]
+						/** @description The code of the error that has occurred. This field may not be returned for some errors. */
+						errorCode?: string
+						/** @description The human-readable description of the error that has occurred. */
+						errorMessage?: string
+					}
+				}
+			}
+			401: components["responses"]["401"]
+			404: components["responses"]["404"]
+			405: components["responses"]["405"]
+		}
+	}
+	listAccounts: {
+		parameters: {
+			query?: never
+			header: {
+				/** @description The authorization bearer token previously obtained by the client */
+				Authorization: components["parameters"]["authorizationHeaderParam"]
+			}
+			path?: never
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description The list of authorized Accounts has been provided. */
+			200: {
+				headers: {
+					/** @description The unique identifier generated for the request */
+					RequestID?: string
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						/** @description The list of Accounts the client is authorized to access and their associated properties. */
+						accounts?: components["schemas"]["AccountProperties"][]
+					}
+				}
+			}
+			401: components["responses"]["401"]
+			405: components["responses"]["405"]
+		}
+	}
+	getAccount: {
+		parameters: {
+			query?: never
+			header: {
+				/** @description The authorization bearer token previously obtained by the client */
+				Authorization: components["parameters"]["authorizationHeaderParam"]
+				/** @description Format of DateTime fields in the request and response. */
+				"Accept-Datetime-Format"?: components["parameters"]["acceptDatetimeFormatHeaderParam"]
+			}
+			path: {
+				/** @description Account Identifier */
+				accountID: components["parameters"]["accountIDPathParam"]
+			}
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description The full Account details are provided */
+			200: {
+				headers: {
+					/** @description The unique identifier generated for the request */
+					RequestID?: string
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						account?: components["schemas"]["Account"]
+						/**
+						 * Format: String representation of the numerical OANDA-assigned TransactionID
+						 * @description The ID of the most recent Transaction created for the Account.
+						 */
+						lastTransactionID?: string
+					}
+				}
+			}
+			400: components["responses"]["400"]
+			401: components["responses"]["401"]
+			405: components["responses"]["405"]
+		}
+	}
+	getAccountSummary: {
+		parameters: {
+			query?: never
+			header: {
+				/** @description The authorization bearer token previously obtained by the client */
+				Authorization: components["parameters"]["authorizationHeaderParam"]
+				/** @description Format of DateTime fields in the request and response. */
+				"Accept-Datetime-Format"?: components["parameters"]["acceptDatetimeFormatHeaderParam"]
+			}
+			path: {
+				/** @description Account Identifier */
+				accountID: components["parameters"]["accountIDPathParam"]
+			}
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description The Account summary  are provided */
+			200: {
+				headers: {
+					/** @description The unique identifier generated for the request */
+					RequestID?: string
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						account?: components["schemas"]["AccountSummary"]
+						/**
+						 * Format: String representation of the numerical OANDA-assigned TransactionID
+						 * @description The ID of the most recent Transaction created for the Account.
+						 */
+						lastTransactionID?: string
+					}
+				}
+			}
+			400: components["responses"]["400"]
+			401: components["responses"]["401"]
+			405: components["responses"]["405"]
+		}
+	}
+	getAccountInstruments: {
+		parameters: {
+			query?: {
+				/** @description List of instruments to query specifically. */
+				instruments?: string[]
+			}
+			header: {
+				/** @description The authorization bearer token previously obtained by the client */
+				Authorization: components["parameters"]["authorizationHeaderParam"]
+			}
+			path: {
+				/** @description Account Identifier */
+				accountID: components["parameters"]["accountIDPathParam"]
+			}
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description The list of tradeable instruments for the Account has been provided. */
+			200: {
+				headers: {
+					/** @description The unique identifier generated for the request */
+					RequestID?: string
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						/** @description The requested list of instruments. */
+						instruments?: components["schemas"]["Instrument"][]
+						/**
+						 * Format: String representation of the numerical OANDA-assigned TransactionID
+						 * @description The ID of the most recent Transaction created for the Account.
+						 */
+						lastTransactionID?: string
+					}
+				}
+			}
+			400: components["responses"]["400"]
+			401: components["responses"]["401"]
+			405: components["responses"]["405"]
+		}
+	}
+	configureAccount: {
+		parameters: {
+			query?: never
+			header: {
+				/** @description The authorization bearer token previously obtained by the client */
+				Authorization: components["parameters"]["authorizationHeaderParam"]
+				/** @description Format of DateTime fields in the request and response. */
+				"Accept-Datetime-Format"?: components["parameters"]["acceptDatetimeFormatHeaderParam"]
+			}
+			path: {
+				/** @description Account Identifier */
+				accountID: components["parameters"]["accountIDPathParam"]
+			}
+			cookie?: never
+		}
+		/** @description Representation of the Account configuration to set */
+		requestBody?: {
+			content: {
+				"application/json": {
+					/** @description Client-defined alias (name) for the Account */
+					alias?: string
+					/**
+					 * Format: A decimal number encoded as a string. The amount of precision provided depends on what the number represents.
+					 * @description The string representation of a decimal number.
+					 */
+					marginRate?: string
+				}
+			}
+		}
+		responses: {
+			/** @description The Account was configured successfully. */
+			200: {
+				headers: {
+					/** @description The unique identifier generated for the request */
+					RequestID?: string
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						clientConfigureTransaction?: components["schemas"]["ClientConfigureTransaction"]
+						/**
+						 * Format: String representation of the numerical OANDA-assigned TransactionID
+						 * @description The ID of the last Transaction created for the Account.
+						 */
+						lastTransactionID?: string
+					}
+				}
+			}
+			/** @description The configuration specification was invalid. */
+			400: {
+				headers: {
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						clientConfigureRejectTransaction?: components["schemas"]["ClientConfigureRejectTransaction"]
+						/**
+						 * Format: String representation of the numerical OANDA-assigned TransactionID
+						 * @description The ID of the last Transaction created for the Account.
+						 */
+						lastTransactionID?: string
+						/** @description The code of the error that has occurred. This field may not be returned for some errors. */
+						errorCode?: string
+						/** @description The human-readable description of the error that has occurred. */
+						errorMessage?: string
+					}
+				}
+			}
+			401: components["responses"]["401"]
+			/** @description The configuration operation was forbidden on the Account. */
+			403: {
+				headers: {
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						clientConfigureRejectTransaction?: components["schemas"]["ClientConfigureRejectTransaction"]
+						/**
+						 * Format: String representation of the numerical OANDA-assigned TransactionID
+						 * @description The ID of the last Transaction created for the Account.
+						 */
+						lastTransactionID?: string
+						/** @description The code of the error that has occurred. This field may not be returned for some errors. */
+						errorCode?: string
+						/** @description The human-readable description of the error that has occurred. */
+						errorMessage?: string
+					}
+				}
+			}
+			404: components["responses"]["404"]
+			405: components["responses"]["405"]
+		}
+	}
+	getAccountChanges: {
+		parameters: {
+			query?: {
+				/** @description ID of the Transaction to get Account changes since. */
+				sinceTransactionID?: string
+			}
+			header: {
+				/** @description The authorization bearer token previously obtained by the client */
+				Authorization: components["parameters"]["authorizationHeaderParam"]
+				/** @description Format of DateTime fields in the request and response. */
+				"Accept-Datetime-Format"?: components["parameters"]["acceptDatetimeFormatHeaderParam"]
+			}
+			path: {
+				/** @description Account Identifier */
+				accountID: components["parameters"]["accountIDPathParam"]
+			}
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description The Account state and changes are provided. */
+			200: {
+				headers: {
+					/** @description The unique identifier generated for the request */
+					RequestID?: string
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						changes?: components["schemas"]["AccountChanges"]
+						state?: components["schemas"]["AccountChangesState"]
+						/**
+						 * Format: String representation of the numerical OANDA-assigned TransactionID
+						 * @description The ID of the last Transaction created for the Account.  This Transaction ID should be used for future poll requests, as the client has already observed all changes up to and including it.
+						 */
+						lastTransactionID?: string
+					}
+				}
+			}
+			401: components["responses"]["401"]
+			404: components["responses"]["404"]
+			405: components["responses"]["405"]
+			416: components["responses"]["416"]
+		}
+	}
+	listTransactions: {
+		parameters: {
+			query?: {
+				/** @description The starting time (inclusive) of the time range for the Transactions being queried. */
+				from?: string
+				/** @description The ending time (inclusive) of the time range for the Transactions being queried. */
+				to?: string
+				/** @description The number of Transactions to include in each page of the results. */
+				pageSize?: number
+				/** @description A filter for restricting the types of Transactions to retreive. */
+				type?: string[]
+			}
+			header: {
+				/** @description The authorization bearer token previously obtained by the client */
+				Authorization: components["parameters"]["authorizationHeaderParam"]
+				/** @description Format of DateTime fields in the request and response. */
+				"Accept-Datetime-Format"?: components["parameters"]["acceptDatetimeFormatHeaderParam"]
+			}
+			path: {
+				/** @description Account Identifier */
+				accountID: components["parameters"]["accountIDPathParam"]
+			}
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description The requested time range of Transaction pages are provided. */
+			200: {
+				headers: {
+					/** @description The unique identifier generated for the request */
+					RequestID?: string
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						/**
+						 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+						 * @description The starting time provided in the request.
+						 */
+						from?: string
+						/**
+						 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+						 * @description The ending time provided in the request.
+						 */
+						to?: string
+						/** @description The pageSize provided in the request */
+						pageSize?: number
+						/** @description The Transaction-type filter provided in the request */
+						type?: (
+							| "ORDER"
+							| "FUNDING"
+							| "ADMIN"
+							| "CREATE"
+							| "CLOSE"
+							| "REOPEN"
+							| "CLIENT_CONFIGURE"
+							| "CLIENT_CONFIGURE_REJECT"
+							| "TRANSFER_FUNDS"
+							| "TRANSFER_FUNDS_REJECT"
+							| "MARKET_ORDER"
+							| "MARKET_ORDER_REJECT"
+							| "LIMIT_ORDER"
+							| "LIMIT_ORDER_REJECT"
+							| "STOP_ORDER"
+							| "STOP_ORDER_REJECT"
+							| "MARKET_IF_TOUCHED_ORDER"
+							| "MARKET_IF_TOUCHED_ORDER_REJECT"
+							| "TAKE_PROFIT_ORDER"
+							| "TAKE_PROFIT_ORDER_REJECT"
+							| "STOP_LOSS_ORDER"
+							| "STOP_LOSS_ORDER_REJECT"
+							| "TRAILING_STOP_LOSS_ORDER"
+							| "TRAILING_STOP_LOSS_ORDER_REJECT"
+							| "ONE_CANCELS_ALL_ORDER"
+							| "ONE_CANCELS_ALL_ORDER_REJECT"
+							| "ONE_CANCELS_ALL_ORDER_TRIGGERED"
+							| "ORDER_FILL"
+							| "ORDER_CANCEL"
+							| "ORDER_CANCEL_REJECT"
+							| "ORDER_CLIENT_EXTENSIONS_MODIFY"
+							| "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT"
+							| "TRADE_CLIENT_EXTENSIONS_MODIFY"
+							| "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT"
+							| "MARGIN_CALL_ENTER"
+							| "MARGIN_CALL_EXTEND"
+							| "MARGIN_CALL_EXIT"
+							| "DELAYED_TRADE_CLOSURE"
+							| "DAILY_FINANCING"
+							| "RESET_RESETTABLE_PL"
+						)[]
+						/** @description The number of Transactions that are contained in the pages returned */
+						count?: number
+						/** @description The list of URLs that represent idrange queries providing the data for each page in the query results */
+						pages?: string[]
+						/**
+						 * Format: String representation of the numerical OANDA-assigned TransactionID
+						 * @description The ID of the most recent Transaction created for the Account
+						 */
+						lastTransactionID?: string
+					}
+				}
+			}
+			400: components["responses"]["400"]
+			401: components["responses"]["401"]
+			403: components["responses"]["403"]
+			404: components["responses"]["404"]
+			405: components["responses"]["405"]
+			416: components["responses"]["416"]
+		}
+	}
+	getTransaction: {
+		parameters: {
+			query?: never
+			header: {
+				/** @description The authorization bearer token previously obtained by the client */
+				Authorization: components["parameters"]["authorizationHeaderParam"]
+				/** @description Format of DateTime fields in the request and response. */
+				"Accept-Datetime-Format"?: components["parameters"]["acceptDatetimeFormatHeaderParam"]
+			}
+			path: {
+				/** @description Account Identifier */
+				accountID: components["parameters"]["accountIDPathParam"]
+				/** @description A Transaction ID */
+				transactionID: components["parameters"]["transactionIDPathParam"]
+			}
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description The details of the requested Transaction are provided. */
+			200: {
+				headers: {
+					/** @description The unique identifier generated for the request */
+					RequestID?: string
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						transaction?: components["schemas"]["Transaction"]
+						/**
+						 * Format: String representation of the numerical OANDA-assigned TransactionID
+						 * @description The ID of the most recent Transaction created for the Account
+						 */
+						lastTransactionID?: string
+					}
+				}
+			}
+			401: components["responses"]["401"]
+			404: components["responses"]["404"]
+			405: components["responses"]["405"]
+		}
+	}
+	getTransactionRange: {
+		parameters: {
+			query: {
+				/** @description The starting Transacion ID (inclusive) to fetch. */
+				from: string
+				/** @description The ending Transaction ID (inclusive) to fetch. */
+				to: string
+				/** @description The filter that restricts the types of Transactions to retreive. */
+				type?: string[]
+			}
+			header: {
+				/** @description The authorization bearer token previously obtained by the client */
+				Authorization: components["parameters"]["authorizationHeaderParam"]
+				/** @description Format of DateTime fields in the request and response. */
+				"Accept-Datetime-Format"?: components["parameters"]["acceptDatetimeFormatHeaderParam"]
+			}
+			path: {
+				/** @description Account Identifier */
+				accountID: components["parameters"]["accountIDPathParam"]
+			}
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description The requested time range of Transactions are provided. */
+			200: {
+				headers: {
+					/** @description The unique identifier generated for the request */
+					RequestID?: string
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						/** @description The list of Transactions that satisfy the request. */
+						transactions?: components["schemas"]["Transaction"][]
+						/**
+						 * Format: String representation of the numerical OANDA-assigned TransactionID
+						 * @description The ID of the most recent Transaction created for the Account
+						 */
+						lastTransactionID?: string
+					}
+				}
+			}
+			400: components["responses"]["400"]
+			401: components["responses"]["401"]
+			404: components["responses"]["404"]
+			405: components["responses"]["405"]
+			416: components["responses"]["416"]
+		}
+	}
+	getTransactionsSinceId: {
+		parameters: {
+			query: {
+				/** @description The ID of the last Transacion fetched. This query will return all Transactions newer than the TransactionID. */
+				id: string
+			}
+			header: {
+				/** @description The authorization bearer token previously obtained by the client */
+				Authorization: components["parameters"]["authorizationHeaderParam"]
+				/** @description Format of DateTime fields in the request and response. */
+				"Accept-Datetime-Format"?: components["parameters"]["acceptDatetimeFormatHeaderParam"]
+			}
+			path: {
+				/** @description Account Identifier */
+				accountID: components["parameters"]["accountIDPathParam"]
+			}
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description The requested time range of Transactions are provided. */
+			200: {
+				headers: {
+					/** @description The unique identifier generated for the request */
+					RequestID?: string
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						/** @description The list of Transactions that satisfy the request. */
+						transactions?: components["schemas"]["Transaction"][]
+						/**
+						 * Format: String representation of the numerical OANDA-assigned TransactionID
+						 * @description The ID of the most recent Transaction created for the Account
+						 */
+						lastTransactionID?: string
+					}
+				}
+			}
+			400: components["responses"]["400"]
+			401: components["responses"]["401"]
+			404: components["responses"]["404"]
+			405: components["responses"]["405"]
+			416: components["responses"]["416"]
+		}
+	}
+	streamTransactions: {
+		parameters: {
+			query?: never
+			header: {
+				/** @description The authorization bearer token previously obtained by the client */
+				Authorization: components["parameters"]["authorizationHeaderParam"]
+			}
+			path: {
+				/** @description Account Identifier */
+				accountID: components["parameters"]["accountIDPathParam"]
+			}
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description Connecting to the Transaction Stream was successful. */
+			200: {
+				headers: {
+					/** @description The unique identifier generated for the request */
+					RequestID?: string
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						transaction?: components["schemas"]["Transaction"]
+						heartbeat?: components["schemas"]["TransactionHeartbeat"]
+					}
+				}
+			}
+			400: components["responses"]["400"]
+			401: components["responses"]["401"]
+			404: components["responses"]["404"]
+			405: components["responses"]["405"]
+		}
+	}
+	getUserInfo: {
+		parameters: {
+			query?: never
+			header: {
+				/** @description The authorization bearer token previously obtained by the client */
+				Authorization: components["parameters"]["authorizationHeaderParam"]
+			}
+			path: {
+				/** @description The User Specifier */
+				userSpecifier: components["parameters"]["userSpecifierPathParam"]
+			}
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description The user information has been provided */
+			200: {
+				headers: {
+					/** @description The unique identifier generated for the request */
+					RequestID?: string
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						userInfo?: components["schemas"]["UserInfo"]
+					}
+				}
+			}
+			401: components["responses"]["401"]
+			403: components["responses"]["403"]
+			405: components["responses"]["405"]
+		}
+	}
+	getExternalUserInfo: {
+		parameters: {
+			query?: never
+			header: {
+				/** @description The authorization bearer token previously obtained by the client */
+				Authorization: components["parameters"]["authorizationHeaderParam"]
+			}
+			path: {
+				/** @description The User Specifier */
+				userSpecifier: components["parameters"]["userSpecifierPathParam"]
+			}
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description The external user information has been provided */
+			200: {
+				headers: {
+					/** @description The unique identifier generated for the request */
+					RequestID?: string
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						userInfo?: components["schemas"]["UserInfoExternal"]
+					}
+				}
+			}
+			401: components["responses"]["401"]
+			403: components["responses"]["403"]
+			405: components["responses"]["405"]
+		}
+	}
+	getBasePrices: {
+		parameters: {
+			query?: {
+				/** @description The time at which the desired price for each instrument is in effect. The current price for each instrument is returned if no time is provided. */
+				time?: string
+			}
+			header: {
+				/** @description The authorization bearer token previously obtained by the client */
+				Authorization: components["parameters"]["authorizationHeaderParam"]
+				/** @description Format of DateTime fields in the request and response. */
+				"Accept-Datetime-Format"?: components["parameters"]["acceptDatetimeFormatHeaderParam"]
+			}
+			path?: never
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description Pricing information has been successfully provided. */
+			200: {
+				headers: {
+					/** @description The unique identifier generated for the request */
+					RequestID?: string
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						/** @description The list of prices that satisfy the request. */
+						prices?: components["schemas"]["Price"][]
+					}
+				}
+			}
+			400: components["responses"]["400"]
+			401: components["responses"]["401"]
+			404: components["responses"]["404"]
+			405: components["responses"]["405"]
+		}
+	}
+	getPriceRange: {
+		parameters: {
+			query: {
+				/** @description The start of the time range to fetch prices for. */
+				from: string
+				/** @description The end of the time range to fetch prices for. The current time is used if this parameter is not provided. */
+				to?: string
+			}
+			header: {
+				/** @description The authorization bearer token previously obtained by the client */
+				Authorization: components["parameters"]["authorizationHeaderParam"]
+				/** @description Format of DateTime fields in the request and response. */
+				"Accept-Datetime-Format"?: components["parameters"]["acceptDatetimeFormatHeaderParam"]
+			}
+			path: {
+				/** @description Name of the Instrument */
+				instrument: components["parameters"]["instrumentNamePathParam"]
+			}
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description Pricing information has been successfully provided. */
+			200: {
+				headers: {
+					/** @description The unique identifier generated for the request */
+					RequestID?: string
+					/** @description A link to the next page of results if the results were paginated */
+					Link?: string
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						/** @description The list of prices that satisfy the request. */
+						prices?: components["schemas"]["Price"][]
+					}
+				}
+			}
+			400: components["responses"]["400"]
+			401: components["responses"]["401"]
+			404: components["responses"]["404"]
+			405: components["responses"]["405"]
+		}
+	}
+	getPrices: {
+		parameters: {
+			query: {
+				/** @description List of Instruments to get pricing for. */
+				instruments: string[]
+				/** @description Date/Time filter to apply to the response. Only prices and home conversions (if requested) with a time later than this filter (i.e. the price has changed after the since time) will be provided, and are filtered independently. */
+				since?: string
+				/** @description Flag that enables the inclusion of the unitsAvailable field in the returned Price objects. */
+				includeUnitsAvailable?: boolean
+				/** @description Flag that enables the inclusion of the homeConversions field in the returned response. An entry will be returned for each currency in the set of all base and quote currencies present in the requested instruments list. */
+				includeHomeConversions?: boolean
+			}
+			header: {
+				/** @description The authorization bearer token previously obtained by the client */
+				Authorization: components["parameters"]["authorizationHeaderParam"]
+				/** @description Format of DateTime fields in the request and response. */
+				"Accept-Datetime-Format"?: components["parameters"]["acceptDatetimeFormatHeaderParam"]
+			}
+			path: {
+				/** @description Account Identifier */
+				accountID: components["parameters"]["accountIDPathParam"]
+			}
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description Pricing information has been successfully provided. */
+			200: {
+				headers: {
+					/** @description The unique identifier generated for the request */
+					RequestID?: string
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						/** @description The list of Price objects requested. */
+						prices?: components["schemas"]["ClientPrice"][]
+						/** @description The list of home currency conversion factors requested. This field will only be present if includeHomeConversions was set to true in the request. */
+						homeConversions?: components["schemas"]["HomeConversions"][]
+						/**
+						 * Format: The RFC 3339 representation is a string conforming to https://tools.ietf.org/rfc/rfc3339.txt. The Unix representation is a string representing the number of seconds since the Unix Epoch (January 1st, 1970 at UTC). The value is a fractional number, where the fractional part represents a fraction of a second (up to nine decimal places).
+						 * @description The DateTime value to use for the "since" parameter in the next poll request.
+						 */
+						time?: string
+					}
+				}
+			}
+			400: components["responses"]["400"]
+			401: components["responses"]["401"]
+			404: components["responses"]["404"]
+			405: components["responses"]["405"]
+		}
+	}
+	streamPricing: {
+		parameters: {
+			query: {
+				/** @description List of Instruments to stream Prices for. */
+				instruments: string[]
+				/** @description Flag that enables/disables the sending of a pricing snapshot when initially connecting to the stream. */
+				snapshot?: boolean
+			}
+			header: {
+				/** @description The authorization bearer token previously obtained by the client */
+				Authorization: components["parameters"]["authorizationHeaderParam"]
+				/** @description Format of DateTime fields in the request and response. */
+				"Accept-Datetime-Format"?: components["parameters"]["acceptDatetimeFormatHeaderParam"]
+			}
+			path: {
+				/** @description Account Identifier */
+				accountID: components["parameters"]["accountIDPathParam"]
+			}
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description Connecting to the Price Stream was successful. */
+			200: {
+				headers: {
+					/** @description A link to the next/previous order book snapshot. */
+					Link?: string
+					/** @description The unique identifier generated for the request */
+					RequestID?: string
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						price?: components["schemas"]["ClientPrice"]
+						heartbeat?: components["schemas"]["PricingHeartbeat"]
+					}
+				}
+			}
+			400: components["responses"]["400"]
+			401: components["responses"]["401"]
+			404: components["responses"]["404"]
+			405: components["responses"]["405"]
+		}
+	}
+	listOrders: {
+		parameters: {
+			query?: {
+				/** @description List of Order IDs to retrieve */
+				ids?: string[]
+				/** @description The state to filter the requested Orders by */
+				state?: string
+				/** @description The instrument to filter the requested orders by */
+				instrument?: string
+				/** @description The maximum number of Orders to return */
+				count?: number
+				/** @description The maximum Order ID to return. If not provided the most recent Orders in the Account are returned */
+				beforeID?: string
+			}
+			header: {
+				/** @description The authorization bearer token previously obtained by the client */
+				Authorization: components["parameters"]["authorizationHeaderParam"]
+				/** @description Format of DateTime fields in the request and response. */
+				"Accept-Datetime-Format"?: components["parameters"]["acceptDatetimeFormatHeaderParam"]
+			}
+			path: {
+				/** @description Account Identifier */
+				accountID: components["parameters"]["accountIDPathParam"]
+			}
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description The list of Orders requested */
+			200: {
+				headers: {
+					/** @description A link to the next page of results if the results were paginated */
+					Link?: string
+					/** @description The unique identifier generated for the request */
+					RequestID?: string
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						/** @description The list of Order detail objects */
+						orders?: components["schemas"]["Order"][]
+						/**
+						 * Format: String representation of the numerical OANDA-assigned TransactionID
+						 * @description The ID of the most recent Transaction created for the Account
+						 */
+						lastTransactionID?: string
+					}
+				}
+			}
+			400: components["responses"]["400"]
+			404: components["responses"]["404"]
+			405: components["responses"]["405"]
+		}
+	}
+	createOrder: {
+		parameters: {
+			query?: never
+			header: {
+				/** @description The authorization bearer token previously obtained by the client */
+				Authorization: components["parameters"]["authorizationHeaderParam"]
+				/** @description Format of DateTime fields in the request and response. */
+				"Accept-Datetime-Format"?: components["parameters"]["acceptDatetimeFormatHeaderParam"]
+			}
+			path: {
+				/** @description Account Identifier */
+				accountID: components["parameters"]["accountIDPathParam"]
+			}
+			cookie?: never
+		}
+		requestBody: {
+			content: {
+				"application/json": {
+					order?: components["schemas"]["OrderRequest"]
+				}
+			}
+		}
+		responses: {
+			/** @description The Order was created as specified */
+			201: {
+				headers: {
+					/** @description A link to the Order that was just created */
+					Location?: string
+					/** @description The unique identifier generated for the request */
+					RequestID?: string
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						orderCreateTransaction?: components["schemas"]["Transaction"]
+						orderFillTransaction?: components["schemas"]["OrderFillTransaction"]
+						orderCancelTransaction?: components["schemas"]["OrderCancelTransaction"]
+						orderReissueTransaction?: components["schemas"]["Transaction"]
+						orderReissueRejectTransaction?: components["schemas"]["Transaction"]
+						/** @description The IDs of all Transactions that were created while satisfying the request. */
+						relatedTransactionIDs?: string[]
+						/**
+						 * Format: String representation of the numerical OANDA-assigned TransactionID
+						 * @description The ID of the most recent Transaction created for the Account
+						 */
+						lastTransactionID?: string
+					}
+				}
+			}
+			/** @description The Order specification was invalid */
+			400: {
+				headers: {
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						orderRejectTransaction?: components["schemas"]["Transaction"]
+						/** @description The IDs of all Transactions that were created while satisfying the request. */
+						relatedTransactionIDs?: string[]
+						/**
+						 * Format: String representation of the numerical OANDA-assigned TransactionID
+						 * @description The ID of the most recent Transaction created for the Account
+						 */
+						lastTransactionID?: string
+						/** @description The code of the error that has occurred. This field may not be returned for some errors. */
+						errorCode?: string
+						/** @description The human-readable description of the error that has occurred. */
+						errorMessage?: string
+					}
+				}
+			}
+			401: components["responses"]["401"]
+			403: components["responses"]["403"]
+			/** @description The Order or Account specified does not exist. */
+			404: {
+				headers: {
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						orderRejectTransaction?: components["schemas"]["Transaction"]
+						/** @description The IDs of all Transactions that were created while satisfying the request. Only present if the Account exists. */
+						relatedTransactionIDs?: string[]
+						/**
+						 * Format: String representation of the numerical OANDA-assigned TransactionID
+						 * @description The ID of the most recent Transaction created for the Account. Only present if the Account exists.
+						 */
+						lastTransactionID?: string
+						/** @description The code of the error that has occurred. This field may not be returned for some errors. */
+						errorCode?: string
+						/** @description The human-readable description of the error that has occurred. */
+						errorMessage?: string
+					}
+				}
+			}
+			405: components["responses"]["405"]
+		}
+	}
+	listPendingOrders: {
+		parameters: {
+			query?: never
+			header: {
+				/** @description The authorization bearer token previously obtained by the client */
+				Authorization: components["parameters"]["authorizationHeaderParam"]
+				/** @description Format of DateTime fields in the request and response. */
+				"Accept-Datetime-Format"?: components["parameters"]["acceptDatetimeFormatHeaderParam"]
+			}
+			path: {
+				/** @description Account Identifier */
+				accountID: components["parameters"]["accountIDPathParam"]
+			}
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description List of pending Orders for the Account */
+			200: {
+				headers: {
+					/** @description The unique identifier generated for the request */
+					RequestID?: string
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						/** @description The list of pending Order details */
+						orders?: components["schemas"]["Order"][]
+						/**
+						 * Format: String representation of the numerical OANDA-assigned TransactionID
+						 * @description The ID of the most recent Transaction created for the Account
+						 */
+						lastTransactionID?: string
+					}
+				}
+			}
+			401: components["responses"]["401"]
+			404: components["responses"]["404"]
+			405: components["responses"]["405"]
+		}
+	}
+	getOrder: {
+		parameters: {
+			query?: never
+			header: {
+				/** @description The authorization bearer token previously obtained by the client */
+				Authorization: components["parameters"]["authorizationHeaderParam"]
+				/** @description Format of DateTime fields in the request and response. */
+				"Accept-Datetime-Format"?: components["parameters"]["acceptDatetimeFormatHeaderParam"]
+			}
+			path: {
+				/** @description Account Identifier */
+				accountID: components["parameters"]["accountIDPathParam"]
+				/** @description The Order Specifier */
+				orderSpecifier: components["parameters"]["orderSpecifierPathParam"]
+			}
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description The details of the Order requested */
+			200: {
+				headers: {
+					/** @description A link to the next page of results if the results were paginated */
+					Link?: string
+					/** @description The unique identifier generated for the request */
+					RequestID?: string
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						order?: components["schemas"]["Order"]
+						/**
+						 * Format: String representation of the numerical OANDA-assigned TransactionID
+						 * @description The ID of the most recent Transaction created for the Account
+						 */
+						lastTransactionID?: string
+					}
+				}
+			}
+			401: components["responses"]["401"]
+			404: components["responses"]["404"]
+			405: components["responses"]["405"]
+		}
+	}
+	replaceOrder: {
+		parameters: {
+			query?: never
+			header: {
+				/** @description The authorization bearer token previously obtained by the client */
+				Authorization: components["parameters"]["authorizationHeaderParam"]
+				/** @description Format of DateTime fields in the request and response. */
+				"Accept-Datetime-Format"?: components["parameters"]["acceptDatetimeFormatHeaderParam"]
+				/** @description Client specified RequestID to be sent with request. */
+				ClientRequestID?: components["parameters"]["clientRequestIDHeaderParam"]
+			}
+			path: {
+				/** @description Account Identifier */
+				accountID: components["parameters"]["accountIDPathParam"]
+				/** @description The Order Specifier */
+				orderSpecifier: components["parameters"]["orderSpecifierPathParam"]
+			}
+			cookie?: never
+		}
+		/** @description Specification of the replacing Order. The replacing order must have the same type as the replaced Order. */
+		requestBody: {
+			content: {
+				"application/json": {
+					order?: components["schemas"]["OrderRequest"]
+				}
+			}
+		}
+		responses: {
+			/** @description The Order was successfully cancelled and replaced */
+			201: {
+				headers: {
+					/** @description A link to the replacing Order */
+					Location?: string
+					/** @description The unique identifier generated for the request */
+					RequestID?: string
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						orderCancelTransaction?: components["schemas"]["OrderCancelTransaction"]
+						orderCreateTransaction?: components["schemas"]["Transaction"]
+						orderFillTransaction?: components["schemas"]["OrderFillTransaction"]
+						orderReissueTransaction?: components["schemas"]["Transaction"]
+						orderReissueRejectTransaction?: components["schemas"]["Transaction"]
+						replacingOrderCancelTransaction?: components["schemas"]["OrderCancelTransaction"]
+						/** @description The IDs of all Transactions that were created while satisfying the request. */
+						relatedTransactionIDs?: string[]
+						/**
+						 * Format: String representation of the numerical OANDA-assigned TransactionID
+						 * @description The ID of the most recent Transaction created for the Account
+						 */
+						lastTransactionID?: string
+					}
+				}
+			}
+			/** @description The Order specification was invalid */
+			400: {
+				headers: {
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						orderRejectTransaction?: components["schemas"]["Transaction"]
+						/** @description The IDs of all Transactions that were created while satisfying the request. */
+						relatedTransactionIDs?: string[]
+						/**
+						 * Format: String representation of the numerical OANDA-assigned TransactionID
+						 * @description The ID of the most recent Transaction created for the Account.
+						 */
+						lastTransactionID?: string
+						/** @description The code of the error that has occurred. This field may not be returned for some errors. */
+						errorCode?: string
+						/** @description The human-readable description of the error that has occurred. */
+						errorMessage?: string
+					}
+				}
+			}
+			401: components["responses"]["401"]
+			/** @description The Account or Order specified does not exist. */
+			404: {
+				headers: {
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						orderCancelRejectTransaction?: components["schemas"]["Transaction"]
+						/** @description The IDs of all Transactions that were created while satisfying the request. Only present if the Account exists. */
+						relatedTransactionIDs?: string[]
+						/**
+						 * Format: String representation of the numerical OANDA-assigned TransactionID
+						 * @description The ID of the most recent Transaction created for the Account. Only present if the Account exists.
+						 */
+						lastTransactionID?: string
+						/** @description The code of the error that has occurred. This field may not be returned for some errors. */
+						errorCode?: string
+						/** @description The human-readable description of the error that has occurred. */
+						errorMessage?: string
+					}
+				}
+			}
+			405: components["responses"]["405"]
+		}
+	}
+	cancelOrder: {
+		parameters: {
+			query?: never
+			header: {
+				/** @description The authorization bearer token previously obtained by the client */
+				Authorization: components["parameters"]["authorizationHeaderParam"]
+				/** @description Format of DateTime fields in the request and response. */
+				"Accept-Datetime-Format"?: components["parameters"]["acceptDatetimeFormatHeaderParam"]
+				/** @description Client specified RequestID to be sent with request. */
+				ClientRequestID?: components["parameters"]["clientRequestIDHeaderParam"]
+			}
+			path: {
+				/** @description Account Identifier */
+				accountID: components["parameters"]["accountIDPathParam"]
+				/** @description The Order Specifier */
+				orderSpecifier: components["parameters"]["orderSpecifierPathParam"]
+			}
+			cookie?: never
+		}
+		requestBody?: never
+		responses: {
+			/** @description The Order was cancelled as specified */
+			200: {
+				headers: {
+					/** @description The unique identifier generated for the request */
+					RequestID?: string
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						orderCancelTransaction?: components["schemas"]["OrderCancelTransaction"]
+						/** @description The IDs of all Transactions that were created while satisfying the request. */
+						relatedTransactionIDs?: string[]
+						/**
+						 * Format: String representation of the numerical OANDA-assigned TransactionID
+						 * @description The ID of the most recent Transaction created for the Account
+						 */
+						lastTransactionID?: string
+					}
+				}
+			}
+			401: components["responses"]["401"]
+			/** @description The Account or Order specified does not exist. */
+			404: {
+				headers: {
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						orderCancelRejectTransaction?: components["schemas"]["OrderCancelRejectTransaction"]
+						/** @description The IDs of all Transactions that were created while satisfying the request. Only present if the Account exists. */
+						relatedTransactionIDs?: string[]
+						/**
+						 * Format: String representation of the numerical OANDA-assigned TransactionID
+						 * @description The ID of the most recent Transaction created for the Account. Only present if the Account exists.
+						 */
+						lastTransactionID?: string
+						/** @description The code of the error that has occurred. This field may not be returned for some errors. */
+						errorCode?: string
+						/** @description The human-readable description of the error that has occurred. */
+						errorMessage?: string
+					}
+				}
+			}
+			405: components["responses"]["405"]
+		}
+	}
+	setOrderClientExtensions: {
+		parameters: {
+			query?: never
+			header: {
+				/** @description The authorization bearer token previously obtained by the client */
+				Authorization: components["parameters"]["authorizationHeaderParam"]
+				/** @description Format of DateTime fields in the request and response. */
+				"Accept-Datetime-Format"?: components["parameters"]["acceptDatetimeFormatHeaderParam"]
+			}
+			path: {
+				/** @description Account Identifier */
+				accountID: components["parameters"]["accountIDPathParam"]
+				/** @description The Order Specifier */
+				orderSpecifier: components["parameters"]["orderSpecifierPathParam"]
+			}
+			cookie?: never
+		}
+		/** @description Representation of the replacing Order */
+		requestBody: {
+			content: {
+				"application/json": {
+					clientExtensions?: components["schemas"]["ClientExtensions"]
+					tradeClientExtensions?: components["schemas"]["ClientExtensions"]
+				}
+			}
+		}
+		responses: {
+			/** @description The Order's Client Extensions were successfully modified */
+			200: {
+				headers: {
+					/** @description The unique identifier generated for the request */
+					RequestID?: string
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						orderClientExtensionsModifyTransaction?: components["schemas"]["OrderClientExtensionsModifyTransaction"]
+						/**
+						 * Format: String representation of the numerical OANDA-assigned TransactionID
+						 * @description The ID of the most recent Transaction created for the Account
+						 */
+						lastTransactionID?: string
+						/** @description The IDs of all Transactions that were created while satisfying the request. */
+						relatedTransactionIDs?: string[]
+					}
+				}
+			}
+			/** @description The Order Client Extensions specification was invalid */
+			400: {
+				headers: {
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						orderClientExtensionsModifyRejectTransaction?: components["schemas"]["OrderClientExtensionsModifyRejectTransaction"]
+						/**
+						 * Format: String representation of the numerical OANDA-assigned TransactionID
+						 * @description The ID of the most recent Transaction created for the Account
+						 */
+						lastTransactionID?: string
+						/** @description The IDs of all Transactions that were created while satisfying the request. */
+						relatedTransactionIDs?: string[]
+						/** @description The code of the error that has occurred. This field may not be returned for some errors. */
+						errorCode?: string
+						/** @description The human-readable description of the error that has occurred. */
+						errorMessage?: string
+					}
+				}
+			}
+			401: components["responses"]["401"]
+			/** @description The Account or Order specified does not exist. */
+			404: {
+				headers: {
+					[name: string]: unknown
+				}
+				content: {
+					"application/json": {
+						orderClientExtensionsModifyRejectTransaction?: components["schemas"]["OrderClientExtensionsModifyRejectTransaction"]
+						/**
+						 * Format: String representation of the numerical OANDA-assigned TransactionID
+						 * @description The ID of the most recent Transaction created for the Account. Only present if the Account exists.
+						 */
+						lastTransactionID?: string
+						/** @description The IDs of all Transactions that were created while satisfying the request. Only present if the Account exists. */
+						relatedTransactionIDs?: string[]
+						/** @description The code of the error that has occurred. This field may not be returned for some errors. */
+						errorCode?: string
+						/** @description The human-readable description of the error that has occurred. */
+						errorMessage?: string
+					}
+				}
+			}
+			405: components["responses"]["405"]
+		}
+	}
 }
-
-// <EndpointByMethod>
-export type EndpointByMethod = {
-	get: {
-		"/instruments/{instrument}/candles": Endpoints.get_GetInstrumentCandles
-		"/instruments/{instrument}/price": Endpoints.get_GetInstrumentPrice
-		"/instruments/{instrument}/price/range": Endpoints.get_GetInstrumentPriceRange
-		"/instruments/{instrument}/orderBook": Endpoints.get_InstrumentsInstrumentorderBook
-		"/instruments/{instrument}/positionBook": Endpoints.get_InstrumentsInstrumentpositionBook
-		"/accounts/{accountID}/positions": Endpoints.get_ListPositions
-		"/accounts/{accountID}/openPositions": Endpoints.get_ListOpenPositions
-		"/accounts/{accountID}/positions/{instrument}": Endpoints.get_GetPosition
-		"/accounts/{accountID}/trades": Endpoints.get_ListTrades
-		"/accounts/{accountID}/openTrades": Endpoints.get_ListOpenTrades
-		"/accounts/{accountID}/trades/{tradeSpecifier}": Endpoints.get_GetTrade
-		"/accounts": Endpoints.get_ListAccounts
-		"/accounts/{accountID}": Endpoints.get_GetAccount
-		"/accounts/{accountID}/summary": Endpoints.get_GetAccountSummary
-		"/accounts/{accountID}/instruments": Endpoints.get_GetAccountInstruments
-		"/accounts/{accountID}/changes": Endpoints.get_GetAccountChanges
-		"/accounts/{accountID}/transactions": Endpoints.get_ListTransactions
-		"/accounts/{accountID}/transactions/{transactionID}": Endpoints.get_GetTransaction
-		"/accounts/{accountID}/transactions/idrange": Endpoints.get_GetTransactionRange
-		"/accounts/{accountID}/transactions/sinceid": Endpoints.get_GetTransactionsSinceId
-		"/accounts/{accountID}/transactions/stream": Endpoints.get_StreamTransactions
-		"/users/{userSpecifier}": Endpoints.get_GetUserInfo
-		"/users/{userSpecifier}/externalInfo": Endpoints.get_GetExternalUserInfo
-		"/pricing": Endpoints.get_GetBasePrices
-		"/pricing/range": Endpoints.get_GetPriceRange
-		"/accounts/{accountID}/pricing": Endpoints.get_GetPrices
-		"/accounts/{accountID}/pricing/stream": Endpoints.get_StreamPricing
-		"/accounts/{accountID}/instruments/{instrument}/candles": Endpoints.get_GetInstrumentCandles
-		"/accounts/{accountID}/orders": Endpoints.get_ListOrders
-		"/accounts/{accountID}/pendingOrders": Endpoints.get_ListPendingOrders
-		"/accounts/{accountID}/orders/{orderSpecifier}": Endpoints.get_GetOrder
-	}
-	put: {
-		"/accounts/{accountID}/positions/{instrument}/close": Endpoints.put_ClosePosition
-		"/accounts/{accountID}/trades/{tradeSpecifier}/close": Endpoints.put_CloseTrade
-		"/accounts/{accountID}/trades/{tradeSpecifier}/clientExtensions": Endpoints.put_SetTradeClientExtensions
-		"/accounts/{accountID}/trades/{tradeSpecifier}/orders": Endpoints.put_SetTradeDependentOrders
-		"/accounts/{accountID}/orders/{orderSpecifier}": Endpoints.put_ReplaceOrder
-		"/accounts/{accountID}/orders/{orderSpecifier}/cancel": Endpoints.put_CancelOrder
-		"/accounts/{accountID}/orders/{orderSpecifier}/clientExtensions": Endpoints.put_SetOrderClientExtensions
-	}
-	patch: {
-		"/accounts/{accountID}/configuration": Endpoints.patch_ConfigureAccount
-	}
-	post: {
-		"/accounts/{accountID}/orders": Endpoints.post_CreateOrder
-	}
-}
-
-// </EndpointByMethod>
-
-// <EndpointByMethod.Shorthands>
-export type GetEndpoints = EndpointByMethod["get"]
-export type PutEndpoints = EndpointByMethod["put"]
-export type PatchEndpoints = EndpointByMethod["patch"]
-export type PostEndpoints = EndpointByMethod["post"]
-export type AllEndpoints = EndpointByMethod[keyof EndpointByMethod]
-// </EndpointByMethod.Shorthands>
-
-// <ApiClientTypes>
-export type EndpointParameters = {
-	body?: unknown
-	query?: Record<string, unknown>
-	header?: Record<string, unknown>
-	path?: Record<string, unknown>
-}
-
-export type MutationMethod = "post" | "put" | "patch" | "delete"
-export type Method = "get" | "head" | "options" | MutationMethod
-
-type RequestFormat = "json" | "form-data" | "form-url" | "binary" | "text"
-
-export type DefaultEndpoint = {
-	parameters?: EndpointParameters | undefined
-	response: unknown
-}
-
-export type Endpoint<TConfig extends DefaultEndpoint = DefaultEndpoint> = {
-	operationId: string
-	method: Method
-	path: string
-	requestFormat: RequestFormat
-	parameters?: TConfig["parameters"]
-	meta: {
-		alias: string
-		hasParameters: boolean
-		areParametersRequired: boolean
-	}
-	response: TConfig["response"]
-}
-
-type Fetcher = (
-	method: Method,
-	url: string,
-	parameters?: EndpointParameters | undefined
-) => Promise<Endpoint["response"]>
-
-type RequiredKeys<T> = {
-	[P in keyof T]-?: undefined extends T[P] ? never : P
-}[keyof T]
-
-type MaybeOptionalArg<T> = RequiredKeys<T> extends never
-	? [config?: T]
-	: [config: T]
-
-// </ApiClientTypes>
-
-// <ApiClient>
-export class ApiClient {
-	baseUrl = ""
-
-	constructor(public fetcher: Fetcher) {}
-
-	setBaseUrl(baseUrl: string) {
-		this.baseUrl = baseUrl
-		return this
-	}
-
-	// <ApiClient.get>
-	get<Path extends keyof GetEndpoints, TEndpoint extends GetEndpoints[Path]>(
-		path: Path,
-		...params: MaybeOptionalArg<TEndpoint["parameters"]>
-	): Promise<TEndpoint["response"]> {
-		return this.fetcher("get", this.baseUrl + path, params[0]) as Promise<
-			TEndpoint["response"]
-		>
-	}
-	// </ApiClient.get>
-
-	// <ApiClient.put>
-	put<Path extends keyof PutEndpoints, TEndpoint extends PutEndpoints[Path]>(
-		path: Path,
-		...params: MaybeOptionalArg<TEndpoint["parameters"]>
-	): Promise<TEndpoint["response"]> {
-		return this.fetcher("put", this.baseUrl + path, params[0]) as Promise<
-			TEndpoint["response"]
-		>
-	}
-	// </ApiClient.put>
-
-	// <ApiClient.patch>
-	patch<
-		Path extends keyof PatchEndpoints,
-		TEndpoint extends PatchEndpoints[Path],
-	>(
-		path: Path,
-		...params: MaybeOptionalArg<TEndpoint["parameters"]>
-	): Promise<TEndpoint["response"]> {
-		return this.fetcher("patch", this.baseUrl + path, params[0]) as Promise<
-			TEndpoint["response"]
-		>
-	}
-	// </ApiClient.patch>
-
-	// <ApiClient.post>
-	post<Path extends keyof PostEndpoints, TEndpoint extends PostEndpoints[Path]>(
-		path: Path,
-		...params: MaybeOptionalArg<TEndpoint["parameters"]>
-	): Promise<TEndpoint["response"]> {
-		return this.fetcher("post", this.baseUrl + path, params[0]) as Promise<
-			TEndpoint["response"]
-		>
-	}
-	// </ApiClient.post>
-}
-
-export function createApiClient(fetcher: Fetcher, baseUrl?: string) {
-	return new ApiClient(fetcher).setBaseUrl(baseUrl ?? "")
-}
-
-/**
- Example usage:
- const api = createApiClient((method, url, params) =>
-   fetch(url, { method, body: JSON.stringify(params) }).then((res) => res.json()),
- );
- api.get("/users").then((users) => console.log(users));
- api.post("/users", { body: { name: "John" } }).then((user) => console.log(user));
- api.put("/users/:id", { path: { id: 1 }, body: { name: "John" } }).then((user) => console.log(user));
-*/
-
-// </ApiClient

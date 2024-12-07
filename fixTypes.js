@@ -1,24 +1,29 @@
-import fs from "node:fs/promises"
-
-const fixTypeDefinitions = (content) => {
-	// Fix OrderRequest type
-	const fixedContent = content.replace(
-		/export type OrderRequest = Partial<{}>;/,
-		"export type OrderRequest = Record<string, unknown>;"
-	)
-
-	// Remove the second instance of get_GetInstrumentCandles (the one with the accountID path)
-	return fixedContent.replace(
-		/export type get_GetInstrumentCandles = {\s*method: "GET";\s*path: "\/accounts\/{accountID}\/instruments\/{instrument}\/candles";[\s\S]*?candles: Array<Schemas\.Candlestick>;\s*}>;\s*};/,
-		""
-	)
-}
+import { Project } from "ts-morph"
 
 const main = async () => {
-	const filePath = "./src/index.ts"
-	const content = await fs.readFile(filePath, "utf8")
-	const fixed = fixTypeDefinitions(content)
-	await fs.writeFile(filePath, fixed, "utf8")
+	// Initialize project with your tsconfig
+	const project = new Project({
+		tsConfigFilePath: "./tsconfig.json",
+	})
+
+	// Add the source file
+	const sourceFile = project.getSourceFileOrThrow("./src/index.ts")
+
+	// Get the operations interface
+	const operationsInterface = sourceFile.getInterfaceOrThrow("operations")
+
+	// Get all getInstrumentCandles properties
+	const properties = operationsInterface
+		.getProperties()
+		.filter((prop) => prop.getName() === "getInstrumentCandles")
+
+	// Remove the second instance if there are two
+	if (properties.length > 1) {
+		properties[1].remove()
+	}
+
+	// Save changes
+	await sourceFile.save()
 }
 
 main().catch(console.error)
